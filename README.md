@@ -34,7 +34,7 @@
 <h2>Guide on Running the Project</h2>
 <p>Steps on Running the Cloned Repository:</p>
 <ol>
-  <li>Run composer update</li>
-  <li>Run composer install</li>
+  <li>Run '''composer update'''</li>
+  <li>Run '''composer install'''</li>
 </ol>
 
