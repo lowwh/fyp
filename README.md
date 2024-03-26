@@ -31,6 +31,10 @@
 <p>This assigment project Student Result Management System is based on the open-source project developed by <a href="https://phpgurukul.com/php-projects-free-downloads/#google_vignette">Anuj Kumar</a></p><br />
 <p>Here is the link to the open-source project: <a href="https://phpgurukul.com/student-result-management-system/">https://phpgurukul.com/student-result-management-system/</a></p>
 
-<h1>Run composer update & composer install upon cloning this repository</h1>
-
+<h2>Guide on Running the Project</h2>
+<p>Steps on Running the Cloned Repository:</p>
+<ol>
+  <li>Run composer update</li>
+  <li>Run composer install</li>
+</ol>
 
