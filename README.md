@@ -36,5 +36,6 @@
 <ol>
   <li>Run <pre lang="bash">composer update</pre></li>
   <li>Run <pre lang="bash">composer install</pre></li>
+    <li>Please note that there is no <code>.env</code> file!!! When the Laravel project is pushed to github it will ignore the <code>.env</code> file. So when you clone and pull the project please rename the <code>.env.example</code> file to <code>.env</code>. After you have renamed the file and set all the credential. Please run <pre lang="bash">php artisan key:generate</pre> to generate an application encryption key for your cloned project </li>
 </ol>
 
