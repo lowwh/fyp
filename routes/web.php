@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,35 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
+//Dashboard
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+//Subjects
+//view addsubject
+Route::view('addsubject', '/operations/addsubject');
+
+//view managesubject
+Route::view('managesubject', '/operations/managesubject');
+
+//Students
+//view addstudent
+Route::view('addstudent', '/operations/addstudent');
+
+//view managestudent
+Route::view('managestudent', '/operations/managestudent');
+
+//Result
+//view addresult
+Route::view('addresult', '/operations/addresult');
+
+//view manageresult
+Route::view('manageresult', '/operations/manageresult');
+
+//Notice
+//view addnotice
+Route::view('addnotice', '/operations/addnotice');
+
+//view managenotice
+Route::view('managenotice', '/operations/managenotice');
+
+//User Controls

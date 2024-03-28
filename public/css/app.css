@@ -11966,3 +11966,11 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.main-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center; /* Align text to the center */
+    z-index: 1032; /* Ensure footer is above other elements */
+}
