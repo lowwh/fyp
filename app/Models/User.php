@@ -22,7 +22,12 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'gender',
+        'age'
     ];
+
+    public $timestamps = false; 
+    public $table = "users";
 
     /**
      * The attributes that should be hidden for serialization.
@@ -42,4 +47,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    
 }
