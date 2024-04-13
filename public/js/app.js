@@ -5087,6 +5087,8 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 __webpack_require__(/*! ./components/Example */ "./resources/js/components/Example.js");
 __webpack_require__(/*! ./components/AddStudent */ "./resources/js/components/AddStudent.js");
 __webpack_require__(/*! ./components/ManageStudent */ "./resources/js/components/ManageStudent.js");
+__webpack_require__(/*! ./components/AddResult */ "./resources/js/components/AddResult.js");
+__webpack_require__(/*! ./components/ManageResult */ "./resources/js/components/ManageResult.js");
 
 /***/ }),
 
@@ -5126,6 +5128,345 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/components/AddResult.js":
+/*!**********************************************!*\
+  !*** ./resources/js/components/AddResult.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ AddResult)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/esm/FormGroup.js");
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/esm/Label.js");
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/esm/Input.js");
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/esm/Button.js");
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/esm/Card.js");
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/esm/CardBody.js");
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/esm/CardTitle.js");
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/esm/CardText.js");
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/esm/Table.js");
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/esm/Modal.js");
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/esm/ModalHeader.js");
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/esm/ModalBody.js");
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/esm/ModalFooter.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _callSuper(t, o, e) { return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e)); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+
+var AddResult = /*#__PURE__*/function (_Component) {
+  function AddResult() {
+    var _this;
+    _classCallCheck(this, AddResult);
+    _this = _callSuper(this, AddResult);
+    _this.state = {
+      results: [],
+      students: [],
+      showDetails: {},
+      addResultModal: false,
+      selectedStudentId: "",
+      selectedCourse: "",
+      resultScores: {}
+    };
+    return _this;
+  }
+  _inherits(AddResult, _Component);
+  return _createClass(AddResult, [{
+    key: "loadResults",
+    value: function loadResults() {
+      var _this2 = this;
+      axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/api/results").then(function (response) {
+        _this2.setState({
+          results: response.data
+        });
+      });
+    }
+  }, {
+    key: "loadStudents",
+    value: function loadStudents() {
+      var _this3 = this;
+      axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/api/students").then(function (response) {
+        _this3.setState({
+          students: response.data
+        });
+      });
+    }
+  }, {
+    key: "toggleDetails",
+    value: function toggleDetails(studentId) {
+      var showDetails = this.state.showDetails;
+      showDetails[studentId] = !showDetails[studentId];
+      this.setState({
+        showDetails: showDetails
+      });
+    }
+  }, {
+    key: "toggleAddResultModal",
+    value: function toggleAddResultModal() {
+      this.setState(function (prevState) {
+        return {
+          addResultModal: !prevState.addResultModal
+        };
+      });
+    }
+  }, {
+    key: "handleStudentIdChange",
+    value: function handleStudentIdChange(event) {
+      this.setState({
+        selectedStudentId: event.target.value
+      });
+    }
+  }, {
+    key: "handleCourseChange",
+    value: function handleCourseChange(event) {
+      this.setState({
+        selectedCourse: event.target.value
+      });
+    }
+  }, {
+    key: "handleResultScoreChange",
+    value: function handleResultScoreChange(event, course) {
+      var resultScores = this.state.resultScores;
+      resultScores[course] = event.target.value;
+      this.setState({
+        resultScores: resultScores
+      });
+    }
+  }, {
+    key: "handleAddResult",
+    value: function handleAddResult() {
+      var _this4 = this;
+      var _this$state = this.state,
+        selectedStudentId = _this$state.selectedStudentId,
+        selectedCourse = _this$state.selectedCourse,
+        resultScores = _this$state.resultScores;
+      axios__WEBPACK_IMPORTED_MODULE_2___default().post("http://127.0.0.1:8000/api/result", {
+        student_id: selectedStudentId,
+        course: selectedCourse,
+        result_score: resultScores[selectedCourse]
+      }).then(function (response) {
+        alert("Result added successfully");
+        _this4.loadResults();
+        _this4.toggleAddResultModal();
+      })["catch"](function (error) {
+        if (error.response && error.response.status === 400 && error.response.data.error) {
+          alert(error.response.data.error); // Display error message
+        } else {
+          console.error("Error adding result:", error);
+        }
+      });
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.loadResults();
+      this.loadStudents();
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this5 = this;
+      var _this$state2 = this.state,
+        results = _this$state2.results,
+        students = _this$state2.students,
+        showDetails = _this$state2.showDetails,
+        addResultModal = _this$state2.addResultModal,
+        selectedStudentId = _this$state2.selectedStudentId,
+        selectedCourse = _this$state2.selectedCourse,
+        resultScores = _this$state2.resultScores;
+      var studentIdOptions = students.map(function (student) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+          value: student.student_id,
+          style: {
+            color: "blue"
+          },
+          children: student.student_id
+        }, student.student_id);
+      });
+      var coursesOptions = ["Chemistry", "Mathematics", "Fundamentals of Programming", "Project Management"];
+      var courseOptions = coursesOptions.map(function (course) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+          value: course,
+          children: course
+        }, course);
+      });
+      var resultScoreInputs = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(reactstrap__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(reactstrap__WEBPACK_IMPORTED_MODULE_5__["default"], {
+          "for": "resultScore_".concat(selectedCourse),
+          children: [selectedCourse, " Result Score"]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(reactstrap__WEBPACK_IMPORTED_MODULE_6__["default"], {
+          type: "number",
+          name: "resultScore_".concat(selectedCourse),
+          id: "resultScore_".concat(selectedCourse),
+          value: resultScores[selectedCourse] || "",
+          onChange: function onChange(e) {
+            return _this5.handleResultScoreChange(e, selectedCourse);
+          }
+        })]
+      });
+      var uniqueStudentIds = _toConsumableArray(new Set(results.map(function (result) {
+        return result.student_id;
+      })));
+      var studentRows = uniqueStudentIds.map(function (studentId, index) {
+        var studentResults = results.filter(function (result) {
+          return result.student_id === studentId;
+        });
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+            children: studentResults[0].id
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+            children: studentId
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+            children: studentResults[0].name
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(reactstrap__WEBPACK_IMPORTED_MODULE_7__["default"], {
+              color: "primary",
+              onClick: function onClick() {
+                return _this5.toggleDetails(studentId);
+              },
+              children: showDetails[studentId] ? "Show Less" : "Show More"
+            })
+          })]
+        }, index);
+      });
+      var detailCards = results.map(function (result, index) {
+        if (showDetails[result.student_id]) {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(reactstrap__WEBPACK_IMPORTED_MODULE_8__["default"], {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(reactstrap__WEBPACK_IMPORTED_MODULE_9__["default"], {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(reactstrap__WEBPACK_IMPORTED_MODULE_10__["default"], {
+                children: ["ID: ", result.id]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(reactstrap__WEBPACK_IMPORTED_MODULE_11__["default"], {
+                children: ["Student ID: ", result.student_id]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(reactstrap__WEBPACK_IMPORTED_MODULE_11__["default"], {
+                children: ["Name: ", result.name]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(reactstrap__WEBPACK_IMPORTED_MODULE_11__["default"], {
+                children: ["Courses: ", result.course]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(reactstrap__WEBPACK_IMPORTED_MODULE_11__["default"], {
+                children: ["Result Score: ", result.result_score]
+              })]
+            })
+          }, index);
+        }
+      });
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "container",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "row justify-content-center",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+            className: "col-md-8",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+              className: "card",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(reactstrap__WEBPACK_IMPORTED_MODULE_12__["default"], {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("thead", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+                      children: "ID"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+                      children: "Student ID"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+                      children: "Name"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {})]
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("tbody", {
+                  children: studentRows
+                })]
+              })
+            }), detailCards, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(reactstrap__WEBPACK_IMPORTED_MODULE_7__["default"], {
+              color: "primary",
+              onClick: this.toggleAddResultModal.bind(this),
+              children: "Add Result"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(reactstrap__WEBPACK_IMPORTED_MODULE_13__["default"], {
+              isOpen: addResultModal,
+              toggle: this.toggleAddResultModal.bind(this),
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(reactstrap__WEBPACK_IMPORTED_MODULE_14__["default"], {
+                toggle: this.toggleAddResultModal.bind(this),
+                children: "Add Result"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(reactstrap__WEBPACK_IMPORTED_MODULE_15__["default"], {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(reactstrap__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(reactstrap__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                    "for": "selectStudentId",
+                    children: "Select Student ID"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(reactstrap__WEBPACK_IMPORTED_MODULE_6__["default"], {
+                    type: "select",
+                    name: "selectStudentId",
+                    id: "selectStudentId",
+                    value: selectedStudentId,
+                    onChange: this.handleStudentIdChange.bind(this),
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+                      value: "",
+                      children: "Select Student ID"
+                    }), studentIdOptions]
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(reactstrap__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(reactstrap__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                    "for": "selectCourse",
+                    children: "Select Course"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(reactstrap__WEBPACK_IMPORTED_MODULE_6__["default"], {
+                    type: "select",
+                    name: "selectCourse",
+                    id: "selectCourse",
+                    value: selectedCourse,
+                    onChange: function onChange(e) {
+                      return _this5.handleCourseChange(e);
+                    },
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+                      value: "",
+                      children: "Select Course"
+                    }), courseOptions]
+                  })]
+                }), resultScoreInputs]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(reactstrap__WEBPACK_IMPORTED_MODULE_16__["default"], {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(reactstrap__WEBPACK_IMPORTED_MODULE_7__["default"], {
+                  color: "primary",
+                  onClick: this.handleAddResult.bind(this),
+                  children: "Add"
+                }), ' ', /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(reactstrap__WEBPACK_IMPORTED_MODULE_7__["default"], {
+                  color: "secondary",
+                  onClick: this.toggleAddResultModal.bind(this),
+                  children: "Cancel"
+                })]
+              })]
+            })]
+          })
+        })
+      });
+    }
+  }]);
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
+
+if (document.getElementById("AddResult")) {
+  react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(AddResult, {}), document.getElementById("AddResult"));
+}
 
 /***/ }),
 
@@ -5195,7 +5536,7 @@ var AddStudent = /*#__PURE__*/function (_Component) {
     key: "addstudent",
     value: function addstudent() {
       var _this2 = this;
-      axios__WEBPACK_IMPORTED_MODULE_2___default().post("http://127.0.0.1:8000/api/user", this.state.studentdata).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_2___default().post("http://127.0.0.1:8000/api/student", this.state.studentdata).then(function (response) {
         _this2.setState({
           studentdata: {
             name: "",
@@ -5225,7 +5566,7 @@ var AddStudent = /*#__PURE__*/function (_Component) {
     key: "loadstudent",
     value: function loadstudent() {
       var _this3 = this;
-      axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/api/users").then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/api/students").then(function (response) {
         _this3.setState({
           students: response.data
         });
@@ -5460,6 +5801,277 @@ if (document.getElementById('example')) {
 
 /***/ }),
 
+/***/ "./resources/js/components/ManageResult.js":
+/*!*************************************************!*\
+  !*** ./resources/js/components/ManageResult.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ ManageResult)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/esm/Button.js");
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/esm/Card.js");
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/esm/CardBody.js");
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/esm/CardTitle.js");
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/esm/CardText.js");
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/esm/Table.js");
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/esm/Modal.js");
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/esm/ModalHeader.js");
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/esm/ModalBody.js");
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/esm/ModalFooter.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _callSuper(t, o, e) { return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e)); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+
+var ManageResult = /*#__PURE__*/function (_Component) {
+  function ManageResult() {
+    var _this;
+    _classCallCheck(this, ManageResult);
+    _this = _callSuper(this, ManageResult);
+    _this.state = {
+      results: [],
+      students: [],
+      showDetails: {},
+      deleteResultId: null,
+      deleteConfirmationModal: false
+    };
+    return _this;
+  }
+  _inherits(ManageResult, _Component);
+  return _createClass(ManageResult, [{
+    key: "loadResults",
+    value: function loadResults() {
+      var _this2 = this;
+      axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/api/results").then(function (response) {
+        _this2.setState({
+          results: response.data
+        });
+      });
+    }
+  }, {
+    key: "loadStudents",
+    value: function loadStudents() {
+      var _this3 = this;
+      axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/api/students").then(function (response) {
+        _this3.setState({
+          students: response.data
+        });
+      });
+    }
+  }, {
+    key: "toggleDetails",
+    value: function toggleDetails(studentId) {
+      var showDetails = this.state.showDetails;
+      showDetails[studentId] = !showDetails[studentId];
+      this.setState({
+        showDetails: showDetails
+      });
+    }
+  }, {
+    key: "handleUpdateResult",
+    value: function handleUpdateResult(resultId) {
+      var _this4 = this;
+      var newResultScore = prompt("Enter the new result score:");
+      if (newResultScore !== null) {
+        axios__WEBPACK_IMPORTED_MODULE_2___default().put("http://127.0.0.1:8000/api/results/".concat(resultId), {
+          result_score: newResultScore
+        }).then(function (response) {
+          alert("Result updated successfully");
+          _this4.loadResults();
+        })["catch"](function (error) {
+          console.error("Error updating result:", error);
+          alert("Error updating result. Please try again.");
+        });
+      }
+    }
+  }, {
+    key: "toggleDeleteConfirmationModal",
+    value: function toggleDeleteConfirmationModal() {
+      var resultId = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      this.setState(function (prevState) {
+        return {
+          deleteResultId: resultId,
+          deleteConfirmationModal: !prevState.deleteConfirmationModal
+        };
+      });
+    }
+  }, {
+    key: "handleDeleteResult",
+    value: function handleDeleteResult() {
+      var _this5 = this;
+      var deleteResultId = this.state.deleteResultId;
+      axios__WEBPACK_IMPORTED_MODULE_2___default()["delete"]("http://127.0.0.1:8000/api/results/".concat(deleteResultId)).then(function (response) {
+        alert("Result deleted successfully");
+        _this5.loadResults();
+        _this5.toggleDeleteConfirmationModal();
+      })["catch"](function (error) {
+        console.error("Error deleting result:", error);
+        alert("Error deleting result. Please try again.");
+      });
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.loadResults();
+      this.loadStudents();
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this6 = this;
+      var _this$state = this.state,
+        results = _this$state.results,
+        students = _this$state.students,
+        showDetails = _this$state.showDetails,
+        deleteConfirmationModal = _this$state.deleteConfirmationModal;
+      var uniqueStudentIds = _toConsumableArray(new Set(results.map(function (result) {
+        return result.student_id;
+      })));
+      var studentRows = uniqueStudentIds.map(function (studentId, index) {
+        var studentResults = results.filter(function (result) {
+          return result.student_id === studentId;
+        });
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+            children: studentResults[0].id
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+            children: studentId
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+            children: studentResults[0].name
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(reactstrap__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              color: "primary",
+              onClick: function onClick() {
+                return _this6.toggleDetails(studentId);
+              },
+              children: showDetails[studentId] ? "Show Less" : "Show More"
+            })
+          })]
+        }, index);
+      });
+      var detailCards = results.map(function (result, index) {
+        if (showDetails[result.student_id]) {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(reactstrap__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(reactstrap__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(reactstrap__WEBPACK_IMPORTED_MODULE_7__["default"], {
+                children: ["ID: ", result.id]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(reactstrap__WEBPACK_IMPORTED_MODULE_8__["default"], {
+                children: ["Student ID: ", result.student_id]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(reactstrap__WEBPACK_IMPORTED_MODULE_8__["default"], {
+                children: ["Name: ", result.name]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(reactstrap__WEBPACK_IMPORTED_MODULE_8__["default"], {
+                children: ["Courses: ", result.course]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(reactstrap__WEBPACK_IMPORTED_MODULE_8__["default"], {
+                children: ["Result Score: ", result.result_score]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(reactstrap__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                color: "info",
+                onClick: function onClick() {
+                  return _this6.handleUpdateResult(result.id);
+                },
+                children: "Update"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(reactstrap__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                color: "danger",
+                onClick: function onClick() {
+                  return _this6.toggleDeleteConfirmationModal(result.id);
+                },
+                children: "Delete"
+              })]
+            })
+          }, index);
+        }
+      });
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "container",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "row justify-content-center",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+            className: "col-md-8",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+              className: "card",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(reactstrap__WEBPACK_IMPORTED_MODULE_9__["default"], {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("thead", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+                      children: "ID"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+                      children: "Student ID"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+                      children: "Name"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {})]
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("tbody", {
+                  children: studentRows
+                })]
+              })
+            }), detailCards, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(reactstrap__WEBPACK_IMPORTED_MODULE_10__["default"], {
+              isOpen: deleteConfirmationModal,
+              toggle: function toggle() {
+                return _this6.toggleDeleteConfirmationModal();
+              },
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(reactstrap__WEBPACK_IMPORTED_MODULE_11__["default"], {
+                toggle: function toggle() {
+                  return _this6.toggleDeleteConfirmationModal();
+                },
+                children: "Delete Result"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(reactstrap__WEBPACK_IMPORTED_MODULE_12__["default"], {
+                children: "Are you sure you want to delete this result?"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(reactstrap__WEBPACK_IMPORTED_MODULE_13__["default"], {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(reactstrap__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                  color: "danger",
+                  onClick: function onClick() {
+                    return _this6.handleDeleteResult();
+                  },
+                  children: "Yes"
+                }), ' ', /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(reactstrap__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                  color: "secondary",
+                  onClick: function onClick() {
+                    return _this6.toggleDeleteConfirmationModal();
+                  },
+                  children: "No"
+                })]
+              })]
+            })]
+          })
+        })
+      });
+    }
+  }]);
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
+
+if (document.getElementById("ManageResult")) {
+  react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(ManageResult, {}), document.getElementById("ManageResult"));
+}
+
+/***/ }),
+
 /***/ "./resources/js/components/ManageStudent.js":
 /*!**************************************************!*\
   !*** ./resources/js/components/ManageStudent.js ***!
@@ -5559,7 +6171,7 @@ var ManageStudent = /*#__PURE__*/function (_Component) {
         email = _this$state$updatedat.email,
         age = _this$state$updatedat.age,
         gender = _this$state$updatedat.gender;
-      axios__WEBPACK_IMPORTED_MODULE_2___default().put("http://127.0.0.1:8000/api/users/" + id, {
+      axios__WEBPACK_IMPORTED_MODULE_2___default().put("http://127.0.0.1:8000/api/students/" + id, {
         name: name,
         age: age,
         gender: gender,
@@ -5583,7 +6195,7 @@ var ManageStudent = /*#__PURE__*/function (_Component) {
     value: function deletestudent(id) {
       var _this3 = this;
       if (confirm("Are You Sure You Want To Proceed?")) {
-        axios__WEBPACK_IMPORTED_MODULE_2___default()["delete"]("http://127.0.0.1:8000/api/user/" + id, {}).then(function (response) {
+        axios__WEBPACK_IMPORTED_MODULE_2___default()["delete"]("http://127.0.0.1:8000/api/student/" + id, {}).then(function (response) {
           _this3.loadstudent();
         });
       }
@@ -5592,7 +6204,7 @@ var ManageStudent = /*#__PURE__*/function (_Component) {
     key: "loadstudent",
     value: function loadstudent() {
       var _this4 = this;
-      axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/api/users").then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/api/students").then(function (response) {
         _this4.setState({
           students: response.data
         });
@@ -59534,6 +60146,220 @@ function Button(props) {
 }
 Button.propTypes = propTypes;
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Button);
+
+/***/ }),
+
+/***/ "./node_modules/reactstrap/esm/Card.js":
+/*!*********************************************!*\
+  !*** ./node_modules/reactstrap/esm/Card.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils */ "./node_modules/reactstrap/esm/utils.js");
+var _excluded = ["className", "cssModule", "color", "body", "inverse", "outline", "tag", "innerRef"];
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+
+
+
+var propTypes = {
+  /** Toggles card padding using `.card-body` */
+  body: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().bool),
+  /** Add custom class */
+  className: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().string),
+  /** Change background color of component */
+  color: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().string),
+  /** Change underlying component's CSS base class name */
+  cssModule: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().object),
+  innerRef: prop_types__WEBPACK_IMPORTED_MODULE_2___default().oneOfType([(prop_types__WEBPACK_IMPORTED_MODULE_2___default().object), (prop_types__WEBPACK_IMPORTED_MODULE_2___default().string), (prop_types__WEBPACK_IMPORTED_MODULE_2___default().func)]),
+  /** Inverts the color */
+  inverse: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().bool),
+  /** Changes the card to have only outline */
+  outline: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().bool),
+  /** Set a custom element for this component */
+  tag: _utils__WEBPACK_IMPORTED_MODULE_3__.tagPropType
+};
+function Card(props) {
+  var className = props.className,
+    cssModule = props.cssModule,
+    color = props.color,
+    body = props.body,
+    inverse = props.inverse,
+    outline = props.outline,
+    _props$tag = props.tag,
+    Tag = _props$tag === void 0 ? 'div' : _props$tag,
+    innerRef = props.innerRef,
+    attributes = _objectWithoutProperties(props, _excluded);
+  var classes = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.mapToCssModules)(classnames__WEBPACK_IMPORTED_MODULE_1___default()(className, 'card', inverse ? 'text-white' : false, body ? 'card-body' : false, color ? "".concat(outline ? 'border' : 'bg', "-").concat(color) : false), cssModule);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
+    className: classes,
+    ref: innerRef
+  }));
+}
+Card.propTypes = propTypes;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Card);
+
+/***/ }),
+
+/***/ "./node_modules/reactstrap/esm/CardBody.js":
+/*!*************************************************!*\
+  !*** ./node_modules/reactstrap/esm/CardBody.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils */ "./node_modules/reactstrap/esm/utils.js");
+var _excluded = ["className", "cssModule", "innerRef", "tag"];
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+
+
+
+var propTypes = {
+  /** Add custom class */
+  className: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().string),
+  /** Change underlying component's CSS base class name */
+  cssModule: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().object),
+  innerRef: prop_types__WEBPACK_IMPORTED_MODULE_2___default().oneOfType([(prop_types__WEBPACK_IMPORTED_MODULE_2___default().object), (prop_types__WEBPACK_IMPORTED_MODULE_2___default().string), (prop_types__WEBPACK_IMPORTED_MODULE_2___default().func)]),
+  /** Set a custom element for this component */
+  tag: _utils__WEBPACK_IMPORTED_MODULE_3__.tagPropType
+};
+function CardBody(props) {
+  var className = props.className,
+    cssModule = props.cssModule,
+    innerRef = props.innerRef,
+    _props$tag = props.tag,
+    Tag = _props$tag === void 0 ? 'div' : _props$tag,
+    attributes = _objectWithoutProperties(props, _excluded);
+  var classes = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.mapToCssModules)(classnames__WEBPACK_IMPORTED_MODULE_1___default()(className, 'card-body'), cssModule);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
+    className: classes,
+    ref: innerRef
+  }));
+}
+CardBody.propTypes = propTypes;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CardBody);
+
+/***/ }),
+
+/***/ "./node_modules/reactstrap/esm/CardText.js":
+/*!*************************************************!*\
+  !*** ./node_modules/reactstrap/esm/CardText.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils */ "./node_modules/reactstrap/esm/utils.js");
+var _excluded = ["className", "cssModule", "tag"];
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+
+
+
+var propTypes = {
+  /** Add custom class */
+  className: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().string),
+  /** Change underlying component's CSS base class name */
+  cssModule: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().object),
+  /** Set a custom element for this component */
+  tag: _utils__WEBPACK_IMPORTED_MODULE_3__.tagPropType
+};
+function CardText(props) {
+  var className = props.className,
+    cssModule = props.cssModule,
+    _props$tag = props.tag,
+    Tag = _props$tag === void 0 ? 'p' : _props$tag,
+    attributes = _objectWithoutProperties(props, _excluded);
+  var classes = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.mapToCssModules)(classnames__WEBPACK_IMPORTED_MODULE_1___default()(className, 'card-text'), cssModule);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
+    className: classes
+  }));
+}
+CardText.propTypes = propTypes;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CardText);
+
+/***/ }),
+
+/***/ "./node_modules/reactstrap/esm/CardTitle.js":
+/*!**************************************************!*\
+  !*** ./node_modules/reactstrap/esm/CardTitle.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils */ "./node_modules/reactstrap/esm/utils.js");
+var _excluded = ["className", "cssModule", "tag"];
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+
+
+
+var propTypes = {
+  /** Add custom class */
+  className: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().string),
+  /** Change underlying component's CSS base class name */
+  cssModule: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().object),
+  /** Set a custom element for this component */
+  tag: _utils__WEBPACK_IMPORTED_MODULE_3__.tagPropType
+};
+function CardTitle(props) {
+  var className = props.className,
+    cssModule = props.cssModule,
+    _props$tag = props.tag,
+    Tag = _props$tag === void 0 ? 'div' : _props$tag,
+    attributes = _objectWithoutProperties(props, _excluded);
+  var classes = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.mapToCssModules)(classnames__WEBPACK_IMPORTED_MODULE_1___default()(className, 'card-title'), cssModule);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Tag, _extends({}, attributes, {
+    className: classes
+  }));
+}
+CardTitle.propTypes = propTypes;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CardTitle);
 
 /***/ }),
 

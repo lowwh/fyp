@@ -26,7 +26,7 @@ export default class AddStudent extends Component {
 
     addstudent() {
         axios
-            .post("http://127.0.0.1:8000/api/user", this.state.studentdata)
+            .post("http://127.0.0.1:8000/api/student", this.state.studentdata)
             .then((response) => {
                 this.setState({
                     studentdata: { name: "", email: "", gender: "", age: "" },
@@ -49,7 +49,7 @@ export default class AddStudent extends Component {
     }
 
     loadstudent() {
-        axios.get("http://127.0.0.1:8000/api/users").then((response) => {
+        axios.get("http://127.0.0.1:8000/api/students").then((response) => {
             this.setState({
                 students: response.data,
             });

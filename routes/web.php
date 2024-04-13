@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\noticeController;
+use App\Http\Controllers\ResultController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,6 +43,7 @@ Route::view('managestudent', '/operations/managestudent');
 //Result
 //view addresult
 Route::view('addresult', '/operations/addresult');
+
 
 //view manageresult
 Route::view('manageresult', '/operations/manageresult');

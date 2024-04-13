@@ -42,7 +42,7 @@ export default class ManageStudent extends Component {
     updatestudent() {
         let { id, name, email, age, gender } = this.state.updatedata;
         axios
-            .put("http://127.0.0.1:8000/api/users/" + id, {
+            .put("http://127.0.0.1:8000/api/students/" + id, {
                 name,
                 age,
                 gender,
@@ -66,7 +66,7 @@ export default class ManageStudent extends Component {
     deletestudent(id) {
         if (confirm("Are You Sure You Want To Proceed?")) {
             axios
-                .delete("http://127.0.0.1:8000/api/user/" + id, {})
+                .delete("http://127.0.0.1:8000/api/student/" + id, {})
                 .then((response) => {
                     this.loadstudent();
                 });
@@ -74,7 +74,7 @@ export default class ManageStudent extends Component {
     }
 
     loadstudent() {
-        axios.get("http://127.0.0.1:8000/api/users").then((response) => {
+        axios.get("http://127.0.0.1:8000/api/students").then((response) => {
             this.setState({
                 students: response.data,
             });
