@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-
+use App\Http\Controllers\noticeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -49,8 +49,13 @@ Route::view('manageresult', '/operations/manageresult');
 //Notice
 //view addnotice
 Route::view('addnotice', '/operations/addnotice');
+Route::post('/addnotice',[noticeController::class,'addnotice']);
 
 //view managenotice
 Route::view('managenotice', '/operations/managenotice');
+Route::get('managenotice',[noticeController::class,'shownotice']);
+Route::delete('deletenotice/{id}',[noticeController::class,'deletenotice']);
+Route::put('managenotice/{id}',[noticeController::class,'editnotice']);
+Route::get('managenotice/{id}',[noticeController::class,'shownotice']);
 
 //User Controls
