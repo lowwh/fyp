@@ -17,7 +17,7 @@ class CreateNoticesTable extends Migration
             $table->id();
             $table->string('notice_title', 50);
             $table->string('notice_content');
-            $table->integer('user_id')->default(null);
+            $table->unsignedBigInteger('user_id')->default(null);
             $table->timestamps();
 
             // Adding foreign key constraint with cascade deletion

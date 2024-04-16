@@ -21,7 +21,7 @@ class CreateResultsTable extends Migration
             $table->timestamps();
 
             // Adding foreign key constraint with cascade deletion
-            $table->foreign('student_id')->references('student_id')->on('students')->onDelete('cascade');
+           // $table->foreign('student_id')->references('student_id')->on('students')->onDelete('cascade');
         });
     }
 
