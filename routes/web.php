@@ -44,9 +44,15 @@ Route::view('addresult', '/operations/addresult');
 Route::view('manageresult', '/operations/manageresult');
 
 //Notice
+//Notice Board
+Route::get('/notices', [NoticeController::class, 'shownotice'])->name('all.notices');
+Route::get('/notice/{id}', [NoticeController::class, 'showonenotice'])->name('show.one.notice');
+Route::get('/', [NoticeController::class, 'welcome'])->name('welcome');
+
+
 //view addnotice
 Route::view('addnotice', '/operations/addnotice');
-Route::post('/addnotice',[noticeController::class,'addnotice']);
+Route::post('/addnotice',[NoticeController::class,'addnotice']);
 
 //view managenotice
 Route::view('managenotice', '/operations/managenotice');
@@ -59,14 +65,16 @@ Route::get('managenotice/{id}',[NoticeController::class,'shownotice']);
 Route::view('admins', '/operations/manageadminuser');
 Route::get('admins', [UserController::class,'indexAdmins']);
 Route::put('/admins/{id}', [UserController::class,'update']);
+Route::match(['put', 'post'], '/adminsChangePassword/{id}', [UserController::class, 'changePassword']);
 Route::delete('/deleteadmins/{id}', [UserController::class,'destroy']);
 Route::get('/admins/{id}', [UserController::class, 'show']);
 
 Route::view('lecturers', '/operations/managelectureruser');
 Route::get('lecturers', [UserController::class,'indexLecturers']);
 Route::put('/lecturers/{id}', [UserController::class,'update']);
+Route::match(['put', 'post'], '/lecturersChangePassword/{id}', [UserController::class, 'changePassword']);
 Route::delete('/deletelecturers/{id}', [UserController::class,'destroy']);
-Route::get('/lecturers//{id}', [UserController::class, 'show']);
+Route::get('/lecturers/{id}', [UserController::class, 'show']);
 
 
 

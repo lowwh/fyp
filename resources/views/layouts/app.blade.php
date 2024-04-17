@@ -10,6 +10,7 @@
 
     <title>{{ config('app.name', 'SRMS') }}</title>
 
+   
     <!-- AdminLTE -->
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -84,6 +85,8 @@
     <script src="{{ asset('adminlte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('adminlte/dist/js/adminlte.js') }}"></script>
+
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 
 </html>

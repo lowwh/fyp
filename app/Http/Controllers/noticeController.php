@@ -11,8 +11,20 @@ class noticeController extends Controller
 {
     function shownotice()
     {
-        $data = Notice::paginate(10);
-        return view('operations.managenotice',['notices'=>$data]);
+        $data = Notice::paginate(5);
+        return view('operations.managenotice', ['notices' => $data]);
+    }
+
+    public function welcome()
+    {
+        $notices = Notice::all(); // Fetch all notices from the database
+        return view('welcome', ['notices' => $notices]); // Pass the notices data to the view
+    }
+
+    public function showonenotice($id)
+    {
+        $notice = Notice::findOrFail($id);
+        return view('operations.shownotice', ['notice' => $notice]);
     }
 
     function addnotice(Request $req)

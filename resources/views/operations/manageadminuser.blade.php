@@ -25,11 +25,11 @@
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Created At</th>
-                                        <th>Actions</th>
+                                        <th style="width: 5%">ID</th>
+                                        <th style="width: 30%">Name</th>
+                                        <th style="width: 30%">Email</th>
+                                        <th style="width: 15%">Created At</th>
+                                        <th style="width: 20%">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -41,7 +41,8 @@
                                         <td>{{ $admin->created_at }}</td>
                                         <td>
                                             <div class="d-flex justify-content-between">
-                                                <button class="btn btn-warning btn-sm mr-1" onclick="showEditModal({{ $admin->id }})">Edit</button>
+                                                <button class="btn btn-warning btn-sm mr-1" data-toggle="modal" data-target="#editModal{{ $admin->id }}">Edit</button>
+                                                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#changePasswordModal{{ $admin->id }}">Change Password</button>
                                                 <form method="post" action="{{ '/deleteadmins/' . $admin->id }}" style="display: inline-block;">
                                                     @csrf
                                                     @method('DELETE')
@@ -61,31 +62,28 @@
     </div>
 </div>
 
-<!-- Edit Modal -->
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+<!-- Edit Modals -->
+@foreach($admins as $admin)
+<div class="modal fade" id="editModal{{ $admin->id }}" tabindex="-1" role="dialog" aria-labelledby="editModalLabel{{ $admin->id }}" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit User</h5>
+                <h5 class="modal-title" id="editModalLabel{{ $admin->id }}">Edit User</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="editForm" action="" method="POST">
+            <form action="{{ '/admins/' . $admin->id }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="editName">Name</label>
-                        <input type="text" class="form-control" id="editName" name="name" required>
+                        <label for="editName{{ $admin->id }}">Name</label>
+                        <input type="text" class="form-control" id="editName{{ $admin->id }}" name="name" value="{{ $admin->name }}" required>
                     </div>
                     <div class="form-group">
-                        <label for="editEmail">Email</label>
-                        <input type="email" class="form-control" id="editEmail" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="editPassword">Password</label>
-                        <input type="password" class="form-control" id="editPassword" name="password" required>
+                        <label for="editEmail{{ $admin->id }}">Email</label>
+                        <input type="email" class="form-control" id="editEmail{{ $admin->id }}" name="email" value="{{ $admin->email }}" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -97,24 +95,36 @@
     </div>
 </div>
 
+<div class="modal fade" id="changePasswordModal{{ $admin->id }}" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel{{ $admin->id }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changePasswordModalLabel{{ $admin->id }}">Change Password</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ '/adminsChangePassword/' . $admin->id }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="newPassword{{ $admin->id }}">New Password</label>
+                        <input type="password" class="form-control" id="newPassword{{ $admin->id }}" name="new_password" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endforeach
+
 <!-- Pagination links -->
 <div class="d-flex justify-content-center">
     {{ $admins->links() }}
 </div>
-
-<script src="js/app.js"></script>
-
-<script>
-    function showEditModal(userId) {
-        console.log('Opening edit modal for user with ID:', userId);
-        // Fetch user data from server and fill in modal fields
-        $.get('/admins/' + userId, function(data) {
-            $('#editForm').attr('action', '/admins/' + userId);
-            $('#editName').val(data.name);
-            $('#editEmail').val(data.email);
-            $('#editModal').modal('show');
-        });
-    }
-</script>
 
 @endsection

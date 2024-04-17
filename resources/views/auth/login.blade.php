@@ -113,6 +113,7 @@
 
         <!-- Footer-->
         <!-- @include('layouts.footer1') -->
+    </section>
 </body>
 
 </html>

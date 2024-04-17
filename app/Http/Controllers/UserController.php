@@ -6,6 +6,7 @@ use App\Models\User;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -19,7 +20,7 @@ class UserController extends Controller
     public function indexAdmins()
     {
         $admins = User::where('role', 'admin')->paginate(10);
-    return view('operations.manageadminuser', compact('admins'));
+        return view('operations.manageadminuser', compact('admins'));
     }
 
     public function show($id)
@@ -28,16 +29,30 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    public function update(Request $req, $id)
+    public function update(Request $request, $id)
 {
     $user = User::findOrFail($id);
 
-    $updated = $user->update($req->all());
+    $updated = $user->update($request->except('password'));
 
     if ($updated) {
-        return redirect()->back()->with('success', 'User updated successfully.');
+        return redirect()->back()->with('success', 'User details updated successfully.');
     } else {
-        return redirect()->back()->with('error', 'Failed to update user.');
+        return redirect()->back()->with('error', 'Failed to update user details.');
+    }
+}
+
+public function changePassword(Request $request, $id)
+{
+    $user = User::findOrFail($id);
+
+    $user->password = Hash::make($request->password);
+    $updated = $user->save();
+
+    if ($updated) {
+        return redirect()->back()->with('success', 'Password changed successfully.');
+    } else {
+        return redirect()->back()->with('error', 'Failed to change password.');
     }
 }
 
@@ -48,8 +63,4 @@ class UserController extends Controller
 
         return redirect()->back()->with('success', 'User deleted successfully.');
     }
-
-    
 }
-
-

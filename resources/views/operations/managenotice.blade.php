@@ -29,57 +29,72 @@
                 </div>
                 <div class="card-body">
                     <div class="container">
-                        @foreach ($notices as $notice)
-                        <div class="row justify-content-between border p-3">
-                            <div class="col-md-8">
-                                <h4>{{ $notice['notice_title'] }}</h4>
-                                <p>{{ $notice['notice_content'] }}</p>
-                                <small class="text-muted">Created at: {{ $notice['created_at'] }}</small>
-                            </div>
-                            <div class="col-md-4">
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#modal-{{ $notice['id'] }}">
-                                    Edit
-                                </button>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Notice Title</th>
+                                        <th>Notice Content</th>
+                                        <th>Created At</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($notices as $notice)
+                                    <tr id="notice-{{ $notice['id'] }}">
+                                        <td>{{ $notice['id'] }}</td>
+                                        <td>{{ $notice['notice_title'] }}</td>
+                                        <td>{{ $notice['notice_content'] }}</td>
+                                        <td>{{ $notice['created_at'] }}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-warning btn-sm mr-1" data-toggle="modal" data-target="#modal-{{ $notice['id'] }}">
+                                                Edit
+                                            </button>
 
-                                <!-- Modal -->
-                                <div class="modal fade" id="modal-{{ $notice['id'] }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="modal-{{ $notice['id'] }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <form method="post" action="managenotice/{{ $notice['id'] }}">
+                                                            @csrf
+                                                            @method('PUT')
+                                                            <div class="modal-body">
+                                                                <div class="mb-3">
+                                                                    <label for="title" class="form-label">Title</label>
+                                                                    <input type="text" name="notice_title" class="form-control" id="notice_title" value="{{ $notice['notice_title'] }}">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="content" class="form-label">Content</label>
+                                                                    <input type="text" name="notice_content" class="form-control" id="notice_content" value="{{ $notice['notice_content'] }}" style="height: 300px">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <form method="post" action="managenotice/{{ $notice['id'] }}">
+                                            <form method="post" action={{ 'deletenotice/' . $notice['id'] }}>
                                                 @csrf
-                                                @method('PUT')
-                                                <div class="modal-body">
-                                                    <div class="mb-3">
-                                                        <label for="title" class="form-label">Title</label>
-                                                        <input type="text" name="notice_title" class="form-control" id="notice_title" value="{{ $notice['notice_title'] }}">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="content" class="form-label">Content</label>
-                                                        <input type="text" name="notice_content" class="form-control" id="notice_content" value="{{ $notice['notice_content'] }}" style="height: 300px">
-                                                    </div>
-                                                </div>
-
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary">Save changes</button>
-                                                </div>
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                             </form>
-                                        </div>
-                                    </div>
-                                </div>
-                                <form method="post" action={{ 'deletenotice/' . $notice['id'] }}>
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                </form>
-                            </div>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
-                        @endforeach
                         <script src="js/app.js"></script>
                     </div>
                 </div>

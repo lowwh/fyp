@@ -10,6 +10,15 @@
 
     <!-- Core theme CSS (includes Bootstrap)-->
     <link rel="stylesheet" type="text/css" href="{{asset('css/styles.css')}}">
+
+    <style>
+        .scrollable-notice {
+            max-height: 170px;
+            /* Set the maximum height to make it scrollable */
+            overflow-y: auto;
+            /* Enable vertical scrollbar */
+        }
+    </style>
 </head>
 
 <body>
@@ -47,18 +56,20 @@
                 <div class="col-lg-6">
                     <h2>Notice Board</h2>
                     <hr color="#000" />
-                    <marquee direction="up" onmouseover="this.stop();" onmouseout="this.start();">
+                    <div class="scrollable-notice">
                         <ul>
-                            <li>Hello</li>
-                            <li>World</li>
-                            <li>Hi</li>
-                        </ul>
-                    </marquee>
+                            @foreach($notices as $notice)
+                            <li><a href="{{ route('show.one.notice', ['id' => $notice->id]) }}">{{ $notice->notice_title }}</a></li>
+                            @endforeach
 
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
+
+
 
 
     <!-- Footer-->
