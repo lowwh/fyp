@@ -4,7 +4,11 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\UserController;
+<<<<<<< HEAD
 use App\Http\Controllers\StudentController;
+=======
+use App\Http\Controllers\ResultController;
+>>>>>>> 80c1aa2b31d7edd1549debc6b3aaf04f92d05a6e
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,7 +41,11 @@ Route::get('/delete/{id}',[StudentController::class,'destroy']);
 
 
 //Result
-//view addresult
+//Check result
+Route::post('searchresult', [ResultController::class, 'search'])->name('search.result');
+Route::view('searchresult', '/operations/showresult');
+
+//view addresults
 Route::view('addresult', '/operations/addresult');
 
 

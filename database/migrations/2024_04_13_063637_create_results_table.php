@@ -19,9 +19,6 @@ class CreateResultsTable extends Migration
             $table->decimal('result_score', 10, 2); // Adjust precision and scale according to your needs
             $table->integer('student_id');
             $table->timestamps();
-
-            // Adding foreign key constraint with cascade deletion
-           // $table->foreign('student_id')->references('student_id')->on('students')->onDelete('cascade');
         });
     }
 
