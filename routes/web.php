@@ -36,8 +36,6 @@ Route::get('/showupdate/{id}',[StudentController::class,'show']);
 Route::post('/update/{id}',[StudentController::class,'update']);
 Route::get('/delete/{id}',[StudentController::class,'destroy']);
 
-
-
 //Result
 //Check result
 Route::post('searchresult', [ResultController::class, 'search'])->name('search.result');
@@ -45,10 +43,15 @@ Route::view('searchresult', '/operations/showresult');
 
 //view addresults
 Route::view('addresult', '/operations/addresult');
+Route::get('/addresult', [ResultController::class, 'showAddResultForm']);
 
+//Add Result
+Route::post('/addResult', [ResultController::class, 'store']);
 
-//view manageresult
-Route::view('manageresult', '/operations/manageresult');
+//Manage result
+Route::get('/manageresult', [ResultController::class,'index']);
+Route::post('/update/{id}', [ResultController::class, 'update'])->name('result.update');
+Route::get('/delete/{id}',[ResultController::class,'destroy'])->name('result.delete');
 
 //Notice
 //Notice Board
