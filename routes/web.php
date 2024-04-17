@@ -4,11 +4,11 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\UserController;
-<<<<<<< HEAD
-use App\Http\Controllers\StudentController;
-=======
 use App\Http\Controllers\ResultController;
->>>>>>> 80c1aa2b31d7edd1549debc6b3aaf04f92d05a6e
+use App\Http\Controllers\StudentController;
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,15 +29,13 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 //Dashboard
-
-
-
 Route::view('/addstudent','operations.addstudent');
 Route::post('/add', [StudentController::class, 'store']);
 Route::get('/managestudent', [StudentController::class,'index']);
 Route::get('/showupdate/{id}',[StudentController::class,'show']);
 Route::post('/update/{id}',[StudentController::class,'update']);
 Route::get('/delete/{id}',[StudentController::class,'destroy']);
+
 
 
 //Result
@@ -55,7 +53,7 @@ Route::view('manageresult', '/operations/manageresult');
 //Notice
 //Notice Board
 Route::get('/notices', [NoticeController::class, 'shownotice'])->name('all.notices');
-Route::get('/notice/{id}/', [NoticeController::class, 'showonenotice'])->name('show.one.notice');
+Route::get('/notice/{id}', [NoticeController::class, 'showonenotice'])->name('show.one.notice');
 Route::get('/', [NoticeController::class, 'welcome'])->name('welcome');
 
 
