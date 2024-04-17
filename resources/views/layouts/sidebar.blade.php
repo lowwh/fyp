@@ -28,8 +28,8 @@
         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
         <li class="nav-item menu-open">
-          <a href="#" class="nav-link active">
-            <i class="nav-icon fas fa-tachometer-alt"></i>
+          <a href="home" class="nav-link active">
+            <i class="fas fa-th-large nav-icon"></i>
             <p>
               Dashboard
             </p>
@@ -37,53 +37,30 @@
         </li>
         <li class="nav-item">
           <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-copy"></i>
+            <i class="fas fa-user-graduate nav-icon"></i>
             <p>
-              Subjects
-              <i class="fas fa-angle-left right"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="addsubject" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Add Subjects</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="managesubject" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Manage Subjects</p>
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-chart-pie"></i>
-            <p>
-              Students
+              Student
               <i class="right fas fa-angle-left"></i>
             </p>
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
               <a href="addstudent" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Add Students</p>
+                <i class="fas fa-folder-plus nav-icon"></i>
+                <p>Add Student</p>
               </a>
             </li>
             <li class="nav-item">
               <a href="managestudent" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Manage Students</p>
+                <i class="fas fa-tasks nav-icon"></i>
+                <p>Manage Student</p>
               </a>
             </li>
           </ul>
         </li>
         <li class="nav-item">
           <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-tree"></i>
+            <i class="fas fa-award nav-icon"></i>
             <p>
               Result
               <i class="fas fa-angle-left right"></i>
@@ -92,13 +69,13 @@
           <ul class="nav nav-treeview">
             <li class="nav-item">
               <a href="addresult" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
+                <i class="fas fa-folder-plus nav-icon"></i>
                 <p>Add Result</p>
               </a>
             </li>
             <li class="nav-item">
               <a href="manageresult" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
+                <i class="fas fa-tasks nav-icon"></i>
                 <p>Manage Result</p>
               </a>
             </li>
@@ -107,7 +84,7 @@
         <li class="nav-header">Admin Actions</li>
         <li class="nav-item">
           <a href="#" class="nav-link">
-            <i class="nav-icon far fa-envelope"></i>
+            <i class="fas fa-bell nav-icon"></i>
             <p>
               Notice
               <i class="fas fa-angle-left right"></i>
@@ -116,13 +93,13 @@
           <ul class="nav nav-treeview">
             <li class="nav-item">
               <a href="addnotice" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
+                <i class="fas fa-plus-circle nav-icon"></i>
                 <p>Add Notice</p>
               </a>
             </li>
             <li class="nav-item">
               <a href="managenotice" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
+                <i class="fas fa-tasks nav-icon"></i>
                 <p>Manage Notice</p>
               </a>
             </li>
@@ -132,41 +109,35 @@
           <a href="#" class="nav-link">
             <i class="nav-icon far fa-plus-square"></i>
             <p>
-              User Controls
+              Admin Control
               <i class="fas fa-angle-left right"></i>
             </p>
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
               <a href="{{ route('register') }}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
+                <i class="fas fa-user-plus nav-icon"></i>
                 <p>Register User</p>
               </a>
             </li>
             <li class="nav-item">
               <a href="#" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
+                <i class="fas fa-user-friends nav-icon"></i>
                 <p>
-                  User List
+                  User Lists
                   <i class="fas fa-angle-left right"></i>
                 </p>
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="#" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Student</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="#" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
+                  <a href="lecturers" class="nav-link">
+                    <i class="fas fa-user-tie nav-icon"></i>
                     <p>Lecturer</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="#" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
+                  <a href="admins" class="nav-link">
+                    <i class="fas fa-user-cog nav-icon"></i>
                     <p>Admin</p>
                   </a>
                 </li>

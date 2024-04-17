@@ -1,10 +1,25 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h1 style="text-align:center;  color: #007bff;  font-family: 'Arial', sans-serif;  font-size: 36px; font-weight: bold">Manage Result</h1>
-    <div id="ManageResult"></div>
-</div>
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-4">
+                    <ol class="breadcrumb float-sm-left">
+                        <li class="breadcrumb-item"><i class="fas fa-award nav-icon"></i> Result</a></li>
+                        <li class="breadcrumb-item active"><i class="fas fa-tasks nav-icon"></i> Manage Result</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="content">
+        <div class="container-fluid">
+            <div id="ManageResult"></div>
+        </div>
+    </div>
+</div>
 <script src="js/app.js"></script>
 @endsection

@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ResultController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -29,3 +30,4 @@ Route::get('/results', [ResultController::class,'index']);
 Route::post('/result', [ResultController::class,'store']);
 Route::put('/results/{id}', [ResultController::class,'update']);
 Route::delete('/results/{id}', [ResultController::class,'destroy']);
+

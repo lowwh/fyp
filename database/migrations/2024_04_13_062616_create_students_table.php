@@ -20,11 +20,7 @@ class CreateStudentsTable extends Migration
             $table->integer('age');
             $table->string('email');
             $table->integer('student_id')->unique();
-            $table->integer('user_id');
             $table->timestamps();
-
-            // Adding foreign key constraint with cascade deletion
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

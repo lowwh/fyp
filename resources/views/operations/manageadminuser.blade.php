@@ -25,22 +25,24 @@
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>Title</th>
-                                        <th>Content</th>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
                                         <th>Created At</th>
-                                        <th style="width: 150px;">Actions</th> <!-- Adjusted width for Actions column -->
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($notices as $notice)
+                                    @foreach($admins as $admin)
                                     <tr>
-                                        <td>{{ $notice->notice_title }}</td>
-                                        <td>{{ $notice->notice_content }}</td>
-                                        <td>{{ $notice->created_at }}</td>
+                                        <td>{{ $admin->id }}</td>
+                                        <td>{{ $admin->name }}</td>
+                                        <td>{{ $admin->email }}</td>
+                                        <td>{{ $admin->created_at }}</td>
                                         <td>
                                             <div class="d-flex justify-content-between">
-                                                <button class="btn btn-warning btn-sm mr-1" onclick="showEditModal({{ $notice->id }})">Edit</button>
-                                                <form method="post" action="{{ '/deletenotice/' . $notice->id }}" style="display: inline-block;">
+                                                <button class="btn btn-warning btn-sm mr-1" onclick="showEditModal({{ $admin->id }})">Edit</button>
+                                                <form method="post" action="{{ '/deleteadmins/' . $admin->id }}" style="display: inline-block;">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
@@ -64,7 +66,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit Notice</h5>
+                <h5 class="modal-title" id="editModalLabel">Edit User</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -74,12 +76,16 @@
                 @method('PUT')
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="editTitle">Title</label>
-                        <input type="text" class="form-control" id="editTitle" name="notice_title" required>
+                        <label for="editName">Name</label>
+                        <input type="text" class="form-control" id="editName" name="name" required>
                     </div>
                     <div class="form-group">
-                        <label for="editContent">Content</label>
-                        <input type="text" class="form-control" id="editContent" name="notice_content" required>
+                        <label for="editEmail">Email</label>
+                        <input type="email" class="form-control" id="editEmail" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editPassword">Password</label>
+                        <input type="password" class="form-control" id="editPassword" name="password" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -91,16 +97,21 @@
     </div>
 </div>
 
+<!-- Pagination links -->
+<div class="d-flex justify-content-center">
+    {{ $admins->links() }}
+</div>
+
 <script src="js/app.js"></script>
 
 <script>
-    function showEditModal(noticeId) {
-        console.log('Opening edit modal for notice with ID:', noticeId);
-        // Fetch notice data from server and fill in modal fields
-        $.get('/notices/' + noticeId, function(data) {
-            $('#editForm').attr('action', '/notices/' + noticeId);
-            $('#editTitle').val(data.notice_title);
-            $('#editContent').val(data.notice_content);
+    function showEditModal(userId) {
+        console.log('Opening edit modal for user with ID:', userId);
+        // Fetch user data from server and fill in modal fields
+        $.get('/admins/' + userId, function(data) {
+            $('#editForm').attr('action', '/admins/' + userId);
+            $('#editName').val(data.name);
+            $('#editEmail').val(data.email);
             $('#editModal').modal('show');
         });
     }

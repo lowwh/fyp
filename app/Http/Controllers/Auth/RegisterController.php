@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
 
 class RegisterController extends Controller
 {
@@ -29,7 +31,8 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = 'home'; //change the redirect after register a user
+    // protected $redirectTo = RouteServiceProvider::HOME; 
 
     /**
      * Create a new controller instance.
@@ -38,7 +41,9 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        //$this->middleware('guest');
+        // Apply the auth middleware except for the showRegistrationForm method
+        $this->middleware('auth')->except('showRegistrationForm');
     }
 
     /**
@@ -68,7 +73,20 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'role' => 'student', // Set the default role for new users
+            'role' => $data['role'], 
         ]);
+    }
+
+    // Override the registered method from RegistersUsers trait
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        //$this->guard()->login($user); //this line of code will make the newly registered use to auto log in
+
+        return $this->registered($request, $user)
+            ?: redirect($this->redirectPath());
     }
 }

@@ -4,35 +4,37 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\notices;
+use App\Models\Notice;
+use Illuminate\Support\Facades\Auth;
 
 class noticeController extends Controller
 {
     function shownotice()
     {
-        $data = notices::paginate(5);
+        $data = Notice::paginate(10);
         return view('operations.managenotice',['notices'=>$data]);
     }
 
     function addnotice(Request $req)
     {
-        $Notice = new notices;
-        $Notice->notice_title = $req->notice_title;
-        $Notice->notice_content = $req->notice_content;
-        $Notice->save();
-        return redirect("addnotice");
+        $notice = new Notice;
+        $notice->user_id = Auth::id();
+        $notice->notice_title = $req->notice_title;
+        $notice->notice_content = $req->notice_content;
+        $notice->save();
+        return redirect("managenotice");
     }
 
     function deletenotice($id)
     {
-        $data = notices::find($id);
+        $data = Notice::find($id);
         $data->delete();
         return redirect("managenotice");
     }
 
     function editnotice(Request $req)
     {
-        $data = notices::find($req->id);
+        $data = Notice::find($req->id);
         $data->notice_title = $req->notice_title;
         $data->notice_content = $req->notice_content;
         $data->save();

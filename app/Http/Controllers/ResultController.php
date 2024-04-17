@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Results;
+use App\Models\Result;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -10,7 +10,7 @@ class ResultController extends Controller
 {
     public function index()
 {
-    $results = Results::leftJoin('students', 'results.student_id', '=', 'students.student_id')
+    $results = Result::leftJoin('students', 'results.student_id', '=', 'students.student_id')
                      ->select('results.*', 'students.name')
                      ->get();
 
@@ -27,7 +27,7 @@ public function store(Request $request)
     ]);
 
     // Check if a result with the same student ID and course already exists
-    $existingResult = Results::where('student_id', $validatedData['student_id'])
+    $existingResult = Result::where('student_id', $validatedData['student_id'])
                               ->where('course', $validatedData['course'])
                               ->first();
 
@@ -36,7 +36,7 @@ public function store(Request $request)
     }
 
     // Store the result in the database
-    $result = new Results();
+    $result = new Result();
     $result->student_id = $validatedData['student_id'];
     $result->course = $validatedData['course'];
     $result->result_score = $validatedData['result_score'];
@@ -47,7 +47,7 @@ public function store(Request $request)
 
 public function update(Request $request, $id)
 {
-    $result = Results::findOrFail($id);
+    $result = Result::findOrFail($id);
     $result->result_score = $request->input('result_score');
     $result->save();
 
@@ -56,7 +56,7 @@ public function update(Request $request, $id)
 
 public function destroy($id)
 {
-    $result = Results::findOrFail($id);
+    $result = Result::findOrFail($id);
     $result->delete();
 
     return response()->json(['message' => 'Result deleted successfully'], 200);

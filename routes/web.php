@@ -2,8 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\noticeController;
-use App\Http\Controllers\ResultController;
+use App\Http\Controllers\NoticeController;
+use App\Http\Controllers\UserController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,12 +27,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 //Dashboard
 
 
-//Subjects
-//view addsubject
-Route::view('addsubject', '/operations/addsubject');
-
-//view managesubject
-Route::view('managesubject', '/operations/managesubject');
 
 //Students
 //view addstudent
@@ -55,9 +50,23 @@ Route::post('/addnotice',[noticeController::class,'addnotice']);
 
 //view managenotice
 Route::view('managenotice', '/operations/managenotice');
-Route::get('managenotice',[noticeController::class,'shownotice']);
-Route::delete('deletenotice/{id}',[noticeController::class,'deletenotice']);
-Route::put('managenotice/{id}',[noticeController::class,'editnotice']);
-Route::get('managenotice/{id}',[noticeController::class,'shownotice']);
+Route::get('managenotice',[NoticeController::class,'shownotice']);
+Route::delete('deletenotice/{id}',[NoticeController::class,'deletenotice']);
+Route::put('managenotice/{id}',[NoticeController::class,'editnotice']);
+Route::get('managenotice/{id}',[NoticeController::class,'shownotice']);
 
 //User Controls
+Route::view('admins', '/operations/manageadminuser');
+Route::get('admins', [UserController::class,'indexAdmins']);
+Route::put('/admins/{id}', [UserController::class,'update']);
+Route::delete('/deleteadmins/{id}', [UserController::class,'destroy']);
+Route::get('/admins/{id}', [UserController::class, 'show']);
+
+Route::view('lecturers', '/operations/managelectureruser');
+Route::get('lecturers', [UserController::class,'indexLecturers']);
+Route::put('/lecturers/{id}', [UserController::class,'update']);
+Route::delete('/deletelecturers/{id}', [UserController::class,'destroy']);
+Route::get('/lecturers//{id}', [UserController::class, 'show']);
+
+
+

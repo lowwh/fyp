@@ -15,9 +15,9 @@ class CreateResultsTable extends Migration
     {
         Schema::create('results', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('student_id')->constrained()->onDelete('cascade');
             $table->string('course');
             $table->decimal('result_score', 10, 2); // Adjust precision and scale according to your needs
+            $table->integer('student_id');
             $table->timestamps();
 
             // Adding foreign key constraint with cascade deletion
