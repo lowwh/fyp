@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\ResultController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,7 +36,11 @@ Route::view('addstudent', '/operations/addstudent');
 Route::view('managestudent', '/operations/managestudent');
 
 //Result
-//view addresult
+//Check result
+Route::post('searchresult', [ResultController::class, 'search'])->name('search.result');
+Route::view('searchresult', '/operations/showresult');
+
+//view addresults
 Route::view('addresult', '/operations/addresult');
 
 
