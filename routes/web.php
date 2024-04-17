@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\StudentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,12 +28,13 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 
-//Students
-//view addstudent
-Route::view('addstudent', '/operations/addstudent');
+Route::view('/addstudent','operations.addstudent');
+Route::post('/add', [StudentController::class, 'store']);
+Route::get('/managestudent', [StudentController::class,'index']);
+Route::get('/showupdate/{id}',[StudentController::class,'show']);
+Route::post('/update/{id}',[StudentController::class,'update']);
+Route::get('/delete/{id}',[StudentController::class,'destroy']);
 
-//view managestudent
-Route::view('managestudent', '/operations/managestudent');
 
 //Result
 //view addresult
@@ -46,7 +47,7 @@ Route::view('manageresult', '/operations/manageresult');
 //Notice
 //Notice Board
 Route::get('/notices', [NoticeController::class, 'shownotice'])->name('all.notices');
-Route::get('/notice/{id}', [NoticeController::class, 'showonenotice'])->name('show.one.notice');
+Route::get('/notice/{id}/', [NoticeController::class, 'showonenotice'])->name('show.one.notice');
 Route::get('/', [NoticeController::class, 'welcome'])->name('welcome');
 
 
