@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Attendance;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class AttendanceController extends Controller
 {
@@ -62,8 +63,13 @@ class AttendanceController extends Controller
     public function destroy($id)
     {
         $result = Attendance::findOrFail($id);
-        $result->delete();
-
-        return redirect()->back()->with('success', 'User deleted successfully.');
+        // Check if the user is authorized to delete the result
+        if (Gate::allows('isAdmin')) {
+            $result->delete();
+            return redirect()->back()->with('success', 'Result deleted successfully.');
+        } else {
+            // User is not authorized, handle accordingly (e.g., redirect with error)
+            return redirect()->back()->withErrors(['error' => 'Unauthorized action.']);
+        }
     }
 }

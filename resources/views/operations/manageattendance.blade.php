@@ -38,11 +38,13 @@
                                     <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#updateModal{{ $attendance->id }}">
                                         Edit
                                     </button>
+                                    @can('isAdmin')
                                     <form method="post" action="{{ '/delete/' . $attendance->id }}" style="display: inline-block;">
                                         @csrf
                                         @method('POST')
                                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                     </form>
+                                    @endcan
                                 </td>
                             </tr>
                             <!-- Update Modal -->

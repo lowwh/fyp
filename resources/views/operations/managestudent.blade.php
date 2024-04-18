@@ -30,7 +30,9 @@
                                         <th>Age</th>
                                         <th>Email</th>
                                         <th>Student ID</th>
+                                        @can('isAdmin')
                                         <th style="width: 150px;">Actions</th> <!-- Adjusted width for Actions column -->
+                                        @endcan
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -41,11 +43,15 @@
                                         <td>{{$stu['age']}}</td>
                                         <td>{{$stu['email']}}</td>
                                         <td>{{$stu['student_id']}}</td>
+                                        @can('isAdmin')
                                         <td> <a href="showupdate/{{$stu['id']}}" class="btn btn-warning btn-sm mr-1">Edit</a>
+
+                                            
                                             <a href="/delete/{{$stu['id']}}" class="btn btn-danger btn-sm">Delete</a>
+                                            
 
                                         </td>
-
+                                        @endcan
                                     </tr>
                                     @endforeach
                                 </tbody>

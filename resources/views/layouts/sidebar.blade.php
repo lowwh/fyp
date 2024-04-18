@@ -104,6 +104,8 @@
             </li>
           </ul>
         </li>
+
+        @can('isAdmin')
         <li class="nav-header">Admin Actions</li>
         <li class="nav-item">
           <a href="#" class="nav-link">
@@ -168,7 +170,7 @@
             </li>
           </ul>
         </li>
-
+        @endcan
       </ul>
     </nav>
     <!-- /.sidebar-menu -->
