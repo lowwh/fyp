@@ -28,8 +28,8 @@
                                         <th style="width: 5%">ID</th>
                                         <th style="width: 30%">Name</th>
                                         <th style="width: 30%">Email</th>
-                                        <th style="width: 15%">Created At</th>
-                                        <th style="width: 20%">Actions</th>
+                                        <th style="width: 18%">Created At</th>
+                                        <th style="width: 27%">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>

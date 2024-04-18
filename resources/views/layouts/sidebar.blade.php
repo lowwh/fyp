@@ -81,6 +81,29 @@
             </li>
           </ul>
         </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="fas fa-user-check nav-icon"></i>
+            <p>
+              Attendence
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="addattendance" class="nav-link">
+                <i class="fas fa-calendar-check nav-icon"></i>
+                <p>Add Attendence</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="manageattendance" class="nav-link">
+                <i class="fas fa-tasks nav-icon"></i>
+                <p>Manage Attendence</p>
+              </a>
+            </li>
+          </ul>
+        </li>
         <li class="nav-header">Admin Actions</li>
         <li class="nav-item">
           <a href="#" class="nav-link">

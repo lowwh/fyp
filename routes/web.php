@@ -6,7 +6,7 @@ use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\StudentController;
-
+use App\Http\Controllers\AttendanceController;
 
 
 /*
@@ -45,13 +45,20 @@ Route::view('searchresult', '/operations/showresult');
 Route::view('addresult', '/operations/addresult');
 Route::get('/addresult', [ResultController::class, 'showAddResultForm']);
 
-//Add Result
-Route::post('/addResult', [ResultController::class, 'store']);
-
 //Manage result
+Route::post('/addResult', [ResultController::class, 'store']);
 Route::get('/manageresult', [ResultController::class,'index']);
 Route::post('/update/{id}', [ResultController::class, 'update'])->name('result.update');
 Route::get('/delete/{id}',[ResultController::class,'destroy'])->name('result.delete');
+
+//Attendence
+Route::view('addattendance', '/operations/addattendance');
+Route::get('/addattendance', [AttendanceController::class, 'showAddAttendanceForm']);
+Route::post('/addAttendance', [AttendanceController::class, 'store']);
+Route::view('manageattendance', '/operations/manageattendance');
+Route::get('/manageattendance', [AttendanceController::class,'index']);
+Route::put('/attendance/{id}', [AttendanceController::class, 'update'])->name('attendance.update');
+Route::post('/delete/{id}',[AttendanceController::class,'destroy']);
 
 //Notice
 //Notice Board

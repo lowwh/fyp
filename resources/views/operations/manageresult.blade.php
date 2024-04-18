@@ -8,7 +8,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-left">
                         <li class="breadcrumb-item"><i class="nav-icon fas fa-user-graduate"></i> Result </li>
-                        <li class="breadcrumb-item"><i class="fas fa-user-friends nav-iconn"></i> Manage Result</li>
+                        <li class="breadcrumb-item active"><i class="fas fa-user-friends nav-iconn"></i> Manage Result</li>
                     </ol>
                 </div>
             </div>
@@ -76,10 +76,10 @@
                                                                         </form>
                                                                     </td>
                                                                     <td>
-                                                                        <button class="btn btn-primary update-btn">Update</button> <!-- Update button -->
+                                                                        <button class="btn btn-warning btn-sm mr-1">Update</button> <!-- Update button -->
                                                                         <form class="delete-form" action="{{ route('result.delete', $innerResult->id) }}" method="GET" style="display: inline;">
                                                                             @csrf
-                                                                            <button type="submit" class="btn btn-danger">Delete</button> <!-- Delete button -->
+                                                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button> <!-- Delete button -->
                                                                         </form>
                                                                     </td>
                                                                 </tr>

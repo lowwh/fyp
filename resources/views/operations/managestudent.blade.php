@@ -8,8 +8,8 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-left">
                         <li class="breadcrumb-item"><i class="nav-icon fas fa-user-graduate"></i> Student </li>
-                        <li class="breadcrumb-item"><i class="fas fa-user-friends nav-iconn"></i> Manage Student</li>
-                     
+                        <li class="breadcrumb-item active"><i class="fas fa-user-friends nav-iconn"></i> Manage Student</li>
+
                     </ol>
                 </div>
             </div>
@@ -28,27 +28,27 @@
                                         <th>Name</th>
                                         <th>Gender</th>
                                         <th>Age</th>
-                                         <th>Email</th>
-                                          <th>Student ID</th>
+                                        <th>Email</th>
+                                        <th>Student ID</th>
                                         <th style="width: 150px;">Actions</th> <!-- Adjusted width for Actions column -->
                                     </tr>
                                 </thead>
-                               <tbody>
-                                @foreach($students as $stu)
-                                <tr>
-                                    <td>{{$stu['name']}}</td>
-                                     <td>{{$stu['gender']}}</td>
-                                      <td>{{$stu['age']}}</td>
-                                       <td>{{$stu['email']}}</td>
+                                <tbody>
+                                    @foreach($students as $stu)
+                                    <tr>
+                                        <td>{{$stu['name']}}</td>
+                                        <td>{{$stu['gender']}}</td>
+                                        <td>{{$stu['age']}}</td>
+                                        <td>{{$stu['email']}}</td>
                                         <td>{{$stu['student_id']}}</td>
-                                        <td> <a href="showupdate/{{$stu['id']}}" class="btn btn-primary btn-sm">Edit</a>
-                                        <a href="/delete/{{$stu['id']}}" class="btn btn-danger btn-sm">Delete</a>
-                                     
-</td>
-                                        
-</tr>
-@endforeach
-</tbody>
+                                        <td> <a href="showupdate/{{$stu['id']}}" class="btn btn-warning btn-sm mr-1">Edit</a>
+                                            <a href="/delete/{{$stu['id']}}" class="btn btn-danger btn-sm">Delete</a>
+
+                                        </td>
+
+                                    </tr>
+                                    @endforeach
+                                </tbody>
                             </table>
                         </div>
                     </div>
