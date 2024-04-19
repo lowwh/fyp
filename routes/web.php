@@ -56,8 +56,8 @@ Route::middleware('auth')->group(function () {
     //Manage result
     //Route::view('manageresult', '/operations/manageresult');
     Route::get('/manageresult', [ResultController::class, 'index']);
-    Route::post('/update/{id}', [ResultController::class, 'update'])->name('result.update');
-    Route::get('/delete/{id}', [ResultController::class, 'destroy'])->name('result.delete');
+    Route::post('/resultupdate/{id}', [ResultController::class, 'update'])->name('result.update');
+    Route::get('/resultdelete/{id}', [ResultController::class, 'destroy'])->name('result.delete');
 
     //Dashboard
     Route::view('/addstudent', 'operations.addstudent');
