@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="Student Result Management System - UECS3294 Advanced Web Application Development" />
+    <meta name="description"
+        content="Student Result Management System - UECS3294 Advanced Web Application Development" />
     <meta name="author" content="P2_02" />
     <title>Student Result Management System</title>
 
@@ -25,28 +26,30 @@
     <!-- Responsive navbar-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="/">Student Result Management System</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <a class="navbar-brand" href="/">PLATFORM FOR INDEPENDENT CONTRACTOR COMMUNITIES </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a href="searchresult" class="nav-link active">Check Result</a></li>
                     @if (Route::has('login'))
-                    @auth
-                    <li class="nav-item"><a href="{{ url('/home') }}" class="nav-link active">Management</a></li>
-                    @else
-                    <li class="nav-item"><a href="{{ route('login') }}" class="nav-link active">Log in</a></li>
+                        @auth
+                            <li class="nav-item"><a href="{{ url('/home') }}" class="nav-link active">Management</a></li>
+                        @else
+                            <li class="nav-item"><a href="{{ route('login') }}" class="nav-link active">Log in</a></li>
 
-                    <!-- @if (Route::has('register'))
-                    <li class="nav-item"><a href="{{ route('register') }}" class="nav-link active">Register</a></li>
-                    @endif -->
-                    @endauth
+                            <!-- @if (Route::has('register'))
+                                                                            <li class="nav-item"><a href="{{ route('register') }}" class="nav-link active">Register</a></li>
+                                                                            @endif -->
+                        @endauth
                     @endif
                 </ul>
             </div>
         </div>
     </nav>
     <!-- Header - set the background image for the header in the line below-->
-    <header class="py-5 bg-image-full" style="background-image: url('images/background-image.jpg')">
+    <header class="py-5 bg-image-full" style="background-image: url('images/freelancer-image.jpg')">
 
     </header>
     <!-- Content section-->
@@ -59,7 +62,9 @@
                     <div class="scrollable-notice">
                         <ul>
                             @foreach($notices as $notice)
-                            <li><a href="{{ route('show.one.notice', ['id' => $notice->id]) }}">{{ $notice->notice_title }}</a></li>
+                                <li><a
+                                        href="{{ route('show.one.notice', ['id' => $notice->id]) }}">{{ $notice->notice_title }}</a>
+                                </li>
                             @endforeach
 
                         </ul>
