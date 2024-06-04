@@ -22,40 +22,38 @@
         <div class="card-header">
           <div class="row justify-content-center"> <!-- Center the form horizontally -->
             <div class="col-md-6"> <!-- Set the width of the form -->
-              <form method="post" action="/update/{id}">
+              <form method="post" action="/manageService/{id}">
                 @csrf
                 <div class="mb-3">
-                 
-                  <input type="hidden" name="id" id="id" class="form-control" value="{{$student['id']}}"><br>
-                
+
+                  <input type="hidden" name="id" id="id" class="form-control" value="{{$update['id']}}"><br>
+
                 </div>
                 <div class="mb-3">
-                  <label for="name" class="form-label">Name: </label>
-                  <input type="text" name="name" id="name" class="form-control" value="{{$student['name']}}"><br>
-                
+                  <label for="title" class="form-label">Title: </label>
+                  <input type="text" name="title" id="title" class="form-control" value="{{$update['title']}}"><br>
+
                 </div>
                 <div class="mb-3">
-                  <label for="age" class="form-label">Age: </label>
-                  <input type="text" name="age" id="age" class="form-control" value="{{$student['age']}}"><br>
-                 
-                </div>
-                 <div class="mb-3">
-                  <label for="gender" class="form-label">Gender: </label>
-                   <input type="text" name="gender" id="gender" class="form-control" value="{{$student['gender']}}"><br>
-                
+                  <label for="description" class="form-label">Description: </label>
+                  <input type="text" name="description" id="description" class="form-control"
+                    value="{{$update['description']}}"><br>
+
                 </div>
                 <div class="mb-3">
-                  <label for="email" class="form-label">Email: </label>
-                  <input type="text" name="email" id="email" class="form-control"value="{{$student['email']}}"><br>
-                 
+                  <label for="servicetype" class="form-label">servicetype: </label>
+                  <input type="text" name="servicetype" id="servicetype" class="form-control"
+                    value="{{$update['servicetype']}}"><br>
+
                 </div>
                 <div class="mb-3">
-                  <label for="student_id" class="form-label">Student ID: </label>
-                  <input type="text" name="student_id" id="student_id" class="form-control" value="{{$student['student_id']}}"><br>
-                  
+                  <label for="price" class="form-label">price: </label>
+                  <input type="text" name="price" id="price" class="form-control" value="{{$update['price']}}"><br>
+
                 </div>
+
                 <div class="text-center"> <!-- Center the button -->
-                  <button type="submit" class="btn btn-primary">Add</button>
+                  <button type="submit" class="btn btn-primary">Update</button>
                 </div>
               </form>
             </div>

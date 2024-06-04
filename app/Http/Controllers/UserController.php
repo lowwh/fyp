@@ -30,31 +30,31 @@ class UserController extends Controller
     }
 
     public function update(Request $request, $id)
-{
-    $user = User::findOrFail($id);
+    {
+        $user = User::findOrFail($id);
 
-    $updated = $user->update($request->except('password'));
+        $updated = $user->update($request->except('password'));
 
-    if ($updated) {
-        return redirect()->back()->with('success', 'User details updated successfully.');
-    } else {
-        return redirect()->back()->with('error', 'Failed to update user details.');
+        if ($updated) {
+            return redirect()->back()->with('success', 'User details updated successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Failed to update user details.');
+        }
     }
-}
 
-public function changePassword(Request $request, $id)
-{
-    $user = User::findOrFail($id);
+    public function changePassword(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
 
-    $user->password = Hash::make($request->password);
-    $updated = $user->save();
+        $user->password = Hash::make($request->password);
+        $updated = $user->save();
 
-    if ($updated) {
-        return redirect()->back()->with('success', 'Password changed successfully.');
-    } else {
-        return redirect()->back()->with('error', 'Failed to change password.');
+        if ($updated) {
+            return redirect()->back()->with('success', 'Password changed successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Failed to change password.');
+        }
     }
-}
 
     public function destroy($id)
     {

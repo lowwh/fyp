@@ -14,8 +14,4 @@ require("./bootstrap");
 
 require("./components/Example");
 
-require("./components/AddStudent");
-require("./components/ManageStudent");
-
-require("./components/AddResult");
-require("./components/ManageResult");
+require("./components/Freelancer");

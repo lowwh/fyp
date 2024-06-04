@@ -43,7 +43,7 @@ class RegisterController extends Controller
     {
         //$this->middleware('guest');
         // Apply the auth middleware except for the showRegistrationForm method
-        $this->middleware('auth')->except('showRegistrationForm');
+        //$this->middleware('auth')->except('showRegistrationForm');
     }
 
     /**
@@ -73,7 +73,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'role' => $data['role'], 
+            'role' => $data['role'],
         ]);
     }
 
@@ -84,6 +84,8 @@ class RegisterController extends Controller
 
         event(new Registered($user = $this->create($request->all())));
 
+
+        // return User::create($request->all());
         //$this->guard()->login($user); //this line of code will make the newly registered use to auto log in
 
         return $this->registered($request, $user)

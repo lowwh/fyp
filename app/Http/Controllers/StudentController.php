@@ -14,9 +14,10 @@ class StudentController extends Controller
 {
     public function index()
     {
-        $student =   Student::paginate(10);
+        //$student =  
+        return Student::all();
 
-        return view("operations.managestudent", ['students' => $student]);
+        // return view("operations.managestudent", ['students' => $student]);
     }
 
 

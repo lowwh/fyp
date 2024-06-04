@@ -3,7 +3,7 @@
   <!-- Brand Logo -->
   <a href="/" class="brand-link">
     <!-- <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
-    <span class="brand-text font-weight-light">SRMS</span>
+    <span class="brand-text font-weight-light">INDEPEDENT CONTACTOR COMMUNITIES</span>
   </a>
 
   <!-- Sidebar -->
@@ -27,37 +27,71 @@
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+
+
         <li class="nav-item menu-open">
           <a href="home" class="nav-link active">
-            <i class="fas fa-th-large nav-icon"></i>
+            <i class="fas fa-home nav-icon"></i>
             <p>
-              Dashboard
+              Home
             </p>
           </a>
         </li>
+
+
+        @can('isAdmin')
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+        <i class="fas fa-user nav-icon"></i>
+        <p>
+          Freelancer
+          <i class="right fas fa-angle-left"></i>
+        </p>
+        </a>
+        <ul class="nav nav-treeview">
+        <li class="nav-item">
+          <a href="addstudent" class="nav-link">
+          <i class="fas fa-folder-plus nav-icon"></i>
+          <p>Add Freelancer</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="managestudent" class="nav-link">
+          <i class="fas fa-tasks nav-icon"></i>
+          <p>Manage Student</p>
+          </a>
+        </li>
+        </ul>
+      </li>
+
+    @endcan
+
+
         <li class="nav-item">
           <a href="#" class="nav-link">
-            <i class="fas fa-user-graduate nav-icon"></i>
+            <i class="fas fa-upload nav-icon"></i>
             <p>
-              Student
+              Upload
               <i class="right fas fa-angle-left"></i>
             </p>
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="addstudent" class="nav-link">
+              <a href="/uploadService" class="nav-link">
                 <i class="fas fa-folder-plus nav-icon"></i>
-                <p>Add Student</p>
+                <p>Upload Service</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="managestudent" class="nav-link">
+              <a href="/manageService" class="nav-link">
                 <i class="fas fa-tasks nav-icon"></i>
-                <p>Manage Student</p>
+                <p>Manage Service</p>
               </a>
             </li>
           </ul>
         </li>
+
+
         <li class="nav-item">
           <a href="#" class="nav-link">
             <i class="fas fa-award nav-icon"></i>
@@ -106,71 +140,71 @@
         </li>
 
         @can('isAdmin')
-        <li class="nav-header">Admin Actions</li>
+      <li class="nav-header">Admin Actions</li>
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+        <i class="fas fa-bell nav-icon"></i>
+        <p>
+          Notice
+          <i class="fas fa-angle-left right"></i>
+        </p>
+        </a>
+        <ul class="nav nav-treeview">
         <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="fas fa-bell nav-icon"></i>
-            <p>
-              Notice
-              <i class="fas fa-angle-left right"></i>
-            </p>
+          <a href="addnotice" class="nav-link">
+          <i class="fas fa-plus-circle nav-icon"></i>
+          <p>Add Notice</p>
           </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="addnotice" class="nav-link">
-                <i class="fas fa-plus-circle nav-icon"></i>
-                <p>Add Notice</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="managenotice" class="nav-link">
-                <i class="fas fa-tasks nav-icon"></i>
-                <p>Manage Notice</p>
-              </a>
-            </li>
-          </ul>
+        </li>
+        <li class="nav-item">
+          <a href="managenotice" class="nav-link">
+          <i class="fas fa-tasks nav-icon"></i>
+          <p>Manage Notice</p>
+          </a>
+        </li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+        <i class="nav-icon far fa-plus-square"></i>
+        <p>
+          Admin Control
+          <i class="fas fa-angle-left right"></i>
+        </p>
+        </a>
+        <ul class="nav nav-treeview">
+        <li class="nav-item">
+          <a href="{{ route('register') }}" class="nav-link">
+          <i class="fas fa-user-plus nav-icon"></i>
+          <p>Register User</p>
+          </a>
         </li>
         <li class="nav-item">
           <a href="#" class="nav-link">
-            <i class="nav-icon far fa-plus-square"></i>
-            <p>
-              Admin Control
-              <i class="fas fa-angle-left right"></i>
-            </p>
+          <i class="fas fa-user-friends nav-icon"></i>
+          <p>
+            User Lists
+            <i class="fas fa-angle-left right"></i>
+          </p>
           </a>
           <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="{{ route('register') }}" class="nav-link">
-                <i class="fas fa-user-plus nav-icon"></i>
-                <p>Register User</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="fas fa-user-friends nav-icon"></i>
-                <p>
-                  User Lists
-                  <i class="fas fa-angle-left right"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="lecturers" class="nav-link">
-                    <i class="fas fa-user-tie nav-icon"></i>
-                    <p>Lecturer</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="admins" class="nav-link">
-                    <i class="fas fa-user-cog nav-icon"></i>
-                    <p>Admin</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
+          <li class="nav-item">
+            <a href="lecturers" class="nav-link">
+            <i class="fas fa-user-tie nav-icon"></i>
+            <p>Lecturer</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="admins" class="nav-link">
+            <i class="fas fa-user-cog nav-icon"></i>
+            <p>Admin</p>
+            </a>
+          </li>
           </ul>
         </li>
-        @endcan
+        </ul>
+      </li>
+    @endcan
       </ul>
     </nav>
     <!-- /.sidebar-menu -->

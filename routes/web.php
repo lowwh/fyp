@@ -9,6 +9,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\ServiceController;
 use Illuminate\Auth\Events\Registered;
 
 /*
@@ -75,6 +76,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/manageattendance', [AttendanceController::class, 'index']);
     Route::put('/attendance/{id}', [AttendanceController::class, 'update'])->name('attendance.update');
     Route::post('/delete/{id}', [AttendanceController::class, 'destroy']);
+
+    //Service
+    Route::view('/uploadService', 'uploadService');
+    Route::get('/uploadService', [ServiceController::class, 'index']);
+    Route::post('/upload', [ServiceController::class, 'store']);
+    //Route::view('/manageService', '/operations/manageService');
+    Route::get('/manageService', [ServiceController::class, 'show']);
+    Route::get('/manageService/{id}', [ServiceController::class, 'showupdate']);
+    Route::post('/manageService/{id}', [ServiceController::class, 'edit']);
+
 });
 
 Route::middleware(['admin'])->group(function () {
