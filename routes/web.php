@@ -10,6 +10,7 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Auth\Events\Registered;
 
 /*
@@ -63,7 +64,7 @@ Route::middleware('auth')->group(function () {
     //Dashboard
     Route::view('/addstudent', 'operations.addstudent');
     Route::post('/add', [StudentController::class, 'store']);
-    Route::get('/managestudent', [StudentController::class, 'index']);
+    Route::get('/managestudent', [StudentController::class, 'managefreelancer']);
     Route::get('/showupdate/{id}', [StudentController::class, 'show']);
     Route::post('/update/{id}', [StudentController::class, 'update']);
     Route::get('/delete/{id}', [StudentController::class, 'destroy']);
@@ -86,6 +87,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/manageService/{id}', [ServiceController::class, 'showupdate']);
     Route::post('/manageService/{id}', [ServiceController::class, 'edit']);
 
+
+    Route::view('/manageprofile', 'operations.manageprofile');
+    Route::get('/manageprofile', [ProfileController::class, 'index']);
+    Route::get('/editprofile', [ProfileController::class, 'index'])->name('edit.profile');
+
 });
 
 Route::middleware(['admin'])->group(function () {
@@ -97,7 +103,8 @@ Route::middleware(['admin'])->group(function () {
     Route::view('admins', '/operations/manageadminuser');
     Route::get('admins', [UserController::class, 'indexAdmins']);
     Route::put('/admins/{id}', [UserController::class, 'update']);
-    Route::match(['put', 'post'], '/adminsChangePassword/{id}', [UserController::class, 'changePassword']);
+    // Route::match(['put', 'post'], '/adminsChangePassword/{id}', [UserController::class, 'changePassword']);
+    Route::post('/adminsChangePassword/{id}', [UserController::class, 'changePassword']);
     Route::delete('/deleteadmins/{id}', [UserController::class, 'destroy']);
     Route::get('/admins/{id}', [UserController::class, 'show']);
 
@@ -107,6 +114,14 @@ Route::middleware(['admin'])->group(function () {
     Route::match(['put', 'post'], '/lecturersChangePassword/{id}', [UserController::class, 'changePassword']);
     Route::delete('/deletelecturers/{id}', [UserController::class, 'destroy']);
     Route::get('/lecturers/{id}', [UserController::class, 'show']);
+
+
+    //admin action -> user list -> freelancer
+    Route::view('freelancer', '/operations/managefreelanceruser');
+    Route::get('freelancer', [UserController::class, 'indexFreelancer']);
+    Route::delete('/deletefreelancer/{id}', [UserController::class, 'destroy']);
+    Route::put('/freelancer/{id}', [UserController::class, 'update']);
+    Route::put('/freelancers/{id}', [UserController::class, 'changePassword']);
 
     //view addnotice
     Route::view('addnotice', '/operations/addnotice');

@@ -32,7 +32,8 @@
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a href="searchresult" class="nav-link active">Check Result</a></li>
+                    <li class="nav-item"><a href="searchresult" class="nav-link active">Search</a></li>
+                    <li class="nav-item"><a href="/register" class="nav-link active">Register</a></li>
                     @if (Route::has('login'))
                         @auth
                             <li class="nav-item"><a href="{{ url('/home') }}" class="nav-link active">Management</a></li>
@@ -40,8 +41,8 @@
                             <li class="nav-item"><a href="{{ route('login') }}" class="nav-link active">Log in</a></li>
 
                             <!-- @if (Route::has('register'))
-                                                                            <li class="nav-item"><a href="{{ route('register') }}" class="nav-link active">Register</a></li>
-                                                                            @endif -->
+                                                                                                            <li class="nav-item"><a href="{{ route('register') }}" class="nav-link active">Register</a></li>
+                                                                                                            @endif -->
                         @endauth
                     @endif
                 </ul>

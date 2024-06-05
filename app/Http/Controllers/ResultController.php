@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Result;
 use App\Models\Student;
-
+use App\Models\service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+
 
 class ResultController extends Controller
 {
@@ -69,13 +71,21 @@ class ResultController extends Controller
     {
         // Validate the request data
         $validatedData = $request->validate([
-            'student_id' => 'required',
+            'servicetype' => 'required',
         ]);
 
         // Search for the results by student ID
-        $results = Result::leftJoin('students', 'results.student_id', '=', 'students.student_id')
-            ->select('results.course', 'results.result_score', 'students.name', 'results.student_id')
-            ->where('results.student_id', $validatedData['student_id'])
+        // $results = DB::table('students') // Ensure you're using the correct table name here
+        //     ->leftJoin('services', 'services.user_id', '=', 'students.user_id')
+        //     ->select('services.servicetype', 'services.description', 'students.name', 'students.age')
+        //     ->where('services.servicetype', $validatedData['servicetype'])
+        //     ->distinct()
+        //     ->get();
+
+        $results = DB::table('services') // Ensure you're using the correct table name here
+            ->select('services.servicetype', 'services.description', 'services.price', 'services.title')
+            ->where('services.servicetype', $validatedData['servicetype'])
+            ->distinct()
             ->get();
 
         if ($results->isEmpty()) {

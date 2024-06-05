@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
+use App\Models\User;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -14,10 +15,26 @@ class StudentController extends Controller
 {
     public function index()
     {
-        //$student =  
-        return Student::all();
 
-        // return view("operations.managestudent", ['students' => $student]);
+        //show using Freelancer.js
+        // Fetch all users where the role is 'freelancer'
+        $freelancers = User::where('role', 'freelancer')->get();
+
+        // Return the fetched freelancers
+        return $freelancers;
+
+        // If you want to pass the data to a view, you can uncomment the following line:
+        // return view('operations.managestudent', ['students' => $freelancers]);
+    }
+
+
+
+    public function managefreelancer()
+    {
+        //using to show under freelancer -> managefreelancer
+        $freelancers = User::where('role', 'freelancer')->get();
+        return view('operations.managestudent', ['students' => $freelancers]);
+
     }
 
 

@@ -8,7 +8,8 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-left">
                         <li class="breadcrumb-item"><i class="nav-icon fas fa-user-graduate"></i> Student </li>
-                        <li class="breadcrumb-item active"><i class="fas fa-user-friends nav-iconn"></i> Manage Student</li>
+                        <li class="breadcrumb-item active"><i class="fas fa-user-friends nav-iconn"></i> Manage Student
+                        </li>
 
                     </ol>
                 </div>
@@ -29,30 +30,32 @@
                                         <th>Gender</th>
                                         <th>Age</th>
                                         <th>Email</th>
-                                        <th>Student ID</th>
+
                                         @can('isAdmin')
-                                        <th style="width: 150px;">Actions</th> <!-- Adjusted width for Actions column -->
+                                            <th style="width: 150px;">Actions</th>
+                                            <!-- Adjusted width for Actions column -->
                                         @endcan
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($students as $stu)
-                                    <tr>
-                                        <td>{{$stu['name']}}</td>
-                                        <td>{{$stu['gender']}}</td>
-                                        <td>{{$stu['age']}}</td>
-                                        <td>{{$stu['email']}}</td>
-                                        <td>{{$stu['student_id']}}</td>
-                                        @can('isAdmin')
-                                        <td> <a href="showupdate/{{$stu['id']}}" class="btn btn-warning btn-sm mr-1">Edit</a>
+                                        <tr>
+                                            <td>{{$stu['name']}}</td>
+                                            <td>{{$stu['gender']}}</td>
+                                            <td>{{$stu['age']}}</td>
+                                            <td>{{$stu['email']}}</td>
 
-                                            
-                                            <a href="/delete/{{$stu['id']}}" class="btn btn-danger btn-sm">Delete</a>
-                                            
+                                            @can('isAdmin')
+                                                <td> <a href="showupdate/{{$stu['id']}}"
+                                                        class="btn btn-warning btn-sm mr-1">Edit</a>
 
-                                        </td>
-                                        @endcan
-                                    </tr>
+
+                                                    <a href="/delete/{{$stu['id']}}" class="btn btn-danger btn-sm">Delete</a>
+
+
+                                                </td>
+                                            @endcan
+                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>

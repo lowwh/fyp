@@ -39,32 +39,32 @@
         </li>
 
 
-        @can('isAdmin')
-      <li class="nav-item">
-        <a href="#" class="nav-link">
-        <i class="fas fa-user nav-icon"></i>
-        <p>
-          Freelancer
-          <i class="right fas fa-angle-left"></i>
-        </p>
-        </a>
-        <ul class="nav nav-treeview">
-        <li class="nav-item">
-          <a href="addstudent" class="nav-link">
-          <i class="fas fa-folder-plus nav-icon"></i>
-          <p>Add Freelancer</p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="managestudent" class="nav-link">
-          <i class="fas fa-tasks nav-icon"></i>
-          <p>Manage Student</p>
-          </a>
-        </li>
-        </ul>
-      </li>
 
-    @endcan
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="fas fa-user nav-icon"></i>
+            <p>
+              Freelancer
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="addstudent" class="nav-link">
+                <i class="fas fa-folder-plus nav-icon"></i>
+                <p>Add Freelancer</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="managestudent" class="nav-link">
+                <i class="fas fa-tasks nav-icon"></i>
+                <p>Manage freelancers</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+
 
 
         <li class="nav-item">
@@ -191,7 +191,7 @@
           <li class="nav-item">
             <a href="lecturers" class="nav-link">
             <i class="fas fa-user-tie nav-icon"></i>
-            <p>Lecturer</p>
+            <p>User</p>
             </a>
           </li>
           <li class="nav-item">
@@ -200,11 +200,28 @@
             <p>Admin</p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="freelancer" class="nav-link">
+            <i class="fas fa-user-check nav-icon"></i>
+            <p>Freelancer</p>
+            </a>
+          </li>
           </ul>
         </li>
         </ul>
       </li>
     @endcan
+
+        <li class="nav-item">
+          <a href="/manageprofile" class="nav-link">
+            <i class="fas fa-user-secret nav-icon"></i>
+            <p>
+              Profile
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+
+        </li>
       </ul>
     </nav>
     <!-- /.sidebar-menu -->

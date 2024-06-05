@@ -13,14 +13,20 @@ class UserController extends Controller
     //
     public function indexLecturers()
     {
-        $lecturers = User::where('role', 'lecturer')->paginate(10);
-        return view('operations.managelectureruser', ['lecturers' => $lecturers]);
+        $users = User::where('role', 'user')->paginate(10);
+        return view('operations.managelectureruser', ['users' => $users]);
     }
 
     public function indexAdmins()
     {
         $admins = User::where('role', 'admin')->paginate(10);
         return view('operations.manageadminuser', compact('admins'));
+    }
+
+    public function indexFreelancer()
+    {
+        $freelancers = User::where('role', 'freelancer')->paginate(10);
+        return view('operations.managefreelanceruser', ['freelancers' => $freelancers]);
     }
 
     public function show($id)
@@ -42,17 +48,17 @@ class UserController extends Controller
         }
     }
 
-    public function changePassword(Request $request, $id)
+    public function changePassword(Request $request)
     {
-        $user = User::findOrFail($id);
+        $user = User::findOrFail($request->id);
 
         $user->password = Hash::make($request->password);
         $updated = $user->save();
 
         if ($updated) {
-            return redirect()->back()->with('success', 'Password changed successfully.');
+            return redirect()->back()->with('success', 'User details updated successfully.');
         } else {
-            return redirect()->back()->with('error', 'Failed to change password.');
+            return redirect()->back()->with('error', 'Failed to update user details.');
         }
     }
 
