@@ -90,7 +90,8 @@ class ResultController extends Controller
 
         if ($results->isEmpty()) {
             // No results found
-            $errorMessage = 'No results found for this student ID';
+            $errorMessage = 'No results found';
+
             return view('operations.showresult', ['error' => $errorMessage]);
         } else {
             // Results found

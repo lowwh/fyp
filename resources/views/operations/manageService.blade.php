@@ -26,6 +26,13 @@
                                     <p style="display: inline; margin-left: 10px;">{{$ser['description']}}</p><br>
                                     <h5 class="card-title" style="display: inline;">Service Type:</h5>
                                     <p style="display: inline; margin-left: 10px;">{{$ser['servicetype']}}</p><br>
+                                    @if($ser->image_path)
+                                        <div>
+                                            <h5 class="card-title">Image:</h5>
+                                            <img src="{{ asset('storage/' . $ser->image_path) }}" alt="Service Image"
+                                                style="max-width: 200px; height: auto;">
+                                        </div>
+                                    @endif
 
                                 </div>
                                 @can('update', $ser)

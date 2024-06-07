@@ -44,11 +44,13 @@ Route::get('/', [NoticeController::class, 'welcome'])->name('welcome');
 
 
 Route::middleware('auth')->group(function () {
-
+    Route::get('/uploadphoto/{id}', [ProfileController::class, 'show']);
+    Route::post('/uploadphoto/{id}', [ProfileController::class, 'update']);
 
 
     // Routes accessible to authenticated users only
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/home', [App\Http\Controllers\StudentController::class, 'index'])->name('home');
+    Route::get('/viewprofile/{id}', [StudentController::class, 'viewprofile']);
 
     //view addresults
     Route::view('addresult', '/operations/addresult');
@@ -61,7 +63,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/resultupdate/{id}', [ResultController::class, 'update'])->name('result.update');
     Route::get('/resultdelete/{id}', [ResultController::class, 'destroy'])->name('result.delete');
 
-    //Dashboard
+    //Freelancer -> add and manage
     Route::view('/addstudent', 'operations.addstudent');
     Route::post('/add', [StudentController::class, 'store']);
     Route::get('/managestudent', [StudentController::class, 'managefreelancer']);
@@ -133,4 +135,7 @@ Route::middleware(['admin'])->group(function () {
     Route::delete('deletenotice/{id}', [NoticeController::class, 'deletenotice']);
     Route::put('managenotice/{id}', [NoticeController::class, 'editnotice']);
     Route::get('managenotice/{id}', [NoticeController::class, 'shownotice']);
+
+
+
 });

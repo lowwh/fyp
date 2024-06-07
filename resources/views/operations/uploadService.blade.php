@@ -22,11 +22,7 @@
                 <div class="card-header">
                     <div class="row justify-content-center">
                         <div class="col-md-6">
-                            <form method="post" enctype="multipart/form-data"
-                                action="https://imagekit.io/does-not-exists">
-                                <input type="file" name="file">
-                                <button>Upload</button>
-                            </form>
+
                             <form method="post" enctype="multipart/form-data" action="/upload">
                                 @csrf
                                 <div class="mb-3">
@@ -59,6 +55,12 @@
 
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-primary">Add</button>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="image" class="form-label">Service Image: </label>
+                                    <input type="file" name="image" id="image" class="form-control"><br>
+                                    <span style="color:red">@error('image'){{$message}}@enderror</span><br>
                                 </div>
 
                             </form>

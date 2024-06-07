@@ -30,7 +30,7 @@
 
 
         <li class="nav-item menu-open">
-          <a href="home" class="nav-link active">
+          <a href="/home" class="nav-link active">
             <i class="fas fa-home nav-icon"></i>
             <p>
               Home

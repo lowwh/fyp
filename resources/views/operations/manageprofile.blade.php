@@ -22,75 +22,155 @@
         </div>
     </nav>
 
+
     <!-- Central content with tabs -->
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card mb-3">
                 <div class="card-header">Profile Details</div>
+
+
                 <div class="card-body">
+
                     <!-- Tabs for BIO, Project, and Review -->
-                    <ul class="nav nav-tabs" id="profileTab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link active" id="bio-tab" data-bs-toggle="tab" href="#bio" role="tab"
-                                aria-controls="bio" aria-selected="true">BIO</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" id="project-tab" data-bs-toggle="tab" href="#project" role="tab"
-                                aria-controls="project" aria-selected="false">Project</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" id="review-tab" data-bs-toggle="tab" href="#review" role="tab"
-                                aria-controls="review" aria-selected="false">Review</a>
-                        </li>
-                    </ul>
+                    @can('isFreelancer')
+                                        <ul class="nav nav-tabs" id="profileTab" role="tablist">
+                                            <li class="nav-item" role="presentation">
+                                                <a class="nav-link active" id="bio-tab" data-bs-toggle="tab" href="#bio" role="tab"
+                                                    aria-controls="bio" aria-selected="true">BIO</a>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <a class="nav-link" id="project-tab" data-bs-toggle="tab" href="#project" role="tab"
+                                                    aria-controls="project" aria-selected="false">Project</a>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <a class="nav-link" id="review-tab" data-bs-toggle="tab" href="#review" role="tab"
+                                                    aria-controls="review" aria-selected="false">Review</a>
+                                            </li>
+                                        </ul>
 
-                    <!-- Tab content -->
-                    <div class="tab-content mt-3" id="profileTabContent">
-                        <!-- BIO Tab -->
-                        <div class="tab-pane fade show active" id="bio" role="tabpanel" aria-labelledby="bio-tab">
-                            <div class="row mb-3">
-                                <label for="name" class="col-md-4 col-form-label text-md-end">Freelancer Name:</label>
-                                <div class="col-md-6">
-                                    <p id="name">{{ $user->name }}</p>
-                                </div>
-                            </div>
+                                        <!-- Tab content -->
+                                        <div class="tab-content mt-3" id="profileTabContent">
+                                            <!-- BIO Tab -->
+                                            <div class="tab-pane fade show active" id="bio" role="tabpanel" aria-labelledby="bio-tab">
+                                                <div class="row mb-3">
+                                                    <label for="image" class="col-md-4 col-form-label text-md-end">Profile Picture:</label>
+                                                    <div class="col-md-8">
+                                                        @if($user->image_path)
+                                                            <div>
+                                                                <img src="{{ asset('storage/' . $user->image_path) }}" alt="Service Image"
+                                                                    style="max-width: 200px; height: auto;">
+                                                            </div>
+                                                        @endif
+                                                        <div class="mb-3">
+                                                            <form method="get" action="/uploadphoto/{{$user->id}}">
+                                                                <button type="submit" class="btn btn-primary">Upload</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-                            <div class="row mb-3">
-                                <label for="servicetype" class="col-md-4 col-form-label text-md-end">Service
-                                    Type:</label>
-                                <div class="col-md-6">
-                                    <p id="servicetype">{{ $user->servicetype }}</p>
-                                </div>
-                            </div>
+                                                <div class="row mb-3">
+                                                    <label for="name" class="col-md-4 col-form-label text-md-end">Freelancer Name:</label>
+                                                    <div class="col-md-6">
+                                                        <p id="name">{{ $user->name }}</p>
+                                                    </div>
+                                                </div>
 
-                            <div class="row mb-3">
-                                <label for="description" class="col-md-4 col-form-label text-md-end">Service
-                                    Description:</label>
-                                <div class="col-md-6">
-                                    <p id="description">{{ $user->description }}</p>
+                                                <div class="row mb-3">
+                                                    <label for="servicetype" class="col-md-4 col-form-label text-md-end">Service
+                                                        Type:</label>
+                                                    <div class="col-md-6">
+                                                        <p id="servicetype">{{ $user->servicetype }}</p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-3">
+                                                    <label for="description" class="col-md-4 col-form-label text-md-end">Service
+                                                        Description:</label>
+                                                    <div class="col-md-6">
+                                                        <p id="description">{{ $user->description }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Project Tab -->
+                                            <div class="tab-pane fade" id="project" role="tabpanel" aria-labelledby="project-tab">
+                                                <p>Project content goes here.</p>
+                                            </div>
+
+                                            <!-- Review Tab -->
+                                            <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+                                                <p>Review content goes here.</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-0 mt-3">
+                                            <div class="col-md-8 offset-md-4">
+                                                <a href="{{ route('edit.profile') }}" class="btn btn-primary">Edit Profile</a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    @endcan
 
-                        <!-- Project Tab -->
-                        <div class="tab-pane fade" id="project" role="tabpanel" aria-labelledby="project-tab">
-                            <p>Project content goes here.</p>
-                        </div>
+    @can("isUser")
+        <ul class="nav nav-tabs" id="profileTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="bio-tab" data-bs-toggle="tab" href="#bio" role="tab" aria-controls="bio"
+                    aria-selected="true">BIO</a>
+            </li>
 
-                        <!-- Review Tab -->
-                        <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
-                            <p>Review content goes here.</p>
-                        </div>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="review-tab" data-bs-toggle="tab" href="#review" role="tab" aria-controls="review"
+                    aria-selected="false">Review</a>
+            </li>
+        </ul>
+
+        <div class="tab-content mt-3" id="profileTabContent">
+            <!-- BIO Tab -->
+            <div class="tab-pane fade show active" id="bio" role="tabpanel" aria-labelledby="bio-tab">
+                <div class="row mb-3">
+                    <label for="name" class="col-md-4 col-form-label text-md-end">User Name:</label>
+                    <div class="col-md-6">
+                        <p id="name">{{ $user->name }}</p>
                     </div>
+                </div>
 
-                    <div class="row mb-0 mt-3">
-                        <div class="col-md-8 offset-md-4">
-                            <a href="{{ route('edit.profile') }}" class="btn btn-primary">Edit Profile</a>
-                        </div>
+                <div class="row mb-3">
+                    <label for="age" class="col-md-4 col-form-label text-md-end">User Age:</label>
+                    <div class="col-md-6">
+                        <p id="age">{{ $user->age }}</p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label for="gender" class="col-md-4 col-form-label text-md-end">Gender
+                        :</label>
+                    <div class="col-md-6">
+                        <p id="gender">{{ $user->gender }}</p>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="email" class="col-md-4 col-form-label text-md-end">Email
+                        :</label>
+                    <div class="col-md-6">
+                        <p id="email">{{ $user->email }}</p>
                     </div>
                 </div>
             </div>
+
+
+
+            <!-- Review Tab -->
+            <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+                <p>Review content goes here.</p>
+            </div>
         </div>
-    </div>
+    @endcan
+
+
 </div>
 @endsection

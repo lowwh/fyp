@@ -2,25 +2,26 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import {
     Container,
-    Row,
-    Col,
-    Card,
-    CardBody,
-    CardTitle,
-    CardText,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    FormGroup,
+    Label,
+    Input,
+    Button,
+    Table,
 } from "reactstrap";
 import axios from "axios";
-import StudentCard from "./StudentCard";
 
 export default class Freelancer extends Component {
     constructor() {
         super();
         this.state = {
             students: [],
-            studentmodal: false,
-            studentdata: { name: "", email: "", gender: "", age: "" },
-            errors: {},
+            profilemodal: false,
+            profiledata: { main_id: "", name: "" },
         };
+        // Bind getprofiledata in the constructor
     }
 
     loadstudent() {
@@ -31,53 +32,105 @@ export default class Freelancer extends Component {
         });
     }
 
-    componentDidMount() {
+    getprofiledata() {
+        console.log("getprofiledata called with id:");
+        // this.setState({
+        //     profiledata: { main_id, name },
+        //     profilemodal: !this.state.profilemodal,
+        // });
+    }
+
+    componentWillMount() {
         this.loadstudent();
     }
 
-    render() {
-        let studentCards = this.state.students.map((student) => {
-            return (
-                <Col key={student.id} style={{ flex: "0 0 15%" }}>
-                    {" "}
-                    {/* Adjust grid class as needed */}
-                    <Card>
-                        <CardBody style={{ maxHeight: "200px" }}>
-                            {" "}
-                            {/* Limit card height */}
-                            <CardTitle
-                                tag="h5"
-                                style={{ textOverflow: "ellipsis" }}
-                            >
-                                {" "}
-                                {/* Truncate text */}
-                                {student.name}
-                            </CardTitle>
-                            <CardText>
-                                <strong>Age:</strong> {student.age}
-                                <br />
-                                <strong>Gender:</strong> {student.gender}
-                                <br />
-                                <strong>Email:</strong> {student.email}
-                            </CardText>
-                        </CardBody>
-                    </Card>
-                </Col>
-            );
+    toggleprofilemodal = () => {
+        this.setState({
+            profilemodal: !this.state.profilemodal,
         });
+    };
+
+    render() {
+        let studentData = this.state.students.map((student) => (
+            <tr>
+                <td>{student.main_id}</td>
+                <td>{student.name}</td>
+                <td>{student.age}</td>
+                <td>{student.gender}</td>
+                <td>{student.email}</td>
+                <td key={student.main_id}>
+                    <Button
+                        color="primary"
+                        onClick={this.getprofiledata.bind(
+                            this,
+                            student.main_id,
+                            student.name
+                        )}
+                    >
+                        View Profile
+                    </Button>
+                    <Button
+                        color="primary"
+                        onClick={this.getprofiledata.bind(this)}
+                    >
+                        View Profile
+                    </Button>
+                </td>
+            </tr>
+        ));
 
         return (
-            <Container fluid>
-                <Row
-                    style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        flexWrap: "wrap",
-                    }}
+            <div className="container">
+                <Modal
+                    isOpen={this.state.profilemodal}
+                    toggle={this.toggleprofilemodal.bind(this)}
                 >
-                    {studentCards}
-                </Row>
-            </Container>
+                    <ModalHeader
+                        toggle={this.toggleprofilemodal.bind(this)}
+                    ></ModalHeader>
+                    <ModalBody>
+                        <FormGroup>
+                            <Label for="id" name="id">
+                                Id:
+                            </Label>
+                            <Input
+                                type="text"
+                                id="id"
+                                value={this.state.profiledata.main_id}
+                                onChange={(e) => {
+                                    let { profiledata } = this.state;
+                                    profiledata.id = e.target.value;
+                                    this.setState({ profiledata });
+                                }}
+                            ></Input>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="name">Service:</Label>
+                            <Input
+                                id="name"
+                                value={this.state.profiledata.name}
+                                onChange={(e) => {
+                                    let { profiledata } = this.state;
+                                    profiledata.name = e.target.value;
+                                    this.setState({ profiledata });
+                                }}
+                            ></Input>
+                        </FormGroup>
+                    </ModalBody>
+                </Modal>
+                <Table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>Email</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>{studentData}</tbody>
+                </Table>
+            </div>
         );
     }
 }

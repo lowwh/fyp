@@ -9,6 +9,6 @@ class service extends Model
 {
     use HasFactory;
 
-    public $fillable = ['title', 'price', 'description', 'servicetype', 'image'];
+    public $fillable = ['title', 'price', 'description', 'servicetype', 'image_path'];
     public $timestamps = false;
 }

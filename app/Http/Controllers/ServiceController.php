@@ -30,9 +30,19 @@ class ServiceController extends Controller
         // Validate the incoming request data
         $this->validator($request->all())->validate();
 
+        $imagepath = null;
+        if ($request->hasFile('image')) {
+            $imagepath = $request->file('image')->store('images', 'public'); // Save image to 'storage/app/public/images'
+        }
 
-
-        $service = service::create($request->all());
+        //$service = service::create($request->all());
+        $service = Service::create([
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'servicetype' => $request->input('servicetype'),
+            'price' => $request->input('price'),
+            'image_path' => $imagepath,
+        ]);
         $service->user_id = Auth::id();
         $service->save();
 
@@ -50,6 +60,7 @@ class ServiceController extends Controller
             'price' => 'required',
             'description' => 'required',
             'servicetype' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
 
 
         ]);

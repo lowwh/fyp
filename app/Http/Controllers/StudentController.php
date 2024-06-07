@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 //use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
 {
@@ -18,13 +19,29 @@ class StudentController extends Controller
 
         //show using Freelancer.js
         // Fetch all users where the role is 'freelancer'
-        $freelancers = User::where('role', 'freelancer')->get();
+        //  $freelancers = User::where('role', 'freelancer')->get();
 
-        // Return the fetched freelancers
-        return $freelancers;
 
-        // If you want to pass the data to a view, you can uncomment the following line:
-        // return view('operations.managestudent', ['students' => $freelancers]);
+        //   return $freelancers;
+
+
+
+
+        $freelancers = DB::table('users') // Ensure you're using the correct table name here
+            ->leftJoin('services', 'services.user_id', '=', 'users.id')
+            ->select('users.id as main_id', 'services.title', 'services.servicetype', 'users.name', 'users.email', 'users.age', 'users.gender')
+            ->where('users.role', 'freelancer')
+
+            ->get();
+
+        return view('home', ['freelancers' => $freelancers]);
+    }
+
+    public function viewprofile($id)
+    {
+        $user = User::findOrFail($id);
+        return view('operations.viewprofile', ["user" => $user]);
+
     }
 
 
@@ -67,18 +84,18 @@ class StudentController extends Controller
 
     public function show($id)
     {
-        $student = Student::findOrFail($id);
+        $freelancer = User::findOrFail($id);
 
-        return view('operations.showupdate', ['student' => $student]);
+        return view('operations.showfreelancerupdate', ['freelancers' => $freelancer]);
     }
 
     public function update(Request $request)
     {
 
         // return $request ->id;
-        $student = Student::findOrFail($request->id);
+        $freelancer = User::findOrFail($request->id);
         if (Gate::allows('isAdmin')) {
-            $student->update($request->all());
+            $freelancer->update($request->all());
             //  return response()->json(['status'=> 'success']);
             return redirect('/managestudent');
         } else {
@@ -90,10 +107,10 @@ class StudentController extends Controller
 
     public function destroy($id)
     {
-        $post = Student::findOrFail($id);
+        $freelancer = User::findOrFail($id);
         // Check if the user is authorized to delete the result
         if (Gate::allows('isAdmin')) {
-            $post->delete();
+            $freelancer->delete();
             return redirect()->back()->with('success', 'Result deleted successfully.');
         } else {
             // User is not authorized, handle accordingly (e.g., redirect with error)

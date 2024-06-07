@@ -48,6 +48,7 @@
     <!-- Responsive navbar-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
+            <button class="btn btn-primary me-5" onclick="history.back()">Back</button>
             <a class="navbar-brand" href="/">INDEPENDENT CONTRACTOR COMMUNITIES PLATFORM</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -62,8 +63,8 @@
                             <li class="nav-item"><a href="{{ route('login') }}" class="nav-link active">Log in</a></li>
 
                             <!-- @if (Route::has('register'))
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <li class="nav-item"><a href="{{ route('register') }}" class="nav-link active">Register</a></li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @endif -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <li class="nav-item"><a href="{{ route('register') }}" class="nav-link active">Register</a></li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            @endif -->
                         @endauth
                     @endif
                 </ul>
@@ -125,8 +126,10 @@
                         </div>
                     </div>
                 @elseif(isset($error))
-                    <div class="alert alert-danger mt-3" role="alert">
-                        {{ $error }}
+                    <div class="alert alert-danger mt-3" role="alert" style="height: 500px;"> {{ $error }}
+                        <div class="py-5 bg-image-full"
+                            style="background-image: url('images/no_result.gif'); background-size: cover; height: 100vh;">
+                        </div>
                     </div>
                 @endif
             </div>

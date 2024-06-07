@@ -21,13 +21,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::get('/students', [StudentController::class,'index']);
-Route::post('/student', [StudentController::class,'store']);
-Route::put('/students/{id}', [StudentController::class,'update']);
-Route::delete('/student/{id}', [StudentController::class,'destroy']);
+Route::get('/students', [StudentController::class, 'index']);
+Route::post('/student', [StudentController::class, 'store']);
+Route::put('/students/{id}', [StudentController::class, 'update']);
+Route::delete('/student/{id}', [StudentController::class, 'destroy']);
 
-Route::get('/results', [ResultController::class,'index']);
-Route::post('/result', [ResultController::class,'store']);
-Route::put('/results/{id}', [ResultController::class,'update']);
-Route::delete('/results/{id}', [ResultController::class,'destroy']);
+Route::get('/results', [ResultController::class, 'index']);
+Route::post('/result', [ResultController::class, 'store']);
+Route::put('/results/{id}', [ResultController::class, 'update']);
+Route::delete('/results/{id}', [ResultController::class, 'destroy']);
 
+
+Route::get('/profiledata', [StudentController::class, 'profiledata']);

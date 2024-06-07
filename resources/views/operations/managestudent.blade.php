@@ -26,6 +26,7 @@
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
+                                        <th>Profile Picture</th>
                                         <th>Name</th>
                                         <th>Gender</th>
                                         <th>Age</th>
@@ -40,6 +41,15 @@
                                 <tbody>
                                     @foreach($students as $stu)
                                         <tr>
+                                            <td> <div class="col-md-8">
+                                                        @if($stu->image_path)
+                                                            <div>
+                                                                <img src="{{ asset('storage/' . $stu->image_path) }}" alt="Service Image"
+                                                                    style="max-width: 200px; height: auto;">
+                                                            </div>
+                                                        @endif
+                                                        
+                                                    </div></td>
                                             <td>{{$stu['name']}}</td>
                                             <td>{{$stu['gender']}}</td>
                                             <td>{{$stu['age']}}</td>
