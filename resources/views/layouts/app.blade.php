@@ -35,7 +35,33 @@
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/summernote/summernote-bs4.min.css') }}">
 
+    <style>
+        .star-rating {
+            display: flex;
+            /* Arrange stars horizontally */
+            flex-direction: row-reverse;
+            /* Reverse order to position the first star on the right */
+        }
 
+        .star-rating input {
+            display: none;
+            /* Hide the radio buttons */
+        }
+
+        .star-rating label {
+            font-size: 20px;
+            cursor: pointer;
+            color: lightgray;
+            /* Initial star color */
+        }
+
+        .star-rating input:checked~label,
+        .star-rating label:hover,
+        .star-rating label:hover~label {
+            color: gold;
+            /* Change star color when checked or hovered */
+        }
+    </style>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">

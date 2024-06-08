@@ -7,8 +7,8 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-left">
-                        <li class="breadcrumb-item"><i class="nav-icon fas fa-user-graduate"></i> Result </li>
-                        <li class="breadcrumb-item active"><i class="fas fa-user-friends nav-iconn"></i> Manage Result
+                        <li class="breadcrumb-item"><i class="nav-icon fas fa-cog  "></i> Progress </li>
+                        <li class="breadcrumb-item active"><i class="fas fa-sync  nav-iconn"></i> Manage Progress
                         </li>
                     </ol>
                 </div>
@@ -24,75 +24,79 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Student ID</th>
+                                    <th>Freelancer ID</th>
                                     <th>Name</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @php
-                                    $previousStudentId = null;
-                                @endphp
-                                @php
-                                    $uniqueStudentIds = []; // Array to store unique student IDs
+                                    $previousFreelancerId = null;
+                                    $uniqueFreelancerIds = [];
                                 @endphp
 
                                 @foreach ($results as $result)
-                                                            @if (!in_array($result->student_id, $uniqueStudentIds))
-                                                                                        <!-- Check if student ID is not already processed -->
+                                                            @if (!in_array($result->freelancer_id, $uniqueFreelancerIds))
                                                                                         @php
-                                                                                            $uniqueStudentIds[] = $result->student_id; // Add student ID to the array of unique student IDs
+                                                                                            $uniqueFreelancerIds[] = $result->freelancer_id;
                                                                                         @endphp
                                                                                         <tr>
-                                                                                            <td>{{ $result->id }}</td>
-                                                                                            <td>{{ $result->student_id }}</td>
+
+                                                                                            <td>{{ $result->freelancer_id }}</td>
                                                                                             <td>{{ $result->name }}</td>
                                                                                             <td>
                                                                                                 <button class="btn btn-info show-more"
-                                                                                                    data-student-id="{{ $result->student_id }}">Show More</button>
+                                                                                                    data-student-id="{{ $result->freelancer_id }}">Show More</button>
                                                                                             </td>
                                                                                         </tr>
-                                                                                        <tr class="additional-row d-none" data-student-id="{{ $result->student_id }}">
+                                                                                        <tr class="additional-row d-none" data-student-id="{{ $result->freelancer_id }}">
                                                                                             <td colspan="4">
                                                                                                 <table class="table table-bordered">
                                                                                                     <thead>
                                                                                                         <tr>
-                                                                                                            <th>ID</th>
-                                                                                                            <th>Course</th>
-                                                                                                            <th>Result Score</th>
-                                                                                                            <th>Actions</th> <!-- New column for actions -->
+                                                                                                            <th>Gig Id</th>
+                                                                                                            <th>Progress Bar</th>
+                                                                                                            @can('isFreelancer')
+                                                                                                                <th>Actions</th>
+                                                                                                            @endcan
                                                                                                         </tr>
                                                                                                     </thead>
                                                                                                     <tbody>
                                                                                                         @foreach ($results as $innerResult)
-                                                                                                            @if ($innerResult->student_id === $result->student_id)
+                                                                                                            @if ($innerResult->freelancer_id === $result->freelancer_id)
                                                                                                                 <tr>
-                                                                                                                    <td>{{ $innerResult->id }}</td>
-                                                                                                                    <td>{{ $innerResult->course }}</td>
+                                                                                                                    <td>{{ $innerResult->gig_id }}</td>
                                                                                                                     <td>
-                                                                                                                        <span
-                                                                                                                            class="result-score">{{ $innerResult->result_score }}</span>
-                                                                                                                        <!-- Display result score -->
+                                                                                                                        <div class="progress">
+                                                                                                                            <div class="progress-bar" role="progressbar"
+                                                                                                                                style="width: {{ $innerResult->progress }}%;"
+                                                                                                                                aria-valuenow="{{ $innerResult->progress }}"
+                                                                                                                                aria-valuemin="0" aria-valuemax="100">
+                                                                                                                                {{ $innerResult->progress }}%
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                        <span class="result-score"></span>
                                                                                                                         <form class="update-form d-none"
                                                                                                                             action="{{ route('result.update', $innerResult->id) }}"
                                                                                                                             method="POST" style="display: inline;">
                                                                                                                             @csrf
-                                                                                                                            <input type="text" name="result_score"
-                                                                                                                                value="{{ $innerResult->result_score }}">
+                                                                                                                            <input type="text" name="progress"
+                                                                                                                                value="{{ $innerResult->progress }}">
                                                                                                                             <button type="submit" class="btn btn-primary">Save</button>
                                                                                                                         </form>
                                                                                                                     </td>
                                                                                                                     <td>
-                                                                                                                        <button class="btn btn-primary update-btn">Update</button>
-                                                                                                                        <!-- Update button -->
+                                                                                                                        @can('isFreelancer')
+                                                                                                                            <button class="btn btn-primary update-btn">Update</button>
+                                                                                                                        @endcan
                                                                                                                         <form class="delete-form"
                                                                                                                             action="{{ route('result.delete', $innerResult->id) }}"
                                                                                                                             method="GET" style="display: inline;">
                                                                                                                             @csrf
-                                                                                                                            <button type="submit"
-                                                                                                                                class="btn btn-danger btn-sm">Delete</button>
-                                                                                                                            <!-- Delete button -->
+                                                                                                                            @can('isFreelancer')
+                                                                                                                                <button type="submit"
+                                                                                                                                    class="btn btn-danger btn-sm">Delete</button>
+                                                                                                                            @endcan
                                                                                                                         </form>
                                                                                                                     </td>
                                                                                                                 </tr>
@@ -104,7 +108,6 @@
                                                                                         </tr>
                                                             @endif
                                 @endforeach
-
                             </tbody>
                         </table>
                     </div>
@@ -116,7 +119,6 @@
 
 <!-- JavaScript for handling show more functionality -->
 <script>
-    // Wait for the document to be ready
     document.addEventListener('DOMContentLoaded', function () {
         // Attach click event listener to show more buttons
         document.querySelectorAll('.show-more').forEach(function (button) {
@@ -143,7 +145,7 @@
         document.querySelectorAll('.update-btn').forEach(function (button) {
             button.addEventListener('click', function () {
                 var row = this.closest('tr');
-                row.querySelector('.result-score').classList.add('d-none'); // Hide result score
+                row.querySelector('.progress').classList.add('d-none'); // Hide result score
                 row.querySelector('.update-form').classList.remove('d-none'); // Show update form
             });
         });

@@ -20,45 +20,50 @@
       <div id="notice"></div>
       <div class="card">
         <div class="card-header">
-          <div class="row justify-content-center"> 
-            <div class="col-md-6"> 
+          <div class="row justify-content-center">
+            <div class="col-md-6">
               <form method="post" action="addResult">
                 @csrf
                 @if ($errors->any())
-                <div class="alert alert-danger">
-                  <ul>
-                    @foreach ($errors->all() as $error)
-                      <li>{{ $error }}</li>
-                    @endforeach
-                  </ul>
-                </div>
-                @endif
+          <div class="alert alert-danger">
+            <ul>
+            @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+      @endforeach
+            </ul>
+          </div>
+        @endif
                 <div class="mb-3">
-                  <label for="selectStudentId" class="form-label">Select Student ID</label>
-                  <select name="selectStudentId" id="selectStudentId" class="form-control">
-                    <option value="">Select Student ID</option>
-                    @foreach($students as $student)
-                    <option value="{{ $student->student_id }}">{{ $student->student_id }}</option>
-                    @endforeach
+                  <label for="gigId" class="form-label">Gig ID</label>
+                  <input type="text" name="gigId" id="gigId" class="form-control">
+                  <span style="color:red">@error('gigId'){{ $message }}@enderror</span><br>
+                </div>
+                <div class="mb-3">
+                  <label for="selectFreelancerId" class="form-label">Select Freelancer ID</label>
+                  <select name="selectFreelancerId" id="selectFreelancerId" class="form-control">
+                    <option value="">Select Freelancer ID</option>
+                    @foreach($freelancers as $freelancer)
+            <option value="{{ $freelancer->freelancer_id }}">{{ $freelancer->freelancer_id }}</option>
+          @endforeach
                   </select>
-                  <span style="color:red">@error('selectStudentId'){{ $message }}@enderror</span><br>
+                  <span style="color:red">@error('selectFreelancerId'){{ $message }}@enderror</span><br>
                 </div>
                 <div class="mb-3">
                   <label for="selectCourse" class="form-label">Select Course</label>
                   <select name="selectCourse" id="selectCourse" class="form-control">
                     <option value="">Select Course</option>
                     @foreach($coursesOptions as $course)
-                    <option value="{{ $course }}">{{ $course }}</option>
-                    @endforeach
+            <option value="{{ $course }}">{{ $course }}</option>
+          @endforeach
                   </select>
                   <span style="color:red">@error('selectCourse'){{ $message }}@enderror</span><br>
                 </div>
                 <div class="mb-3">
-                    <label for="resultScore" class="form-label">Result Score</label>
-                    <input type="text" name="result_score" id="resultScore" class="form-control">
-                    <span style="color:red">@error('result_score'){{ $message }}@enderror</span><br>
+                  <label for="progress" class="form-label">Progress</label>
+                  <input type="text" name="progress" id="progress" class="form-control">
+                  <span style="color:red">@error('progress'){{ $message }}@enderror</span><br>
                 </div>
-                <div class="text-center"> 
+                <div class="text-center">
                   <button type="submit" class="btn btn-primary">Add</button>
                 </div>
               </form>

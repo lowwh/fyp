@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\user;
 use App\Models\Result;
 use App\Models\Student;
 use App\Models\service;
@@ -16,8 +17,8 @@ class ResultController extends Controller
     {
         try {
             // Fetch all results joined with student names
-            $results = Result::leftJoin('students', 'results.student_id', '=', 'students.student_id')
-                ->select('results.*', 'students.name')
+            $results = Result::leftJoin('users', 'results.freelancer_id', '=', 'users.freelancer_id')
+                ->select('results.*', 'users.name')
                 ->get();
 
             // Pass the results data to the view
@@ -31,36 +32,41 @@ class ResultController extends Controller
 
     public function showAddResultForm()
     {
-        $students = Student::all(); // Fetch all students from the database
+        $freelancers = user::all(); // Fetch all students from the database
         $coursesOptions = ["Chemistry", "Mathematics", "Fundamentals of Programming", "Project Management"]; // Example courses options, replace with your actual data
 
-        return view("operations.addresult", compact('students', 'coursesOptions'));
+        return view("operations.addresult", compact('freelancers', 'coursesOptions'));
     }
 
     public function store(Request $request)
     {
         // Validate the request data
         $validatedData = $request->validate([
-            'selectStudentId' => 'required',
+            'selectFreelancerId' => 'required',
             'selectCourse' => 'required|string',
-            'result_score' => 'required|numeric',
+            'progress' => 'required',
+            'gigId' => 'required',
+
+
+
         ]);
 
         // Find existing result based on student ID and course
-        $existingResult = Result::where('student_id', $validatedData['selectStudentId'])
-            ->where('course', $validatedData['selectCourse'])
+        $existingResult = Result::where('freelancer_id', $validatedData['selectFreelancerId'])
+            ->where('gig_id', $validatedData['gigId'])
             ->first();
 
         if ($existingResult) {
             // If result exists, return back with error message
-            return redirect()->back()->withInput()->withErrors(['error' => 'Student ID with the course score already exists. Please try again.']);
+            return redirect()->back()->withInput()->withErrors(['error' => 'Freelancer ID with the Gig Id  already exists. Please try again.']);
         }
 
         // Create new result if no existing result found
         $result = new Result();
-        $result->student_id = $validatedData['selectStudentId'];
+        $result->freelancer_id = $validatedData['selectFreelancerId'];
         $result->course = $validatedData['selectCourse'];
-        $result->result_score = $validatedData['result_score'];
+        $result->progress = $validatedData['progress'];
+        $result->gig_id = $validatedData['gigId'];
         $result->save();
 
         return redirect()->back()->with('success', 'Result added successfully');
@@ -104,7 +110,7 @@ class ResultController extends Controller
     public function update(Request $request, $id)
     {
         $result = Result::findOrFail($id);
-        $result->result_score = $request->input('result_score');
+        $result->progress = $request->input('progress');
         $result->save();
 
         return redirect('/manageresult');

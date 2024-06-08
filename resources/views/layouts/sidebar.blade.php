@@ -39,31 +39,31 @@
         </li>
 
 
-
+        @can('isAdmin')
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+        <i class="fas fa-user nav-icon"></i>
+        <p>
+          Freelancer
+          <i class="right fas fa-angle-left"></i>
+        </p>
+        </a>
+        <ul class="nav nav-treeview">
         <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="fas fa-user nav-icon"></i>
-            <p>
-              Freelancer
-              <i class="right fas fa-angle-left"></i>
-            </p>
+          <a href="addstudent" class="nav-link">
+          <i class="fas fa-folder-plus nav-icon"></i>
+          <p>Add Freelancer</p>
           </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="addstudent" class="nav-link">
-                <i class="fas fa-folder-plus nav-icon"></i>
-                <p>Add Freelancer</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="managestudent" class="nav-link">
-                <i class="fas fa-tasks nav-icon"></i>
-                <p>Manage freelancers</p>
-              </a>
-            </li>
-          </ul>
         </li>
-
+        <li class="nav-item">
+          <a href="managestudent" class="nav-link">
+          <i class="fas fa-tasks nav-icon"></i>
+          <p>Manage freelancers</p>
+          </a>
+        </li>
+        </ul>
+      </li>
+    @endcan
 
 
 
@@ -94,23 +94,28 @@
 
         <li class="nav-item">
           <a href="#" class="nav-link">
-            <i class="fas fa-award nav-icon"></i>
+            <i class="fas fa-hourglass   nav-icon"></i>
             <p>
-              Result
+              Progress
               <i class="fas fa-angle-left right"></i>
             </p>
           </a>
+
           <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="addresult" class="nav-link">
-                <i class="fas fa-folder-plus nav-icon"></i>
-                <p>Add Result</p>
-              </a>
-            </li>
+            @can('isFreelancer')
+        <li class="nav-item">
+
+          <a href="addresult" class="nav-link">
+          <i class="fas fa-folder-plus nav-icon"></i>
+          <p>Add Progress</p>
+          </a>
+
+        </li>
+      @endcan
             <li class="nav-item">
               <a href="manageresult" class="nav-link">
                 <i class="fas fa-tasks nav-icon"></i>
-                <p>Manage Result</p>
+                <p>Manage/Check Progress</p>
               </a>
             </li>
           </ul>

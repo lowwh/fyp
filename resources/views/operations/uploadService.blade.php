@@ -53,14 +53,16 @@
                                     <span style="color:red">@error('price'){{$message}}@enderror</span><br>
                                 </div>
 
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-primary">Add</button>
-                                </div>
+
 
                                 <div class="mb-3">
                                     <label for="image" class="form-label">Service Image: </label>
                                     <input type="file" name="image" id="image" class="form-control"><br>
                                     <span style="color:red">@error('image'){{$message}}@enderror</span><br>
+                                </div>
+
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary">Add</button>
                                 </div>
 
                             </form>

@@ -33,7 +33,16 @@
                                 <div class="col-md-4 mb-4">
                                     <div class="card" style="width: 100%;">
                                         <div class="card-body d-flex flex-column justify-content-between">
+                                            @if($freelancer->image_path)
+                                                <div>
+                                                    <img src="{{ asset('storage/' . $freelancer->image_path) }}"
+                                                        alt="Service Image" style="max-width: 200px; height: auto;">
+                                                </div>
+                                            @endif
                                             <h5 class="card-title"><strong>{{ $freelancer->name }}</strong></h5><br>
+                                            <p class="card-text"><strong>Freelancer ID:</strong>
+                                                {{ $freelancer->freelancer_id }}
+                                            </p>
                                             <p class="card-text"><strong>Email:</strong> {{ $freelancer->email }}</p>
                                             <p class="card-text"><strong>Age:</strong> {{ $freelancer->age }}</p>
                                             <p class="card-text"><strong>Gender:</strong> {{ $freelancer->gender }}</p>

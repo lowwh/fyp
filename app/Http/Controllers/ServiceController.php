@@ -42,12 +42,13 @@ class ServiceController extends Controller
             'servicetype' => $request->input('servicetype'),
             'price' => $request->input('price'),
             'image_path' => $imagepath,
+
         ]);
         $service->user_id = Auth::id();
         $service->save();
 
 
-        return redirect('/uploadService');
+        return redirect('/manageService');
 
 
     }

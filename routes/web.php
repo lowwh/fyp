@@ -84,7 +84,7 @@ Route::middleware('auth')->group(function () {
     Route::view('/uploadService', 'uploadService');
     Route::get('/uploadService', [ServiceController::class, 'index']);
     Route::post('/upload', [ServiceController::class, 'store']);
-    //Route::view('/manageService', '/operations/manageService');
+    Route::view('/manageService', '/operations/manageService');
     Route::get('/manageService', [ServiceController::class, 'show']);
     Route::get('/manageService/{id}', [ServiceController::class, 'showupdate']);
     Route::post('/manageService/{id}', [ServiceController::class, 'edit']);
