@@ -58,7 +58,9 @@
                                                 {{ $freelancer->servicetype }}
                                             </p>
                                             <a href="/viewprofile/{{$freelancer->main_id}}"
-                                                class="btn btn-primary mt-auto">View Profile</a>
+                                                class="btn btn-primary mt-auto">View Profile</a><br>
+                                            <a href="/viewservice/{{$freelancer->main_id}}"
+                                                class="btn btn-secondary mt-auto">View Service</a>
                                         </div>
                                     </div>
                                 </div>

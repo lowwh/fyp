@@ -35,6 +35,11 @@ class ProfileController extends Controller
 
         $user = User::findOrFail($request->id);
         // Check if the request has an image file
+
+        $user->name = $request->name;
+        $user->age = $request->age;
+        $user->email = $request->email;
+        $user->save();
         if ($request->hasFile('image')) {
             // Store the new image and get its path
             $imagepath = $request->file('image')->store('images', 'public');
@@ -47,7 +52,7 @@ class ProfileController extends Controller
 
             return redirect('/manageprofile');
         } else {
-            return "No image file found in the request.";
+            return redirect('/manageprofile');
         }
     }
 

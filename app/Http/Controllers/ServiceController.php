@@ -112,5 +112,13 @@ class ServiceController extends Controller
     }
 
 
+    public function destroy(Request $request)
+    {
+        $service = service::findOrFail($request->id);
+        $service->delete();
+        return redirect('/manageService');
+    }
+
+
 
 }

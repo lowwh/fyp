@@ -13,6 +13,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HistoryController;
 use Illuminate\Auth\Events\Registered;
+use App\Http\Controllers\EmailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +31,7 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
+Route::post('/send-email/{id}', [EmailController::class, 'sendEmail'])->name('send.email');
 
 //Result
 //Check result
@@ -52,6 +53,8 @@ Route::middleware('auth')->group(function () {
     // Routes accessible to authenticated users only
     Route::get('/home', [App\Http\Controllers\StudentController::class, 'index'])->name('home');
     Route::get('/viewprofile/{id}', [StudentController::class, 'viewprofile']);
+    Route::get('/viewservice/{id}', [StudentController::class, 'viewservice']);
+
 
     //view addresults
     Route::view('addresult', '/operations/addresult');
@@ -89,6 +92,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/manageService', [ServiceController::class, 'show']);
     Route::get('/manageService/{id}', [ServiceController::class, 'showupdate']);
     Route::post('/manageService/{id}', [ServiceController::class, 'edit']);
+    Route::post('/manageService/{id}', [ServiceController::class, 'destroy']);
 
 
     Route::view('/manageprofile', 'operations.manageprofile');

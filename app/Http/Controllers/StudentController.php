@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use App\Models\User;
+use App\Models\service;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -31,6 +32,8 @@ class StudentController extends Controller
             ->leftJoin('services', 'services.user_id', '=', 'users.id')
             ->select('users.id as main_id', 'services.id as serviceid', 'services.title', 'services.servicetype', 'services.image_path as serviceimage', 'users.name', 'users.email', 'users.age', 'users.gender', 'users.image_path', 'users.freelancer_id')
             ->where('users.role', 'freelancer')
+            ->whereNotNull('services.title')
+            ->whereNotNull('services.description')
 
             ->get();
 
@@ -43,6 +46,19 @@ class StudentController extends Controller
         return view('operations.viewprofile', ["user" => $user]);
 
     }
+
+    public function viewservice($id)
+    {
+        $users = User::leftJoin('services', 'users.id', '=', 'services.user_id')
+
+            ->select('users.*', 'services.title', 'users.image_path as userimage', 'services.image_path as serviceimage')
+            ->where('services.user_id', $id)
+            ->get();
+
+        return view('operations.viewservice', compact('users'));
+    }
+
+
 
 
 
