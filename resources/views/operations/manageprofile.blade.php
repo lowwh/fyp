@@ -66,6 +66,10 @@
                                                             <form method="get" action="/uploadphoto/{{$user->id}}">
                                                                 <button type="submit" class="btn btn-primary">Upload</button>
                                                             </form>
+                                                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                                data-target="#updateModal{{ $user->id }}">
+                                                                Edit
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -139,45 +143,79 @@
         <div class="tab-content mt-3" id="profileTabContent">
             <!-- BIO Tab -->
             <div class="tab-pane fade show active" id="bio" role="tabpanel" aria-labelledby="bio-tab">
-                <div class="row mb-3">
-                    <label for="name" class="col-md-4 col-form-label text-md-end">User Name:</label>
-                    <div class="col-md-6">
-                        <p id="name">{{ $user->name }}</p>
+
+                <label for="image" class="col-md-4 col-form-label text-md-end">Profile Picture:</label>
+                <div class="col-md-8">
+                    @if($user->image_path)
+                        <div>
+                            <img src="{{ asset('storage/' . $user->image_path) }}" alt="Service Image"
+                                style="max-width: 200px; height: auto;">
+                        </div>
+
+                    @endif
+                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                        data-target="#updateModal{{ $user->id }}">
+                        Edit
+                    </button>
+                    <div class="row mb-3">
+                        <label for="name" class="col-md-4 col-form-label text-md-end">User Name:</label>
+                        <div class="col-md-6">
+                            <p id="name">{{ $user->name }}</p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="age" class="col-md-4 col-form-label text-md-end">User Age:</label>
+                        <div class="col-md-6">
+                            <p id="age">{{ $user->age }}</p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="gender" class="col-md-4 col-form-label text-md-end">Gender
+                            :</label>
+                        <div class="col-md-6">
+                            <p id="gender">{{ $user->gender }}</p>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="email" class="col-md-4 col-form-label text-md-end">Email
+                            :</label>
+                        <div class="col-md-6">
+                            <p id="email">{{ $user->email }}</p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="row mb-3">
-                    <label for="age" class="col-md-4 col-form-label text-md-end">User Age:</label>
-                    <div class="col-md-6">
-                        <p id="age">{{ $user->age }}</p>
-                    </div>
-                </div>
 
-                <div class="row mb-3">
-                    <label for="gender" class="col-md-4 col-form-label text-md-end">Gender
-                        :</label>
-                    <div class="col-md-6">
-                        <p id="gender">{{ $user->gender }}</p>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="email" class="col-md-4 col-form-label text-md-end">Email
-                        :</label>
-                    <div class="col-md-6">
-                        <p id="email">{{ $user->email }}</p>
-                    </div>
+
+                <!-- Review Tab -->
+                <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+                    <p>Review content goes here.</p>
                 </div>
             </div>
-
-
-
-            <!-- Review Tab -->
-            <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
-                <p>Review content goes here.</p>
+    @endcan
+        <div class="modal fade" id="updateModal{{ $user->id }}" tabindex="-1" role="dialog"
+            aria-labelledby="updateModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateModalLabel">Update Profile Image</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="post" enctype="multipart/form-data" action="/uploadphoto/{{$user['id']}}">
+                        @csrf
+                        <label for="image" class="form-label">Profile Image: </label>
+                        <input type="file" name="image" id="image" class="form-control"><br>
+                        <span style="color:red">@error('image'){{$message}}@enderror</span><br>
+                        <button type="submit" class="btn btn-primary">upload</button>
+                    </form>
+                </div>
             </div>
         </div>
-    @endcan
 
 
-</div>
-@endsection
+    </div>
+    @endsection

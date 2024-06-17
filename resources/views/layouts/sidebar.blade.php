@@ -65,31 +65,34 @@
       </li>
     @endcan
 
+        @canany(['isFreelancer', 'isAdmin'])
 
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+        <i class="fas fa-upload nav-icon"></i>
+        <p>
+          Upload
+          <i class="right fas fa-angle-left"></i>
+        </p>
+        </a>
+        <ul class="nav nav-treeview">
 
         <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="fas fa-upload nav-icon"></i>
-            <p>
-              Upload
-              <i class="right fas fa-angle-left"></i>
-            </p>
+          <a href="/uploadService" class="nav-link">
+          <i class="fas fa-folder-plus nav-icon"></i>
+          <p>Upload Service</p>
           </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="/uploadService" class="nav-link">
-                <i class="fas fa-folder-plus nav-icon"></i>
-                <p>Upload Service</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/manageService" class="nav-link">
-                <i class="fas fa-tasks nav-icon"></i>
-                <p>Manage Service</p>
-              </a>
-            </li>
-          </ul>
         </li>
+
+        <li class="nav-item">
+          <a href="/manageService" class="nav-link">
+          <i class="fas fa-tasks nav-icon"></i>
+          <p>Manage Service</p>
+          </a>
+        </li>
+        </ul>
+      </li>
+    @endcanany
 
 
         <li class="nav-item">
@@ -121,27 +124,14 @@
           </ul>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="fas fa-user-check nav-icon"></i>
+          <a href="/history" class="nav-link">
+            <i class="fas fa-history nav-icon"></i>
             <p>
-              Attendence
+              History Service
               <i class="fas fa-angle-left right"></i>
             </p>
           </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="addattendance" class="nav-link">
-                <i class="fas fa-calendar-check nav-icon"></i>
-                <p>Add Attendence</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="manageattendance" class="nav-link">
-                <i class="fas fa-tasks nav-icon"></i>
-                <p>Manage Attendence</p>
-              </a>
-            </li>
-          </ul>
+
         </li>
 
         @can('isAdmin')

@@ -21,7 +21,13 @@ class ServiceController extends Controller
 
     public function show()
     {
-        $service = service::all();
+        //$service = service::all();
+        $service = service::leftJoin('users', 'users.id', '=', 'services.user_id')
+
+            ->select('services.*', 'users.image_path as userimage')
+
+            ->get();
+
         return view('operations.manageService', ['service' => $service]);
     }
 
@@ -75,14 +81,36 @@ class ServiceController extends Controller
 
     public function edit(Request $req)
     {
-        $update = service::findOrFail($req->id);
+        // Find the service by ID or fail
+        $update = Service::findOrFail($req->id);
+
+        // Update the basic fields
         $update->title = $req->title;
         $update->price = $req->price;
         $update->description = $req->description;
         $update->servicetype = $req->servicetype;
+
+        if ($req->hasFile('image')) {
+            // Store the new image and get its path
+            $imagepath = $req->file('image')->store('images', 'public');
+
+            // Update the user's image_path
+            $update->image_path = $imagepath;
+
+            // Save the changes to the user
+
+
+
+
+        }
+
+        // Save the changes to the service
         $update->save();
+
+        // Redirect back to the manage service page
         return redirect("/manageService");
     }
+
 
 
 }

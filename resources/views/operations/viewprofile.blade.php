@@ -48,6 +48,14 @@
                     <div class="tab-content mt-3" id="profileTabContent">
                         <!-- BIO Tab -->
                         <div class="tab-pane fade show active" id="bio" role="tabpanel" aria-labelledby="bio-tab">
+
+                            <div class="row mb-3">
+                                <label for="freelancerid" class="col-md-4 col-form-label text-md-end">Freelancer
+                                    ID:</label>
+                                <div class="col-md-6">
+                                    <p id="freelancerid">{{ $user->freelancer_id }}</p>
+                                </div>
+                            </div>
                             <div class="row mb-3">
                                 <label for="name" class="col-md-4 col-form-label text-md-end">Freelancer Name:</label>
                                 <div class="col-md-6">
@@ -55,21 +63,29 @@
                                 </div>
                             </div>
 
+
                             <div class="row mb-3">
-                                <label for="servicetype" class="col-md-4 col-form-label text-md-end">Service
-                                    Type:</label>
+                                <label for="age" class="col-md-4 col-form-label text-md-end">Age:</label>
                                 <div class="col-md-6">
-                                    <p id="servicetype">{{ $user->servicetype }}</p>
+                                    <p id="age">{{ $user->age }}</p>
                                 </div>
                             </div>
 
                             <div class="row mb-3">
-                                <label for="description" class="col-md-4 col-form-label text-md-end">Service
-                                    Description:</label>
+                                <label for="gender" class="col-md-4 col-form-label text-md-end">Gender:</label>
                                 <div class="col-md-6">
-                                    <p id="description">{{ $user->description }}</p>
+                                    <p id="gender">{{ $user->gender }}</p>
                                 </div>
                             </div>
+
+                            <div class="row mb-3">
+                                <label for="email" class="col-md-4 col-form-label text-md-end">Email:</label>
+                                <div class="col-md-6">
+                                    <p id="email">{{ $user->email }}</p>
+                                </div>
+                            </div>
+
+
                         </div>
 
                         <!-- Project Tab -->
@@ -83,11 +99,7 @@
                         </div>
                     </div>
 
-                    <div class="row mb-0 mt-3">
-                        <div class="col-md-8 offset-md-4">
-                            <a href="{{ route('edit.profile') }}" class="btn btn-primary">Edit Profile</a>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>

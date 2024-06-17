@@ -98,6 +98,16 @@
                                                                                                                                     class="btn btn-danger btn-sm">Delete</button>
                                                                                                                             @endcan
                                                                                                                         </form>
+                                                                                                                        @can('isUser')
+                                                                                                                            @if($innerResult->progress == 100.00)
+                                                                                                                                <form action="/historygig/{{$result->serviceid}}" method="get">
+                                                                                                                                    <button type="submit"
+                                                                                                                                        class="btn btn-success btn-sm">Done</button>
+                                                                                                                                </form>
+
+                                                                                                                            @endif
+                                                                                                                        @endcan
+
                                                                                                                     </td>
                                                                                                                 </tr>
                                                                                                             @endif

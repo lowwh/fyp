@@ -18,7 +18,8 @@ class ResultController extends Controller
         try {
             // Fetch all results joined with student names
             $results = Result::leftJoin('users', 'results.freelancer_id', '=', 'users.freelancer_id')
-                ->select('results.*', 'users.name')
+                ->leftJoin('services', 'results.gig_id', '=', 'services.id')
+                ->select('results.*', 'users.name', 'services.id as serviceid', )
                 ->get();
 
             // Pass the results data to the view
@@ -33,9 +34,9 @@ class ResultController extends Controller
     public function showAddResultForm()
     {
         $freelancers = user::all(); // Fetch all students from the database
-        $coursesOptions = ["Chemistry", "Mathematics", "Fundamentals of Programming", "Project Management"]; // Example courses options, replace with your actual data
+        // $coursesOptions = ["Chemistry", "Mathematics", "Fundamentals of Programming", "Project Management"]; // Example courses options, replace with your actual data
 
-        return view("operations.addresult", compact('freelancers', 'coursesOptions'));
+        return view("operations.addresult", compact('freelancers'));
     }
 
     public function store(Request $request)
@@ -43,7 +44,7 @@ class ResultController extends Controller
         // Validate the request data
         $validatedData = $request->validate([
             'selectFreelancerId' => 'required',
-            'selectCourse' => 'required|string',
+            //'selectCourse' => 'required|string',
             'progress' => 'required',
             'gigId' => 'required',
 
@@ -64,7 +65,7 @@ class ResultController extends Controller
         // Create new result if no existing result found
         $result = new Result();
         $result->freelancer_id = $validatedData['selectFreelancerId'];
-        $result->course = $validatedData['selectCourse'];
+        // $result->course = $validatedData['selectCourse'];
         $result->progress = $validatedData['progress'];
         $result->gig_id = $validatedData['gigId'];
         $result->save();

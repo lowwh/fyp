@@ -30,50 +30,55 @@
                         </thead>
                         <tbody>
                             @foreach($attendances as $attendance)
-                            <tr>
-                                <td>{{ $attendance->student_id }}</td>
-                                <td>{{ $attendance->name }}</td>
-                                <td>{{ $attendance->attendance }}</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#updateModal{{ $attendance->id }}">
-                                        Edit
-                                    </button>
-                                    @can('isAdmin')
-                                    <form method="post" action="{{ '/delete/' . $attendance->id }}" style="display: inline-block;">
-                                        @csrf
-                                        @method('POST')
-                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                    </form>
-                                    @endcan
-                                </td>
-                            </tr>
-                            <!-- Update Modal -->
-                            <div class="modal fade" id="updateModal{{ $attendance->id }}" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="updateModalLabel">Update Attendance</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <form method="post" action="{{ route('attendance.update', $attendance->id) }}">
-                                            @csrf
-                                            @method('PUT')
-                                            <div class="modal-body">
-                                                <div class="form-group">
-                                                    <label for="attendance">Attendance</label>
-                                                    <input type="text" name="attendance" class="form-control" id="attendance" value="{{ $attendance->attendance }}">
+                                <tr>
+                                    <td>{{ $attendance->student_id }}</td>
+                                    <td>{{ $attendance->name }}</td>
+                                    <td>{{ $attendance->attendance }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal"
+                                            data-target="#updateModal{{ $attendance->id }}">
+                                            Edit
+                                        </button>
+                                        @can('isAdmin')
+                                            <form method="post" action="{{ '/delete/' . $attendance->id }}"
+                                                style="display: inline-block;">
+                                                @csrf
+                                                @method('POST')
+                                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                            </form>
+                                        @endcan
+                                    </td>
+                                </tr>
+                                <!-- Update Modal -->
+                                <div class="modal fade" id="updateModal{{ $attendance->id }}" tabindex="-1" role="dialog"
+                                    aria-labelledby="updateModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="updateModalLabel">Update Attendance</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <form method="post" action="{{ route('attendance.update', $attendance->id) }}">
+                                                @csrf
+                                                @method('PUT')
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <label for="attendance">Attendance</label>
+                                                        <input type="text" name="attendance" class="form-control"
+                                                            id="attendance" value="{{ $attendance->attendance }}">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Save Changes</button>
-                                            </div>
-                                        </form>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             @endforeach
                         </tbody>
                     </table>

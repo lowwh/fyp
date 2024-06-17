@@ -22,13 +22,20 @@
         <div class="card-header">
           <div class="row justify-content-center"> <!-- Center the form horizontally -->
             <div class="col-md-6"> <!-- Set the width of the form -->
-              <form method="post" action="/manageService/{id}">
+              <form method="post" enctype="multipart/form-data" action="/manageService/{id}">
                 @csrf
                 <div class="mb-3">
 
                   <input type="hidden" name="id" id="id" class="form-control" value="{{$update['id']}}"><br>
 
                 </div>
+
+                <div class="mb-3">
+                  <label for="image" class="form-label">Service Image: </label>
+                  <input type="file" name="image" id="image" class="form-control" value="{{$update['image_path']}}"><br>
+
+                </div>
+
                 <div class="mb-3">
                   <label for="title" class="form-label">Title: </label>
                   <input type="text" name="title" id="title" class="form-control" value="{{$update['title']}}"><br>

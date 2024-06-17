@@ -29,7 +29,7 @@ class StudentController extends Controller
 
         $freelancers = DB::table('users') // Ensure you're using the correct table name here
             ->leftJoin('services', 'services.user_id', '=', 'users.id')
-            ->select('users.id as main_id', 'services.title', 'services.servicetype', 'users.name', 'users.email', 'users.age', 'users.gender', 'users.image_path', 'users.freelancer_id')
+            ->select('users.id as main_id', 'services.id as serviceid', 'services.title', 'services.servicetype', 'services.image_path as serviceimage', 'users.name', 'users.email', 'users.age', 'users.gender', 'users.image_path', 'users.freelancer_id')
             ->where('users.role', 'freelancer')
 
             ->get();

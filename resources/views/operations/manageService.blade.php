@@ -29,6 +29,15 @@
                                                 style="max-width: 200px; height: auto;">
                                         </div>
                                     @endif
+                                    <br>
+                                    @if($ser->userimage)
+                                        <div>
+                                            <h5 class="card-title"></h5>
+                                            <img src="{{ asset('storage/' . $ser->userimage) }}" alt="Service Image"
+                                                class="rounded-circle" style="width: 50px; height: 50px;"
+                                                style="max-width: 200px; height: auto; ">
+                                        </div>
+                                    @endif
                                     <h5 class="card-title" style="display: inline;">Gig Id:</h5>
                                     <p style="display: inline; margin-left: 20px;">{{$ser['id']}}</p><br>
                                     <h5 class="card-title" style="display: inline;">Description:</h5>
@@ -45,6 +54,10 @@
                                             Edit
                                         </button>
                                     </form>
+                                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal"
+                                        data-target="#updateModal{{ $ser->id }}">
+                                        Edit
+                                    </button>
                                 @endcan
 
                                 <br><br>
@@ -55,6 +68,62 @@
                                 </div>
                             @endcan
 
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="updateModal{{ $ser->id }}" tabindex="-1" role="dialog"
+                    aria-labelledby="updateModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="updateModalLabel">Update Service</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form method="post" enctype="multipart/form-data" action="/manageService/{{$ser['id']}}">
+                                @csrf
+                                @method('POST')
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="id">Id</label>
+                                        <input type="text" name="id" class="form-control" id="id"
+                                            value="{{ $ser->id }}">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="image" class="form-label">Service Image: </label>
+                                        <input type="file" name="image" id="image" class="form-control"
+                                            value="{{$ser['image_path']}}"><br>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="title">Title</label>
+                                        <input type="text" name="title" class="form-control" id="title"
+                                            value="{{ $ser->title }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="description">Description</label>
+                                        <input type="text" name="description" class="form-control" id="description"
+                                            value="{{ $ser->description }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="servicetype">Service Type</label>
+                                        <input type="text" name="servicetype" class="form-control" id="servicetype"
+                                            value="{{ $ser->servicetype }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="price">Price</label>
+                                        <input type="text" name="price" class="form-control" id="price"
+                                            value="{{ $ser->price }}">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

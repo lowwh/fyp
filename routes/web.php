@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\HistoryController;
 use Illuminate\Auth\Events\Registered;
 
 /*
@@ -93,6 +94,14 @@ Route::middleware('auth')->group(function () {
     Route::view('/manageprofile', 'operations.manageprofile');
     Route::get('/manageprofile', [ProfileController::class, 'index']);
     Route::get('/editprofile', [ProfileController::class, 'index'])->name('edit.profile');
+
+    // Route::view('/historygig', 'operations.history');
+    Route::get('/history', [HistoryController::class, 'index']);
+    Route::get('/historygig/{id}', [HistoryController::class, 'showGigs'])->name('show.gigs');
+
+    Route::post('/rating/{id}', [HistoryController::class, 'rating']);
+
+
 
 });
 

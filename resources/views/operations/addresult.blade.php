@@ -48,16 +48,7 @@
                   </select>
                   <span style="color:red">@error('selectFreelancerId'){{ $message }}@enderror</span><br>
                 </div>
-                <div class="mb-3">
-                  <label for="selectCourse" class="form-label">Select Course</label>
-                  <select name="selectCourse" id="selectCourse" class="form-control">
-                    <option value="">Select Course</option>
-                    @foreach($coursesOptions as $course)
-            <option value="{{ $course }}">{{ $course }}</option>
-          @endforeach
-                  </select>
-                  <span style="color:red">@error('selectCourse'){{ $message }}@enderror</span><br>
-                </div>
+
                 <div class="mb-3">
                   <label for="progress" class="form-label">Progress</label>
                   <input type="text" name="progress" id="progress" class="form-control">
