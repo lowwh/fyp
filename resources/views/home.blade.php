@@ -31,7 +31,7 @@
                         <div class="row mb-2">
                             @foreach($freelancers as $freelancer)
                                 <div class="col-md-4 mb-4">
-                                    <div class="card" style="width: 100%;">
+                                    <div class="card" style="width: 100%; background-color: lightgrey;">
                                         <div class="card-body d-flex flex-column justify-content-between">
                                             @if($freelancer->serviceimage)
                                                 <div>
@@ -54,12 +54,12 @@
 
                                             <p class="card-text"><strong>Gig ID:</strong> {{ $freelancer->serviceid }}</p>
                                             <p class="card-text"><strong>Gig Title:</strong> {{ $freelancer->title }}
-                                            <p class="card-text"><strong>Gig Type:</strong>
-                                                {{ $freelancer->servicetype }}
+                                            <p class="card-text"><strong>From:</strong>
+                                                {{ $freelancer->price }}
                                             </p>
                                             <a href="/viewprofile/{{$freelancer->main_id}}"
                                                 class="btn btn-primary mt-auto">View Profile</a><br>
-                                            <a href="/viewservice/{{$freelancer->main_id}}"
+                                            <a href="/viewservice/{{$freelancer->main_id}}/{{$freelancer->serviceid}}"
                                                 class="btn btn-secondary mt-auto">View Service</a>
                                         </div>
                                     </div>

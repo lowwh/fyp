@@ -53,7 +53,7 @@ Route::middleware('auth')->group(function () {
     // Routes accessible to authenticated users only
     Route::get('/home', [App\Http\Controllers\StudentController::class, 'index'])->name('home');
     Route::get('/viewprofile/{id}', [StudentController::class, 'viewprofile']);
-    Route::get('/viewservice/{id}', [StudentController::class, 'viewservice']);
+    Route::get('/viewservice/{id}/{gig_id}', [StudentController::class, 'viewservice']);
 
 
     //view addresults

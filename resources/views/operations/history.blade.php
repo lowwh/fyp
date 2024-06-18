@@ -75,7 +75,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="reason{{ $result->id }}">What was the reason it could not achieve
+                                            <label for="reason{{ $result->id }}">What was the reason it achieve
                                                 your expectations?</label>
                                             <textarea class="form-control" name="reason" id="reason{{ $result->id }}"
                                                 rows="4"></textarea>

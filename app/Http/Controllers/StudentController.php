@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Student;
 use App\Models\User;
 use App\Models\service;
+use App\Models\rating;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -30,7 +31,7 @@ class StudentController extends Controller
 
         $freelancers = DB::table('users') // Ensure you're using the correct table name here
             ->leftJoin('services', 'services.user_id', '=', 'users.id')
-            ->select('users.id as main_id', 'services.id as serviceid', 'services.title', 'services.servicetype', 'services.image_path as serviceimage', 'users.name', 'users.email', 'users.age', 'users.gender', 'users.image_path', 'users.freelancer_id')
+            ->select('users.id as main_id', 'services.id as serviceid', 'services.title', 'services.servicetype', 'services.price', 'services.image_path as serviceimage', 'users.name', 'users.email', 'users.age', 'users.gender', 'users.image_path', 'users.freelancer_id')
             ->where('users.role', 'freelancer')
             ->whereNotNull('services.title')
             ->whereNotNull('services.description')
@@ -47,15 +48,26 @@ class StudentController extends Controller
 
     }
 
-    public function viewservice($id)
+    public function viewservice($id, $gig_id)
     {
         $users = User::leftJoin('services', 'users.id', '=', 'services.user_id')
 
-            ->select('users.*', 'services.title', 'users.image_path as userimage', 'services.image_path as serviceimage')
+
+            ->select('users.*', 'services.title', 'services.description', 'services.price', 'users.image_path as userimage', 'services.image_path as serviceimage')
             ->where('services.user_id', $id)
+
             ->get();
 
-        return view('operations.viewservice', compact('users'));
+        $comments = Rating::leftJoin('users', 'users.id', '=', 'ratings.user_id')
+
+
+            ->select('users.*', 'ratings.rating', 'ratings.reason')
+            ->where('ratings.gig_id', $gig_id)
+
+
+            ->get();
+
+        return view('operations.viewservice', compact('users', 'comments'));
     }
 
 
