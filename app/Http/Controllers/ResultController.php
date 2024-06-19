@@ -90,7 +90,9 @@ class ResultController extends Controller
         //     ->get();
 
         $results = DB::table('services') // Ensure you're using the correct table name here
-            ->select('services.servicetype', 'services.description', 'services.price', 'services.title')
+            ->join('users', 'services.user_id', '=', 'users.id')
+            ->select('services.servicetype', 'services.description', 'services.price', 'services.title', 'services.id as serviceid', 'users.id as userid')
+
             ->where('services.servicetype', $validatedData['servicetype'])
             ->distinct()
             ->get();

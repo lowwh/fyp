@@ -29,6 +29,7 @@ class HistoryController extends Controller
     public function index()
     {
 
+        $userId = auth()->id();
         // $userId = auth()->id();
         $results = service::join('ratings', 'ratings.gig_id', '=', 'services.id')
             ->join('users', 'users.id', '=', 'ratings.user_id')
@@ -37,6 +38,7 @@ class HistoryController extends Controller
 
             ->select('services.image_path', 'ratings.expectation', 'ratings.suggestion', 'ratings.rating', 'ratings.reason', 'ratings.gig_id', 'users.image_path as userimage', 'results.progress')
             ->where('results.progress', 100)
+            ->where('users.id', $userId)
             // ->where('services.user_id', $userId)
 
             ->get();

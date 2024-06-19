@@ -43,20 +43,28 @@ class StudentController extends Controller
 
     public function viewprofile($id)
     {
-        $user = User::findOrFail($id);
-        return view('operations.viewprofile', ["user" => $user]);
+        $user = DB::table('users')
+            ->leftJoin('services', 'services.user_id', '=', 'users.id')
+            ->select('users.*', 'services.id as service_id', 'services.title', 'services.description')
+            ->where('users.id', $id)
+            ->get();
 
+        return view('operations.viewprofile', ['user' => $user]);
     }
+
 
     public function viewservice($id, $gig_id)
     {
-        $users = User::leftJoin('services', 'users.id', '=', 'services.user_id')
+        $users = User::join('services', 'users.id', '=', 'services.user_id')
 
 
             ->select('users.*', 'services.title', 'services.description', 'services.price', 'users.image_path as userimage', 'services.image_path as serviceimage')
             ->where('services.user_id', $id)
-
+            ->where('services.id', $gig_id) // Assuming gig_id is the ID of the service
             ->get();
+
+
+
 
         $comments = Rating::leftJoin('users', 'users.id', '=', 'ratings.user_id')
 

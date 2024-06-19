@@ -91,8 +91,8 @@ Route::middleware('auth')->group(function () {
     Route::view('/manageService', '/operations/manageService');
     Route::get('/manageService', [ServiceController::class, 'show']);
     Route::get('/manageService/{id}', [ServiceController::class, 'showupdate']);
-    Route::post('/manageService/{id}', [ServiceController::class, 'edit']);
-    Route::post('/manageService/{id}', [ServiceController::class, 'destroy']);
+    Route::post('/manageservice/{id}', [ServiceController::class, 'edit']);
+    Route::delete('/manageService/{id}', [ServiceController::class, 'destroy']);
 
 
     Route::view('/manageprofile', 'operations.manageprofile');

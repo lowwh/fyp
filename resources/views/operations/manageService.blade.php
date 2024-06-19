@@ -97,7 +97,7 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form method="post" enctype="multipart/form-data" action="/manageService/{{$ser['id']}}">
+                                <form method="post" enctype="multipart/form-data" action="/manageservice/{{$ser['id']}}">
                                     @csrf
                                     @method('POST')
                                     <div class="modal-body">

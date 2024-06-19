@@ -63,8 +63,8 @@
                             <li class="nav-item"><a href="{{ route('login') }}" class="nav-link active">Log in</a></li>
 
                             <!-- @if (Route::has('register'))
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <li class="nav-item"><a href="{{ route('register') }}" class="nav-link active">Register</a></li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            @endif -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <li class="nav-item"><a href="{{ route('register') }}" class="nav-link active">Register</a></li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @endif -->
                         @endauth
                     @endif
                 </ul>
@@ -104,7 +104,7 @@
 
                             @foreach($results as $result)
                                 <div class="row mb-5">
-                                    <div class="result-container">
+                                    <div class="result-container" style="background-color: #E5E5E5;">
                                         <div class="col-md-8">
                                             <p><strong>Service Title:</strong> {{ $result->title }}</p>
                                         </div>
@@ -114,6 +114,8 @@
                                         <div class="col-md-8">
                                             <p><strong>Service Description:</strong> {{ $result->description }}</p>
                                         </div>
+                                        <a href="/viewservice/{{$result->userid}}/{{$result->serviceid}}"
+                                            class="btn btn-secondary mt-auto">View</a>
                                     </div>
 
                                 </div>
