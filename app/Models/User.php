@@ -24,7 +24,9 @@ class User extends Authenticatable
         'role',
         'age',
         'gender',
-        'image_path'
+        'image_path',
+        'state',
+        'language'
     ];
 
     /**

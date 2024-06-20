@@ -60,6 +60,8 @@ class RegisterController extends Controller
             'gender' => ['required'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'state' => ['required'],
+            'language' => ['required'],
         ]);
     }
 
@@ -78,6 +80,8 @@ class RegisterController extends Controller
             'role' => $data['role'],
             'age' => $data['age'],
             'gender' => $data['gender'],
+            'state' => $data['state'],
+            'language' => $data['language'],
         ]);
     }
 

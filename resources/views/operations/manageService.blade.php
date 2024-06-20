@@ -18,7 +18,8 @@
             <div class="row">
                 @foreach($service as $ser)
                     <div class="col-md-4" style="background-color: white;">
-                        <div class="card" style="width: 100%; background-color: lightgrey;">
+                        <div class="card"
+                            style="width: 100%; background-color: white; padding: 5px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
                             <div class="card-body d-flex justify-content-between flex-column">
 
                                 @can('viewAny', $ser)
@@ -77,7 +78,8 @@
 
                                     <br><br>
 
-                                    <div class="ml-auto" style="align-self: flex-end; background-color: lightgrey;">
+                                    <div class="ml-auto"
+                                        style="align-self: flex-end; background-color: #f0f8ff; padding: 5px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
                                         <h5 class="card-title" style="display: inline;">Price:</h5>
                                         <p style="display: inline; margin-left: 10px;">{{$ser['price']}}</p>
                                     </div>

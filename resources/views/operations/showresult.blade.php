@@ -63,8 +63,8 @@
                             <li class="nav-item"><a href="{{ route('login') }}" class="nav-link active">Log in</a></li>
 
                             <!-- @if (Route::has('register'))
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <li class="nav-item"><a href="{{ route('register') }}" class="nav-link active">Register</a></li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @endif -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <li class="nav-item"><a href="{{ route('register') }}" class="nav-link active">Register</a></li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @endif -->
                         @endauth
                     @endif
                 </ul>
@@ -90,13 +90,13 @@
                 </form>
                 @if(isset($results) && !$results->isEmpty())
                     <div class="card">
-                        <div class="card-header bg-primary text-white">
+                        <div class="card-header text-black" style="background-color: #E5E5E5;">
                             Freelancer Result
                         </div>
                         <div class="card-body">
                             <div class="row">
                                 <!-- Student Information -->
-                                <div class="col-md-15 mb-5">
+                                <div class="col-md-15 mb-5" style="background-color: #E5E5E5;">
                                     <p class="card-text"><strong>Service Type:</strong> {{ $results[0]->servicetype }}</p>
                                 </div>
                             </div>
@@ -115,7 +115,7 @@
                                             <p><strong>Service Description:</strong> {{ $result->description }}</p>
                                         </div>
                                         <a href="/viewservice/{{$result->userid}}/{{$result->serviceid}}"
-                                            class="btn btn-secondary mt-auto">View</a>
+                                            class="btn btn-secondary mt-auto" style="margin-left: 520px;">View</a>
                                     </div>
 
                                 </div>

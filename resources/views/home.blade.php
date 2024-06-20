@@ -22,7 +22,8 @@
             <div class="row">
                 @foreach($freelancers as $freelancer)
                     <div class="col-md-4 mb-4">
-                        <div class="card" style="width: 100%; background-color: lightgrey;">
+                        <div class="card"
+                            style="width: 100%; background-color: white; padding: 5px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
                             <div class="card-body d-flex justify-content-between flex-column">
                                 <div style="margin-bottom: 10px;">
                                     @if($freelancer->serviceimage)
@@ -42,20 +43,25 @@
                                         <h5 class="card-title mb-0"
                                             style="display: inline; font-weight: bold; font-size: 1.2rem;">Gig ID:</h5>
                                         <p style="display: inline; margin-left: 10px; font-size: 1.2rem;">
-                                            {{ $freelancer->serviceid }}</p>
+                                            {{ $freelancer->serviceid }}
+                                        </p>
                                         <br>
                                         <h5 class="card-title mb-0"
                                             style="display: inline; font-weight: bold; font-size: 1.2rem;">Gig Title:</h5>
                                         <p style="display: inline; margin-left: 10px; font-size: 1.2rem;">
-                                            {{ $freelancer->title }}</p>
+                                            {{ $freelancer->title }}
+                                        </p>
                                         <br>
                                     </div>
                                 </div>
-                                <div class="ml-auto" style="align-self: flex-end; background-color: lightgrey;">
+                                <div class="ml-auto"
+                                    style="align-self: flex-end; background-color: #f0f8ff; padding: 5px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
                                     <h5 class="card-title" style="display: inline;">From:</h5>
                                     <p style="display: inline; margin-left: 10px;">{{ $freelancer->price }}</p>
                                 </div>
-                                <a href="/viewprofile/{{ $freelancer->main_id }}" class="btn btn-primary mt-auto view-profile-button">View
+
+                                <a href="/viewprofile/{{ $freelancer->main_id }}"
+                                    class="btn btn-primary mt-auto view-profile-button">View
                                     Profile</a>
                                 <a href="/viewservice/{{ $freelancer->main_id }}/{{ $freelancer->serviceid }}"
                                     class="btn btn-secondary mt-auto view-service-button">View Service</a>
@@ -117,7 +123,7 @@
         border: 8px solid rgba(0, 0, 0, 0.1);
         border-top: 8px solid #3498db;
         border-radius: 50%;
-         border-top-color: red;
+        border-top-color: red;
         animation: spin 1s linear infinite;
         z-index: 1000;
     }

@@ -39,16 +39,136 @@
         <div class="col-md-4">
             <div class="rounded-lg bg-gray-200 p-3 mb-3" style="border: 2px solid black;">
                 <div class="bg-gray-300 rounded-lg p-3" style="background-color: whitesmoke;">
-                    <p class="text-xl font-bold" style="text-align: center;">Description</p>
+                    <p class="text-xl font-bold" style="text-align: center;">About this gig</p>
                 </div>
                 <div class="p-3">
                     <p>{{$user->description}}</p>
                 </div>
-                <p style="display: inline; margin-left: 250px;">{{$user['price']}}</p>
+                <div style="display: flex; justify-content: flex-end;">
+                    <p style="background-color: #f0f8ff; padding: 5px; margin: 0;">{{$user['price']}}</p>
+                </div>
+
             </div>
         </div>
     </div>
+    <div class="bg-gray-300 rounded-lg p-3 mb-3"
+        style="background-color: #f0f0f0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-top: 150px; width: 300px;">
+        @foreach($users as $user)
+            <div class="bg-gray-300 rounded-lg p-3 mb-3"
+                style="background-color: white; text-align: left; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
 
+                <div>
+                    <p style="margin: 0;">
+                        From:
+                        <span style="margin-left: 75px;">Join Since:</span>
+                    </p>
+                </div>
+                <div>
+                    <p style="margin: 0;">
+                        <strong>{{$user['state']}}</strong>
+                        <strong> <span style="margin-left: 45px;">{{$user['user_created_date']}}</span></strong>
+                    </p>
+                </div>
+                <br><br>
+                <!-- second line -->
+                <div>
+                    <p style="margin: 0;">
+                        Language:
+
+                    </p>
+                </div>
+                <div>
+                    <p style="margin: 0;">
+                        <strong>{{$user['language']}}</strong>
+
+                    </p>
+                </div>
+
+
+            </div>
+
+
+
+
+        @endforeach
+    </div>
+    <br><br>
+
+    <!-- Displaying Ratings Summary -->
+    <div class="bg-gray-300 rounded-lg p-3 mb-3"
+        style="background-color: #f0f0f0; text-align: center; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-top: 20px;">
+        <p class="text-xl font-bold">Service Ratings Summary</p>
+        @if($comments->isNotEmpty())
+                @php
+                    // Calculate star ratings count
+                    $totalRatings = count($comments);
+                    $fiveStarCount = $comments->where('rating', 5)->count();
+                    $fourStarCount = $comments->where('rating', 4)->count();
+                    $threeStarCount = $comments->where('rating', 3)->count();
+                    $twoStarCount = $comments->where('rating', 2)->count();
+                    $oneStarCount = $comments->where('rating', 1)->count();
+                @endphp
+
+                <div class="bg-gray-300 rounded-lg p-3 mb-3"
+                    style="background-color: white; text-align: left; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    <p><strong>{{ $totalRatings }} reviews for this Gig </strong></p>
+                    <p><strong>5-Star Ratings: {{ $fiveStarCount }}</strong></p>
+                    <div class="rating-bar">
+                        <div class="bar"
+                            style="width: {{ ($totalRatings > 0) ? ($fiveStarCount / $totalRatings) * 100 : 0 }}%;">
+                        </div>
+                    </div>
+                    <p><strong>4-Star Ratings: {{ $fourStarCount }}</strong> </p>
+                    <div class="rating-bar">
+                        <div class="bar"
+                            style="width: {{ ($totalRatings > 0) ? ($fourStarCount / $totalRatings) * 100 : 0 }}%;">
+                        </div>
+                    </div>
+                    <p><strong>3-Star Ratings: {{ $threeStarCount }}</strong></p>
+                    <div class="rating-bar">
+                        <div class="bar"
+                            style="width: {{ ($totalRatings > 0) ? ($threeStarCount / $totalRatings) * 100 : 0 }}%;">
+                        </div>
+                    </div>
+                    <p><strong>2-Star Ratings: {{ $twoStarCount }}</strong></p>
+                    <div class="rating-bar">
+                        <div class="bar" style="width: {{ ($totalRatings > 0) ? ($twoStarCount / $totalRatings) * 100 : 0 }}%;">
+                        </div>
+                    </div>
+                    <p><strong>1-Star Ratings: {{ $oneStarCount }}</strong></p>
+                    <div class="rating-bar">
+                        <div class="bar" style="width: {{ ($totalRatings > 0) ? ($oneStarCount / $totalRatings) * 100 : 0 }}%;">
+                        </div>
+                    </div>
+                </div>
+        @else
+            <div class="bg-gray-300 rounded-lg p-3 mb-3"
+                style="background-color: white; text-align: left; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                <p><strong>0 reviews for this Gig </strong></p>
+                <p><strong>5-Star Ratings:</strong> 0</p>
+                <div class="rating-bar">
+                    <div class="bar" style="width: 0%;"></div>
+                </div>
+                <p><strong>4-Star Ratings:</strong> 0</p>
+                <div class="rating-bar">
+                    <div class="bar" style="width: 0%;"></div>
+                </div>
+                <p><strong>3-Star Ratings:</strong> 0</p>
+                <div class="rating-bar">
+                    <div class="bar" style="width: 0%;"></div>
+                </div>
+                <p><strong>2-Star Ratings:</strong> 0</p>
+                <div class="rating-bar">
+                    <div class="bar" style="width: 0%;"></div>
+                </div>
+                <p><strong>1-Star Ratings:</strong> 0</p>
+                <div class="rating-bar">
+                    <div class="bar" style="width: 0%;"></div>
+                </div>
+            </div>
+        @endif
+    </div>
+    <!-- Displaying Service Review -->
     <div class="bg-gray-300 rounded-lg p-3 mb-3"
         style="background-color: #f0f0f0; text-align: center; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-top: 150px;">
         <p class="text-xl font-bold">Service Reviews</p>
@@ -108,6 +228,18 @@
     .checked {
         color: orange;
         /* Color for filled stars */
+    }
+
+    .rating-bar {
+        height: 10px;
+        background-color: #ddd;
+        margin-bottom: 5px;
+    }
+
+    .bar {
+        height: 100%;
+        background-color: green;
+        /* Adjust color as per your design */
     }
 
     #spinner {
