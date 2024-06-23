@@ -81,32 +81,35 @@ class ResultController extends Controller
             'servicetype' => 'required',
         ]);
 
-        // Search for the results by student ID
-        // $results = DB::table('students') // Ensure you're using the correct table name here
-        //     ->leftJoin('services', 'services.user_id', '=', 'students.user_id')
-        //     ->select('services.servicetype', 'services.description', 'students.name', 'students.age')
-        //     ->where('services.servicetype', $validatedData['servicetype'])
-        //     ->distinct()
-        //     ->get();
-
+        // Perform the query with gig count
         $results = DB::table('services') // Ensure you're using the correct table name here
             ->join('users', 'services.user_id', '=', 'users.id')
-            ->select('services.servicetype', 'services.description', 'services.price', 'services.title', 'services.id as serviceid', 'users.id as userid')
-
+            ->leftJoin('ratings', 'ratings.gig_id', '=', 'services.id')
+            ->select(
+                'services.servicetype',
+                'services.description',
+                DB::raw("DATE(services.created_at) as service_created_date"),
+                'services.price',
+                'services.title',
+                'services.id as serviceid',
+                'users.id as userid',
+                'users.state',
+                DB::raw("COUNT(ratings.gig_id) as gigs_count") // Count gig_id
+            )
             ->where('services.servicetype', $validatedData['servicetype'])
-            ->distinct()
+            ->groupBy('services.servicetype', 'services.description', 'services.created_at', 'services.price', 'services.title', 'services.id', 'users.id', 'users.state')
             ->get();
 
         if ($results->isEmpty()) {
             // No results found
             $errorMessage = 'No results found';
-
             return view('operations.showresult', ['error' => $errorMessage]);
         } else {
             // Results found
             return view('operations.showresult', ['results' => $results]);
         }
     }
+
 
 
 

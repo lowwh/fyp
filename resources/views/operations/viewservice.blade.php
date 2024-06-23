@@ -30,69 +30,107 @@
                     @if($user->serviceimage)
                         <div>
                             <img src="{{ asset('storage/' . $user->serviceimage) }}" alt="Service Image"
-                                style="max-width: 100%; height: auto; ; margin-top: 50px">
+                                style="width: 500px; height: 500px; ; margin-top: 50px">
                         </div>
                     @endif
                 </div>
             @endforeach
         </div>
-        <div class="col-md-4">
-            <div class="rounded-lg bg-gray-200 p-3 mb-3" style="border: 2px solid black;">
-                <div class="bg-gray-300 rounded-lg p-3" style="background-color: whitesmoke;">
-                    <p class="text-xl font-bold" style="text-align: center;">About this gig</p>
-                </div>
-                <div class="p-3">
-                    <p>{{$user->description}}</p>
-                </div>
-                <div style="display: flex; justify-content: flex-end;">
-                    <p style="background-color: #f0f8ff; padding: 5px; margin: 0;">{{$user['price']}}</p>
-                </div>
 
+        <!-- About the gig -->
+        <div class="col-md-4" style="margin-top: 10px; ">
+            <div class="row justify-content-center">
+                <div class="col-md-11"
+                    style="box-shadow: 4px 4px 6px rgba(0.2, 0.2, 0.2, 0.2); background-color: white">
+                    <div class="card mb-3" style="margin-top:20px">
+                        <div class="card-header"
+                            style="background-color:white; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); ">
+                            About this gig
+                        </div>
+                        <div class="card-body"
+                            style="background-color:white; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);">
+                            <!-- Tabs for BIO -->
+                            <ul class="nav nav-tabs" id="profileTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link active" id="bio-tab" data-bs-toggle="tab" href="#bio" role="tab"
+                                        aria-controls="bio" aria-selected="true"
+                                        style="background-color:white">Description</a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="about-tab" data-bs-toggle="tab" href="#about" role="tab"
+                                        aria-controls="about" aria-selected="false"
+                                        style="background-color:white">About</a>
+                                </li>
+
+                            </ul>
+
+                            <!-- Tab content -->
+
+                            <div class="tab-content mt-3" id="profileTabContent">
+                                <!-- BIO Tab -->
+                                <div class="tab-pane fade show active" id="bio" role="tabpanel"
+                                    aria-labelledby="bio-tab">
+
+                                    <div class="row mb-3">
+
+                                        <div class="col-md-6">
+                                            <p id="name">{{ $user->description }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end of bio tab -->
+
+                                <!-- about tab  -->
+                                <div class="tab-pane fade" id="about" role="tabpanel" aria-labelledby="about-tab">
+                                    <div class="row mb-3">
+                                        <div class="col-md-12">
+                                            @foreach($users as $user)
+                                                <div class="bg-gray-300 rounded-lg p-3 mb-3"
+                                                    style="background-color: white; text-align: left; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                                                    <div
+                                                        style="display: flex; justify-content: space-between; align-items: center;">
+                                                        <p style="margin: 0;">
+                                                            From: <br><strong>{{$user['state']}}</strong>
+                                                        </p>
+                                                        <p style="margin: 0;">
+                                                            Join Since: <br>
+                                                            <strong>{{$user['user_created_date']}}</strong>
+                                                        </p>
+                                                    </div>
+                                                    <br><br>
+                                                    <!-- second line -->
+                                                    <div>
+                                                        <p style="margin: 0;">
+                                                            Language: <br>
+                                                            <strong>{{$user['language']}}</strong>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end of about tab -->
+
+
+
+
+
+
+                            </div>
+                            <!-- end of  tab content-->
+
+
+                        </div>
+                    </div>
+                </div>
             </div>
+
         </div>
+
+
     </div>
-    <div class="bg-gray-300 rounded-lg p-3 mb-3"
-        style="background-color: #f0f0f0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-top: 150px; width: 300px;">
-        @foreach($users as $user)
-            <div class="bg-gray-300 rounded-lg p-3 mb-3"
-                style="background-color: white; text-align: left; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-
-                <div>
-                    <p style="margin: 0;">
-                        From:
-                        <span style="margin-left: 75px;">Join Since:</span>
-                    </p>
-                </div>
-                <div>
-                    <p style="margin: 0;">
-                        <strong>{{$user['state']}}</strong>
-                        <strong> <span style="margin-left: 45px;">{{$user['user_created_date']}}</span></strong>
-                    </p>
-                </div>
-                <br><br>
-                <!-- second line -->
-                <div>
-                    <p style="margin: 0;">
-                        Language:
-
-                    </p>
-                </div>
-                <div>
-                    <p style="margin: 0;">
-                        <strong>{{$user['language']}}</strong>
-
-                    </p>
-                </div>
-
-
-            </div>
-
-
-
-
-        @endforeach
-    </div>
-    <br><br>
+    <br><br><br><br><br><br>
 
     <!-- Displaying Ratings Summary -->
     <div class="bg-gray-300 rounded-lg p-3 mb-3"

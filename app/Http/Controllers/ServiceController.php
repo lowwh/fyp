@@ -59,6 +59,8 @@ class ServiceController extends Controller
 
     }
 
+
+
     public function validator(array $data)
     {
 
@@ -67,7 +69,7 @@ class ServiceController extends Controller
             'price' => 'required',
             'description' => 'required',
             'servicetype' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
 
 
         ]);

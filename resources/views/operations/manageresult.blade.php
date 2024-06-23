@@ -95,7 +95,7 @@
                                                                                                                             @csrf
                                                                                                                             @can('isFreelancer')
                                                                                                                                 <button type="submit"
-                                                                                                                                    class="btn btn-danger btn-sm">Delete</button>
+                                                                                                                                    class="btn btn-danger delete-btn">Delete</button>
                                                                                                                             @endcan
                                                                                                                         </form>
                                                                                                                         @can('isUser')

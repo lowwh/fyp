@@ -26,6 +26,8 @@ use App\Http\Controllers\EmailController;
 |
 */
 
+
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -104,6 +106,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/historygig/{id}', [HistoryController::class, 'showGigs'])->name('show.gigs');
 
     Route::post('/rating/{id}', [HistoryController::class, 'rating']);
+
 
 
 

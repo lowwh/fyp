@@ -5,10 +5,10 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="/" class="nav-link">Home</a>
+            <a href="/" class="nav-link">Welcome</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="home" class="nav-link">Dashboard</a>
+            <a href="home" class="nav-link">Home</a>
         </li>
         <li class="nav-item"><a href="searchresult" class="nav-link">Search</a></li>
     </ul>
@@ -28,10 +28,10 @@
             @endif
 
             <!-- @if (Route::has('register'))
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                                </li>
-                                                @endif -->
+                                                            <li class="nav-item">
+                                                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                                            </li>
+                                                            @endif -->
         @else
             <li class="nav-item dropdown">
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"

@@ -28,15 +28,14 @@ class StudentController extends Controller
 
 
 
-
         $freelancers = DB::table('users') // Ensure you're using the correct table name here
             ->leftJoin('services', 'services.user_id', '=', 'users.id')
-            ->select('users.id as main_id', 'services.id as serviceid', 'services.title', 'services.servicetype', 'services.price', 'services.image_path as serviceimage', 'users.name', 'users.email', 'users.age', 'users.gender', 'users.image_path', 'users.freelancer_id')
+            ->select('users.id as main_id', 'services.id as serviceid', 'services.title', 'services.servicetype', 'services.price', 'services.image_path as serviceimage', 'services.image_path2 as serviceimage2', 'users.name', 'users.email', 'users.age', 'users.gender', 'users.image_path', 'users.freelancer_id')
             ->where('users.role', 'freelancer')
             ->whereNotNull('services.title')
             ->whereNotNull('services.description')
 
-            ->get();
+            ->paginate(6);
 
         return view('home', ['freelancers' => $freelancers]);
     }

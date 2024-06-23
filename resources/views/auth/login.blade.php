@@ -18,7 +18,7 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a href="searchresult" class="nav-link active">Check Result</a></li>
+                    
                     <li class="nav-item"><a href="{{ url('/') }}" class="nav-link active">Home</a></li>
                     @if (Route::has('login'))
                     <!-- @auth
@@ -112,7 +112,7 @@
         <script src="{{asset('js/app.js') }}" defer></script>
 
         <!-- Footer-->
-        <!-- @include('layouts.footer1') -->
+        @include('layouts.footer1')
     </section>
 </body>
 

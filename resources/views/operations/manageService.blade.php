@@ -28,7 +28,7 @@
                                             <div>
                                                 <h5 class="card-title"></h5>
                                                 <img src="{{ asset('storage/' . $ser->image_path) }}" alt="Service Image"
-                                                    style="max-width: 200px; height: auto;">
+                                                    style="max-width: 300px; height: 300px;">
                                             </div>
                                         @endif
                                         <br>
@@ -39,7 +39,7 @@
                                                     class="rounded-circle" style="width: 50px; height: 50px;">
                                             </div>
                                         @endif
-                                        <div style="margin-bottom: 10px;">
+                                        <div style="margin-bottom: 10px;margin-top: 20px;">
                                             <h5 class="card-title mb-0"
                                                 style="display: inline; font-weight: bold; font-size: 1.2rem;">Gig Id:</h5>
                                             <p style="display: inline; margin-left: 10px; font-size: 1.2rem;">{{$ser['id']}}</p>
@@ -60,12 +60,14 @@
 
 
                                     </div>
+
                                     @can('update', $ser)
                                         <button type="button" class="btn btn-sm custom-green-button" data-toggle="modal"
                                             data-target="#updateModal{{ $ser->id }}">
                                             Edit
                                         </button>
                                     @endcan
+
 
                                     @can('delete', $ser)
                                         <form method="POST" action="/manageService/{{$ser['id']}}" class="d-inline-block"
@@ -80,7 +82,7 @@
 
                                     <div class="ml-auto"
                                         style="align-self: flex-end; background-color: #f0f8ff; padding: 5px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
-                                        <h5 class="card-title" style="display: inline;">Price:</h5>
+                                        <h5 class="card-title" style="display: inline;">Price: RM</h5>
                                         <p style="display: inline; margin-left: 10px;">{{$ser['price']}}</p>
                                     </div>
                                 @endcan
