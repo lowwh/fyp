@@ -211,7 +211,7 @@
                         <!-- Service 1 Card -->
                         <div class="card">
                             <div class="card-body">
-                                <h3 class="card-title">Service 1</h3>
+                                <h3 class="card-title">Painting</h3>
                                 <!-- Flip Card -->
                                 <div class="card flip-card">
                                     <div class="card-body flip-card-inner">
@@ -234,7 +234,7 @@
                         <!-- Service 2 Card -->
                         <div class="card">
                             <div class="card-body">
-                                <h3 class="card-title">Service 2</h3>
+                                <h3 class="card-title">Electrician</h3>
                                 <!-- Flip Card -->
                                 <div class="card flip-card">
                                     <div class="card-body flip-card-inner">
@@ -313,7 +313,7 @@
             <div class="container text-center">
                 <h2>Ready to Join?</h2>
                 <p>Sign up today and start finding opportunities.</p>
-                <a href="register" class="btn btn-primary">Register Now</a>
+                <a href="register" class="btn btn-primary">Register</a>
 
             </div>
         </section>

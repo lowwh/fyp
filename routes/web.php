@@ -14,6 +14,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HistoryController;
 use Illuminate\Auth\Events\Registered;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -106,6 +108,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/historygig/{id}', [HistoryController::class, 'showGigs'])->name('show.gigs');
 
     Route::post('/rating/{id}', [HistoryController::class, 'rating']);
+
+    Route::get('receivedmessages', [MessageController::class, 'receivedMessageIndex'])->name('receivedmessages');
+    Route::get('messages/create/{user}', [MessageController::class, 'create'])->name('messages.create');
+    Route::post('messages', [MessageController::class, 'store'])->name('messages.store');
+    Route::get('messages/{message}', [MessageController::class, 'show'])->name('messages.show');
+    Route::get('/notifications/mark-as-read/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+
+    //send Message
+    Route::get('sendmessages', [MessageController::class, 'sendMessageIndex'])->name('sendmessages');
+
+
 
 
 

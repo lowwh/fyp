@@ -38,7 +38,31 @@
           </a>
         </li>
 
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="fas fa-comments nav-icon"></i>
+            <p>
+              Message
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
 
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="{{ route('receivedmessages') }}" class="nav-link">
+                <i class="fas fa-inbox nav-icon"></i>
+                <p>Inbox</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ route('sendmessages') }}" class="nav-link">
+                <i class="fas fa-paper-plane nav-icon"></i>
+                <p>Send Message </p>
+              </a>
+            </li>
+          </ul>
+
+        </li>
         @can('isAdmin')
       <li class="nav-item">
         <a href="#" class="nav-link">

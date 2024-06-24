@@ -12,6 +12,7 @@
         </li>
         <li class="nav-item"><a href="searchresult" class="nav-link">Search</a></li>
     </ul>
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
         <span class="navbar-toggler-icon"></span>
@@ -26,13 +27,31 @@
                     <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                 </li>
             @endif
-
-            <!-- @if (Route::has('register'))
-                                                            <li class="nav-item">
-                                                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                                            </li>
-                                                            @endif -->
         @else
+            <!-- Notifications Dropdown Menu -->
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    <i class="far fa-bell"></i>
+                    <span class="badge badge-warning navbar-badge">{{ Auth::user()->unreadNotifications->count() }}</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <span class="dropdown-item dropdown-header">{{ Auth::user()->unreadNotifications->count() }}
+                        Notifications</span>
+                    <div class="dropdown-divider"></div>
+                    @foreach(Auth::user()->unreadNotifications as $notification)
+                        <a href="{{ route('notifications.markAsRead', $notification->id) }}" class="dropdown-item">
+                            <i class="fas fa-envelope mr-2"></i> New message from
+                            {{ $notification->data['sender_name'] ?? 'Unknown' }}
+                            <span class="float-right text-muted text-sm">{{ $notification->created_at->diffForHumans() }}</span>
+                        </a>
+                    @endforeach
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                </div>
+            </li>
+
+
+            <!-- User Account Dropdown Menu -->
             <li class="nav-item dropdown">
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false" v-pre>
@@ -44,15 +63,11 @@
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         {{ __('Logout') }}
                     </a>
-
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>
                 </div>
             </li>
         @endguest
-
     </ul>
-    <!-- </div> -->
 </nav>
-</div>
