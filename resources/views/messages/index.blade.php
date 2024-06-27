@@ -19,14 +19,13 @@
         <div class="card mb-3">
             <div class="card-body">
                 <h5 class="card-title">From: {{ $message->sender->name }}</h5>
-                <p class="card-text">{{ Str::limit($message->content, 1) }}</p>
+                <p class="card-text">{{ Str::limit($message->content, 100) }}</p>
                 <p class="card-text"><small class="text-muted">{{ $message->created_at->diffForHumans() }}</small></p>
                 <a href="{{ route('messages.show', ['user' => $message->sender->id, 'message' => $message->id]) }}"
-                    class="btn btn-primary">View Messages from
-                    {{ $message->sender->name }}</a>
-
+                    class="btn btn-primary">View Messages from {{ $message->sender->name }}</a>
                 <a href="{{ route('messages.create', $message->sender_id) }}" class="btn btn-primary">Reply</a>
             </div>
         </div>
     @endforeach
-</div>@endsection
+</div>
+@endsection

@@ -10,17 +10,12 @@
 
 <body>
     <div class="wrapper">
-        <main class="content">
+        <div class="content">
             <!-- Your main content goes here -->
-        </main>
+        </div>
         <footer class="main-footer">
-            <div class="py-5 bg-dark">
-                <div class="container">
-                    <p class="m-0 text-center text-white" style="margin-bottom:auto">
-                        Copyright &copy; PLATFORM FOR INDEPENDENT CONTRACTOR COMMUNITIES {{ date('Y') }}
-                    </p>
-                </div>
-            </div>
+            <strong>Copyright &copy; PLATFORM FOR INDEPENDENT CONTRACTOR COMMUNITIES {{ date('Y') }}</strong> All rights
+            reserved.
         </footer>
     </div>
 </body>
@@ -28,34 +23,27 @@
 </html>
 
 <style>
-    /* Ensure the body and html are full height */
     html,
     body {
         height: 100%;
         margin: 0;
     }
 
-    /* Wrapper to use flexbox to stretch to full height */
     .wrapper {
         display: flex;
         flex-direction: column;
         min-height: 100vh;
     }
 
-    /* Content will take up the remaining space */
     .content {
         flex: 1;
     }
 
-    /* Footer styles */
+    /* Footer styling */
     .main-footer {
-        background-color: #343a40;
-        color: white;
-        padding: 20px 0;
-    }
-
-    .main-footer .container p {
-        margin-bottom: auto;
+        background-color: #f8f9fa;
+        /* Example background color */
         text-align: center;
+        padding: 1em;
     }
 </style>

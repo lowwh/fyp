@@ -132,7 +132,7 @@
 
         .card {
             border-radius: 20px;
-            background-color: darkolivegreen;
+            background-color: darkgrey;
         }
     </style>
 </head>

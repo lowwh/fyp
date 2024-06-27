@@ -27,6 +27,8 @@ class NewMessageNotification extends Notification
         return [
             'message_id' => $this->message->id,
             'sender_name' => $this->message->sender_name,
+            'sender_id' => $this->message->sender_id,
+
         ];
     }
 }

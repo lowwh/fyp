@@ -112,11 +112,14 @@ Route::middleware('auth')->group(function () {
     Route::get('receivedmessages', [MessageController::class, 'receivedMessageIndex'])->name('receivedmessages');
     Route::get('messages/create/{user}', [MessageController::class, 'create'])->name('messages.create');
     Route::post('messages', [MessageController::class, 'store'])->name('messages.store');
-    Route::get('messages/{message}', [MessageController::class, 'show'])->name('messages.show');
+    Route::get('messages/{user}/{message}', [MessageController::class, 'show'])->name('messages.show');
     Route::get('/notifications/mark-as-read/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
 
     //send Message
     Route::get('sendmessages', [MessageController::class, 'sendMessageIndex'])->name('sendmessages');
+
+
+
 
 
 

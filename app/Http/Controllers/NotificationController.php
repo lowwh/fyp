@@ -12,7 +12,9 @@ class NotificationController extends Controller
         $notification = Auth::user()->notifications()->findOrFail($id);
         $notification->markAsRead();
 
-        // Redirect to the message or wherever you want
-        return redirect()->route('messages.show', $notification->data['message_id']);
+        $senderId = $notification->data['sender_id'];
+        $messageId = $notification->data['message_id'];
+
+        return redirect()->route('messages.show', ['user' => $senderId, 'message' => $messageId]);
     }
 }

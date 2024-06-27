@@ -63,14 +63,18 @@ class MessageController extends Controller
     }
 
 
-    public function show(Message $message)
+    public function show(User $user, Message $message)
     {
         // Ensure the user is either the sender or the receiver of the message
         if (Auth::id() !== $message->sender_id && Auth::id() !== $message->receiver_id) {
             abort(403);
         }
 
-        return view('messages.show', compact('message'));
+        return view('messages.show', compact('user', 'message'));
     }
+
+
+
+
 }
 

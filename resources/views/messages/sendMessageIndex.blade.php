@@ -21,8 +21,9 @@
                 <h5 class="card-title">To: {{ $message->receiver->name }}</h5>
                 <p class="card-text">{{ Str::limit($message->content, 100) }}</p>
                 <p class="card-text"><small class="text-muted">{{ $message->created_at->diffForHumans() }}</small></p>
-                <a href="{{ route('messages.show', $message->receiver) }}" class="btn btn-primary">View Messages from
-                    {{ $message->receiver->name }}</a>
+                <a href="{{ route('messages.show', ['user' => $message->receiver_id, 'message' => $message->id]) }}">
+                    View Message
+                </a>
             </div>
         </div>
     @endforeach

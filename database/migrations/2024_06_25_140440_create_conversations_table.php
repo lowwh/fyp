@@ -29,3 +29,4 @@ class CreateConversationsTable extends Migration
         Schema::dropIfExists('conversations');
     }
 }
+

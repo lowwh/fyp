@@ -6,18 +6,29 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateConversationUserTable extends Migration
 {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
         Schema::create('conversation_user', function (Blueprint $table) {
             $table->id();
             $table->foreignId('conversation_id')->constrained()->onDelete('cascade');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
         Schema::dropIfExists('conversation_user');
     }
 }
+

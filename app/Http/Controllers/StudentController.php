@@ -16,29 +16,37 @@ use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        // Retrieve the 'state' parameter from the request
+        $state = $request->input('state');
 
-        //show using Freelancer.js
-        // Fetch all users where the role is 'freelancer'
-        //  $freelancers = User::where('role', 'freelancer')->get();
-
-
-        //   return $freelancers;
-
-
-
-        $freelancers = DB::table('users') // Ensure you're using the correct table name here
+        // Initialize the query
+        $query = DB::table('users')
             ->leftJoin('services', 'services.user_id', '=', 'users.id')
-            ->select('users.id as main_id', 'services.id as serviceid', 'services.title', 'services.servicetype', 'services.price', 'services.image_path as serviceimage', 'services.image_path2 as serviceimage2', 'users.name', 'users.email', 'users.age', 'users.gender', 'users.image_path', 'users.freelancer_id')
+            ->select('users.state', 'users.id as main_id', 'services.id as serviceid', 'services.title', 'services.servicetype', 'services.price', 'services.image_path as serviceimage', 'services.image_path2 as serviceimage2', 'users.name', 'users.email', 'users.age', 'users.gender', 'users.image_path', 'users.freelancer_id')
             ->where('users.role', 'freelancer')
             ->whereNotNull('services.title')
-            ->whereNotNull('services.description')
+            ->whereNotNull('services.description');
 
-            ->paginate(6);
+        // Apply the state filter if provided
+        if ($state) {
+            $query->where('users.state', $state);
+        }
 
-        return view('home', ['freelancers' => $freelancers]);
+        // Execute the query and paginate the results
+        $freelancers = $query->paginate(6);
+
+        // Fetch distinct states for the filter dropdown
+        $states = DB::table('users')
+            ->where('role', 'freelancer')
+            ->distinct()
+            ->pluck('state');
+
+        // Return the view with freelancers and states data
+        return view('home', ['freelancers' => $freelancers, 'states' => $states]);
     }
+
 
     public function viewprofile($id)
     {
@@ -166,4 +174,24 @@ class StudentController extends Controller
 
         ]);
     }
+
+
+    public function sort(Request $request)
+    {
+        $state = $request->input('state');
+        $query = User::query();
+
+        if ($state) {
+            $query->where('state', $state);
+        }
+
+        $freelancers = $query->paginate(10);
+
+        // Fetch distinct states
+        $states = User::select('state')->distinct()->pluck('state');
+
+        return view('home', compact('freelancers', 'states'));
+    }
+
+
 }

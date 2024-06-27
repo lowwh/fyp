@@ -16,9 +16,26 @@
 
             <h1>Freelancers List</h1>
 
-            <!-- Loading Icon -->
-            <div id="loading-icon" class="spinner" style="display: none;">
+            <!-- Sort Dropdown -->
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <form method="GET" action="{{ route('home') }}">
+                        <div class="input-group">
+                            <select name="state" class="form-control" onchange="this.form.submit()">
+                                <option value="">All States</option>
+                                @foreach($states as $state)
+                                    <option value="{{ $state }}" {{ request('state') == $state ? 'selected' : '' }}>
+                                        {{ $state }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </form>
+                </div>
             </div>
+
+            <!-- Loading Icon -->
+            <div id="loading-icon" class="spinner" style="display: none;"></div>
 
             <div class="row">
                 @foreach($freelancers as $freelancer)
@@ -33,8 +50,6 @@
                                                 style="max-width: 300px; height: 300px;">
                                         </div>
                                     @endif
-
-
                                     <br>
                                     @if($freelancer->image_path)
                                         <div>
@@ -55,6 +70,11 @@
                                             {{ $freelancer->title }}
                                         </p>
                                         <br>
+                                        <h5 class="card-title mb-0"
+                                            style="display: inline; font-weight: bold; font-size: 1.2rem;">State:</h5>
+                                        <p style="display: inline; margin-left: 10px; font-size: 1.2rem;">
+                                            {{ $freelancer->state }}
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="ml-auto"
@@ -62,12 +82,6 @@
                                     <h5 class="card-title" style="display: inline;">From: RM</h5>
                                     <p style="display: inline; margin-left: 10px;">{{ $freelancer->price }}</p>
                                 </div>
-                                <button class="btn btn-outline-danger mt-auto cart-button"
-                                    data-freelancer-id="{{ $freelancer->main_id }}"
-                                    onclick="addToFavorites({{ $freelancer->main_id }})">
-                                    <i class="fas fa-shopping-cart"></i> Add to Cart
-                                </button>
-
                                 <a href="/viewprofile/{{ $freelancer->main_id }}"
                                     class="btn btn-primary mt-auto view-profile-button">View
                                     Profile</a>
@@ -78,7 +92,6 @@
                             </div>
                         </div>
                     </div>
-
                 @endforeach
             </div>
             <div class="d-flex justify-content-center">
