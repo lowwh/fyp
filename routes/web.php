@@ -16,6 +16,7 @@ use Illuminate\Auth\Events\Registered;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\BidController;
 
 /*
 |--------------------------------------------------------------------------
@@ -113,7 +114,13 @@ Route::middleware('auth')->group(function () {
     Route::get('messages/create/{user}', [MessageController::class, 'create'])->name('messages.create');
     Route::post('messages', [MessageController::class, 'store'])->name('messages.store');
     Route::get('messages/{user}/{message}', [MessageController::class, 'show'])->name('messages.show');
+    // Route::get('messages/{biddername}/{user_id}', [MessageController::class, 'bidshow'])->name('messages.bidshow');
+
+    Route::get('test/messages/{biddername}/{user_id}/{service_id}', [MessageController::class, 'bidshow'])->name('messages.bidshow');
+
+
     Route::get('/notifications/mark-as-read/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+    Route::get('/notifications/markAsRead/{id}', [NotificationController::class, 'markBidNotificationAsRead'])->name('bidding.notifications.markAsRead');
 
     //send Message
     Route::get('sendmessages', [MessageController::class, 'sendMessageIndex'])->name('sendmessages');
@@ -123,7 +130,7 @@ Route::middleware('auth')->group(function () {
 
 
 
-
+    Route::post('/bid/{userid}/{serviceid}', [BidController::class, 'store'])->name('bid');
 
 
 });

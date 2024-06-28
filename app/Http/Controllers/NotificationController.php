@@ -17,4 +17,18 @@ class NotificationController extends Controller
 
         return redirect()->route('messages.show', ['user' => $senderId, 'message' => $messageId]);
     }
+
+
+    public function markBidNotificationAsRead($id)
+    {
+        $notification = Auth::user()->notifications()->findOrFail($id);
+        $notification->markAsRead();
+        $biddername = $notification->data['bidder_name'];
+        $user_id = $notification->data['user_id'];
+
+        $service_id = $notification->data['service_id'];
+
+        //return redirect("/viewservice/{{ $id}}/{{ $gig_id }}");
+        return redirect()->route('messages.bidshow', ['biddername' => $biddername, 'user_id' => $user_id, 'service_id' => $service_id]);
+    }
 }

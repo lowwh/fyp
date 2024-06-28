@@ -50,6 +50,38 @@
                 </div>
             </li>
 
+            <!-- Bidding Notifications Dropdown Menu -->
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    <i class="fas fa-gavel"></i> <!-- Icon for bidding notifications -->
+                    <span
+                        class="badge badge-info navbar-badge">{{ Auth::user()->unreadBiddingNotifications->count() }}</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <span class="dropdown-item dropdown-header">{{ Auth::user()->unreadBiddingNotifications->count() }}
+                        Bidding Notifications</span>
+                    <div class="dropdown-divider"></div>
+                    @foreach(Auth::user()->unreadBiddingNotifications as $notification)
+                        <a href="{{ route('bidding.notifications.markAsRead', $notification->id) }}" class="dropdown-item">
+                            <div class="notification-text">
+                                <i class="fas fa-gavel mr-2"></i>
+                                <div class="notification-details">
+                                    <div class="notification-main">
+                                        New bid placed by on your gig ID
+                                        {{ $notification->data['service_id'] ?? 'Unknown' }}
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <span class="float-right text-muted text-sm">{{ $notification->created_at->diffForHumans() }}</span>
+                        </a>
+                    @endforeach
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item dropdown-footer">See All Bidding Notifications</a>
+                </div>
+            </li>
+
 
             <!-- User Account Dropdown Menu -->
             <li class="nav-item dropdown">
@@ -71,3 +103,26 @@
         @endguest
     </ul>
 </nav>
+
+<style>
+    .dropdown-item {
+        white-space: normal;
+    }
+
+    .dropdown-item .notification-text {
+        display: flex;
+        align-items: center;
+    }
+
+    .dropdown-item .notification-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
+    .dropdown-item .notification-main {
+        flex-grow: 1;
+        margin-left: 10px;
+    }
+</style>

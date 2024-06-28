@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Message;
 use App\Models\User;
+use App\Models\Bid;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\NewMessageNotification;
@@ -71,6 +72,18 @@ class MessageController extends Controller
         }
 
         return view('messages.show', compact('user', 'message'));
+    }
+
+
+    public function bidshow($biddername, $user_id, $service_id)
+    {
+        $user = User::findOrFail($user_id);
+
+        if (Auth::id() !== $user->id) {
+            abort(403);
+        }
+
+        return view('messages.bidshow', compact('biddername', 'user_id', 'service_id'));
     }
 
 

@@ -9,6 +9,11 @@
                     {{ session('status') }}
                 </div>
             @endif
+            @if (session('bid'))
+                <div class="alert alert-yellow">
+                    {{ session('bid') }}
+                </div>
+            @endif
             @foreach($users as $user)
                 <div class="rounded-lg bg-gray-200 p-3 mb-3">
                     <div class="bg-gray-300 rounded-lg p-3 mb-3" style="background-color: whitesmoke; text-align: center;">
@@ -27,6 +32,16 @@
                             </form>
                         </div>
                     @endif
+                    <!-- Bid Button -->
+                    <form action="{{ route('bid', ['userid' => $user->id, 'serviceid' => $user->serviceid]) }}"
+                        method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-success">Bid</button>
+                    </form>
+                    <!-- end of bid button -->
+
+                    <!-- Displaying the number of bids -->
+                    <p style="font-size: 50px">Total Bids: {{ $user->bids->count() }}</p>
                     @if($user->serviceimage)
                         <div>
                             <img src="{{ asset('storage/' . $user->serviceimage) }}" alt="Service Image"
@@ -289,6 +304,17 @@
         border-right-color: transparent;
         border-radius: 50%;
         animation: spin .75s linear infinite;
+    }
+
+    .alert-yellow {
+        background-color: #ffc107;
+        /* Yellow background color */
+        color: #000000;
+        /* Text color */
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 1px solid transparent;
+        border-radius: .25rem;
     }
 
     /* Keyframes for the spinner animation */

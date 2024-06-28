@@ -53,4 +53,16 @@ class User extends Authenticatable
         return $this->belongsToMany(Conversation::class);
     }
 
+
+    public function bids()
+    {
+        return $this->hasMany(Bid::class);
+    }
+
+    public function unreadBiddingNotifications()
+    {
+
+        return $this->notifications()->whereNull('read_at')->where('type', 'App\Notifications\BidPlacedNotification');
+    }
+
 }
