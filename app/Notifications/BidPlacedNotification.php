@@ -36,10 +36,11 @@ class BidPlacedNotification extends Notification
     {
         return [
             'message' => 'Your bid has been placed successfully.',
-            'bid_id' => $this->bid->id,
+            'bidder_id' => auth()->id(),
             'user_id' => $this->bid->user_id,
             'bidder_name' => $this->bid->bidder_name,
-            'service_id' => $this->bid->service_id
+            'service_id' => $this->bid->service_id,
+            'freelancer_id' => $this->bid->freelancer_id,
 
         ];
     }

@@ -13,7 +13,8 @@ class Bid extends Model
     protected $fillable = [
         'user_id',
         'bidder_id',
-        'service_id'
+        'service_id',
+        'freelancer_id'
     ];
 
     public function user()

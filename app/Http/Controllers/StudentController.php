@@ -65,9 +65,9 @@ class StudentController extends Controller
         $users = User::join('services', 'users.id', '=', 'services.user_id')
 
 
-            ->select('services.id as serviceid', 'users.*', 'services.title', 'services.description', 'services.price', 'users.image_path as userimage', 'services.image_path as serviceimage', DB::raw("DATE(users.created_at) as user_created_date"))
+            ->select('users.id as userid', 'users.freelancer_id', 'services.id as serviceid', 'users.*', 'services.title', 'services.description', 'services.price', 'users.image_path as userimage', 'services.image_path as serviceimage', DB::raw("DATE(users.created_at) as user_created_date"))
             ->where('services.user_id', $id)
-            ->where('services.id', $gig_id) // Assuming gig_id is the ID of the service
+            ->where('services.id', $gig_id)
             ->get();
 
 

@@ -71,6 +71,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/manageresult', [ResultController::class, 'index']);
     Route::post('/resultupdate/{id}', [ResultController::class, 'update'])->name('result.update');
     Route::get('/resultdelete/{id}', [ResultController::class, 'destroy'])->name('result.delete');
+    Route::post('/get/progression/{service_id}/{freelancer_id}/{bidder_id}/{notification_id}', [ResultController::class, 'addresult']);
 
     //Freelancer -> add and manage
     Route::view('/addstudent', 'operations.addstudent');
@@ -116,11 +117,12 @@ Route::middleware('auth')->group(function () {
     Route::get('messages/{user}/{message}', [MessageController::class, 'show'])->name('messages.show');
     // Route::get('messages/{biddername}/{user_id}', [MessageController::class, 'bidshow'])->name('messages.bidshow');
 
-    Route::get('test/messages/{biddername}/{user_id}/{service_id}', [MessageController::class, 'bidshow'])->name('messages.bidshow');
+    Route::get('test/messages/{biddername}/{bidder_id}/{service_id}/{freelancer_id}/{user_id}/{notification_id}', [MessageController::class, 'bidshow'])->name('messages.bidshow');
 
 
     Route::get('/notifications/mark-as-read/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
     Route::get('/notifications/markAsRead/{id}', [NotificationController::class, 'markBidNotificationAsRead'])->name('bidding.notifications.markAsRead');
+    Route::get('/notifications/markAsReadUser/{id}', [NotificationController::class, 'markBidNotificationAsReadUser'])->name('bidding.notifications.markAsReadUser');
 
     //send Message
     Route::get('sendmessages', [MessageController::class, 'sendMessageIndex'])->name('sendmessages');
@@ -130,7 +132,7 @@ Route::middleware('auth')->group(function () {
 
 
 
-    Route::post('/bid/{userid}/{serviceid}', [BidController::class, 'store'])->name('bid');
+    Route::post('/bid/{userid}/{serviceid}/{freelancerid}', [BidController::class, 'store'])->name('bid');
 
 
 });

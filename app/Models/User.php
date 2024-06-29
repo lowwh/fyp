@@ -65,4 +65,20 @@ class User extends Authenticatable
         return $this->notifications()->whereNull('read_at')->where('type', 'App\Notifications\BidPlacedNotification');
     }
 
+
+    public function unreadBiddingSuccessNotifications()
+    {
+
+        return $this->notifications()->whereNull('read_at')->where('type', 'App\Notifications\BiddingSuccessNotification');
+    }
+
+
+    public function unreadNotifications()
+    {
+
+        return $this->notifications()->whereNull('read_at')->where('type', 'App\Notifications\NewMessageNotification');
+    }
+
+
+
 }

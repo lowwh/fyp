@@ -10,7 +10,7 @@ use Auth;
 
 class BidController extends Controller
 {
-    public function store($id, Request $request, $serviceid)
+    public function store($id, Request $request, $serviceid, $freelancerid)
     {
         $user = User::findOrFail($id);
 
@@ -20,6 +20,7 @@ class BidController extends Controller
         $bid->bidder_id = auth()->id();
         $bid->bidder_name = Auth::user()->name;
         $bid->service_id = $serviceid;
+        $bid->freelancer_id = $freelancerid;
 
         $bid->save();
 

@@ -49,38 +49,86 @@
                     <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                 </div>
             </li>
+            <!-- Bidding  Notifications Dropdown Menu for freelancer user-->
+            @can('isFreelancer')
 
-            <!-- Bidding Notifications Dropdown Menu -->
-            <li class="nav-item dropdown">
-                <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="fas fa-gavel"></i> <!-- Icon for bidding notifications -->
-                    <span
-                        class="badge badge-info navbar-badge">{{ Auth::user()->unreadBiddingNotifications->count() }}</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <span class="dropdown-item dropdown-header">{{ Auth::user()->unreadBiddingNotifications->count() }}
-                        Bidding Notifications</span>
-                    <div class="dropdown-divider"></div>
-                    @foreach(Auth::user()->unreadBiddingNotifications as $notification)
-                        <a href="{{ route('bidding.notifications.markAsRead', $notification->id) }}" class="dropdown-item">
-                            <div class="notification-text">
-                                <i class="fas fa-gavel mr-2"></i>
-                                <div class="notification-details">
-                                    <div class="notification-main">
-                                        New bid placed by on your gig ID
-                                        {{ $notification->data['service_id'] ?? 'Unknown' }}
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="dropdown" href="#">
+                        <i class="fas fa-gavel"></i> <!-- Icon for bidding notifications -->
+
+
+                        <span
+                            class="badge badge-info navbar-badge">{{ Auth::user()->unreadBiddingNotifications()->count() }}</span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        <span class="dropdown-item dropdown-header">{{ Auth::user()->unreadBiddingNotifications()->count() }}
+                            Bidding Notifications</span>
+                        <div class="dropdown-divider"></div>
+                        @foreach(Auth::user()->unreadBiddingNotifications as $notification)
+                            <a href="{{ route('bidding.notifications.markAsRead', $notification->id) }}" class="dropdown-item">
+                                <div class="notification-text">
+                                    <i class="fas fa-gavel mr-2"></i>
+                                    <div class="notification-details">
+                                        <div class="notification-main">
+                                            New bid placed by on your gig ID {{ $notification->data['service_id'] ?? 'Unknown' }}
+                                        </div>
                                     </div>
-
                                 </div>
+                                <span class="float-right text-muted text-sm">{{ $notification->created_at->diffForHumans() }}</span>
+                            </a>
+                        @endforeach
 
-                            </div>
-                            <span class="float-right text-muted text-sm">{{ $notification->created_at->diffForHumans() }}</span>
-                        </a>
-                    @endforeach
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item dropdown-footer">See All Bidding Notifications</a>
-                </div>
-            </li>
+
+
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item dropdown-footer">See All Bidding Notifications</a>
+                    </div>
+                </li>
+
+            @endcan
+
+
+            <!-- Bidding success Notifications Dropdown Menu for normal user-->
+            @can('isUser')
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="dropdown" href="#">
+                        <i class="fas fa-gavel"></i> <!-- Icon for bidding notifications -->
+
+                        <span
+                            class="badge badge-info navbar-badge">{{ Auth::user()->unreadBiddingSuccessNotifications()->count() }}</span>
+
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        <span
+                            class="dropdown-item dropdown-header">{{ Auth::user()->unreadBiddingSuccessNotifications()->count() }}
+                            Bidding Notifications</span>
+                        <div class="dropdown-divider"></div>
+
+                        <!-- Bidding Success notification Dropdown Menu-->
+                        @foreach(Auth::user()->unreadBiddingSuccessNotifications as $notification)
+                            <a href="{{ route('bidding.notifications.markAsReadUser', $notification->id) }}" class="dropdown-item">
+                                <div class="notification-text">
+                                    <i class="fas fa-gavel mr-2"></i>
+                                    <div class="notification-details">
+                                        <div class="notification-main">
+                                            Your bid has been confirmed on gig ID
+                                            {{ $notification->data['service_id'] ?? 'Unknown' }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="float-right text-muted text-sm">{{ $notification->created_at->diffForHumans() }}</span>
+                            </a>
+                        @endforeach
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item dropdown-footer">See All Bidding Notifications</a>
+                    </div>
+                </li>
+            @endcan
+
 
 
             <!-- User Account Dropdown Menu -->

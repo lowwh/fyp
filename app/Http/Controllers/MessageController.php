@@ -10,6 +10,7 @@ use App\Models\Bid;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\NewMessageNotification;
+use Illuminate\Support\Facades\DB;
 
 class MessageController extends Controller
 {
@@ -75,7 +76,7 @@ class MessageController extends Controller
     }
 
 
-    public function bidshow($biddername, $user_id, $service_id)
+    public function bidshow($biddername, $bidder_id, $service_id, $freelancer_id, $user_id, $notification_id)
     {
         $user = User::findOrFail($user_id);
 
@@ -83,7 +84,15 @@ class MessageController extends Controller
             abort(403);
         }
 
-        return view('messages.bidshow', compact('biddername', 'user_id', 'service_id'));
+        $status = 'pending';
+        $bid = Bid::where('user_id', $user_id)
+            ->where('bidder_id', $bidder_id)
+            ->first();
+
+        if ($bid && $bid->status === 'completed') {
+            $status = 'completed';
+        }
+        return view('messages.bidshow', compact('biddername', 'bidder_id', 'service_id', 'freelancer_id', 'status', 'notification_id'));
     }
 
 

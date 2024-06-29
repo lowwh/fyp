@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\user;
+use App\Models\User;
 use App\Models\Result;
-use App\Models\Student;
+use App\Models\Bid;
 use App\Models\service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Auth;
+use App\Notifications\BiddingSuccessNotification;
 
 class ResultController extends Controller
 {
@@ -128,5 +129,42 @@ class ResultController extends Controller
         $result->delete();
 
         return redirect('/manageresult');
+    }
+
+    public function addresult(Request $req)
+    {
+
+        $result = new Result();
+        $result->freelancer_id = $req->freelancer_id;
+        $result->gig_id = $req->service_id;
+        $result->bidder_id = $req->bidder_id;
+        $result->save();
+
+        $bid = Bid::where('user_id', $req->bidder_id)
+            ->where('service_id', $req->service_id)
+            ->where('freelancer_id', $req->freelancer_id)
+            ->first();
+
+        if ($bid) {
+            $bid->status = 'completed';
+            $bid->save();
+        }
+
+        $notification = Auth::user()->notifications()->findOrFail($req->notification_id);
+        $notification->markAsRead();
+        // Find the freelancer or user to notify
+        $replybackbidder = User::find($req->bidder_id);
+
+        // Send notification
+        $replybackbidder->notify(new BiddingSuccessNotification($req->bidder_id, $req->service_id));
+
+        // Flash a success message to the session (optional)
+        session()->flash('success', 'Bidding successfully added!');
+
+        // Redirect back or to another route
+        return redirect()->back();
+
+
+
     }
 }

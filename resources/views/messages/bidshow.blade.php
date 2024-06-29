@@ -7,7 +7,6 @@
         .custom-style {
             padding: 20px;
             background-color: #f8f9fa;
-            /* Light background color */
             border-radius: 5px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
@@ -24,20 +23,49 @@
             background-color: #007bff;
             border-color: #007bff;
         }
+
+        .progress-container {
+            margin-bottom: 20px;
+        }
+
+        .progress-step {
+            width: 33.33%;
+            text-align: center;
+            font-weight: bold;
+            color: #007bff;
+            /* Default color */
+        }
+
+        .progress-step.completed {
+            color: green;
+            /* Completed status color */
+        }
     </style>
 
     <div class="custom-style">
-        <div class="gig-id">Gig ID: {{$service_id}}</div>
-        <div class="requester-name">Requester Name: {{$biddername}}</div>
+        <div class="gig-id">Gig ID: {{ $service_id }}</div>
+        <div class="requester-name">Requester Name: {{ $biddername }}</div>
+        <!-- Progress Indicator -->
+        <div class="progress-container">
+            <div class="d-flex">
+                <div class="progress-step completed">Step 1: Bid Placed</div>
+                <div class="progress-step {{ $status === 'completed' ? 'completed' : '' }}" id="step-under-review">Step
+                    2:
+                    Under Review</div>
+                <div class="progress-step {{ $status === 'completed' ? 'completed' : '' }}" id="step-confirmation">Step
+                    3: Confirmation</div>
+            </div>
+        </div>
         <!-- Trigger button for the modal -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#biddingModal">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#biddingModal"
+            id="viewRequestButton">
             View Bidding Request
         </button>
-
-        <form method="post" action="">
-            <button class="btn btn-primary" type="submit" onclick="confirmSubmission(event)">Confirm
-
-            </button>
+        <br><br>
+        <form method="post"
+            action="/get/progression/{{$service_id}}/{{$freelancer_id}}/{{$bidder_id}}/{{$notification_id}}">
+            @csrf
+            <button class="btn btn-primary" type="submit" id="confirmButton">Confirm</button>
         </form>
     </div>
 </div>
@@ -56,23 +84,36 @@
                 <!-- Modal body content -->
                 <div class="card">
                     <div class="card-body">
-                        <!-- Your content here -->
+                        <!-- Bidding Request Details -->
+                        <div class="info-item">
+                            <i class="fas fa-user icon"></i>
+                            <span>Bidder Name: {{ $biddername }}</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-id-badge icon"></i>
+                            <span>Service ID: {{ $service_id }}</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-calendar icon"></i>
+                            <span>Requested On: {{ now()->format('Y-m-d') }}</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-info-circle icon"></i>
+                            <span>Additional Info: [Your additional info here]</span>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <!-- Optional: Add any action buttons here -->
+                <button id="close" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
-@endsection
 
 <script>
-    function confirmSubmission(event) {
-        if (!confirm('Are you sure you want to confirm?')) {
-            event.preventDefault();
-        }
-    }
+    document.getElementById('viewRequestButton').addEventListener('click', function () {
+        document.getElementById('step-under-review').classList.add('completed');
+    });
 </script>
+@endsection

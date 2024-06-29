@@ -24,24 +24,29 @@
                             <img src="{{ asset('storage/' . $user->userimage) }}" alt="User Image" class="rounded-circle"
                                 style="width: 50px; height: 50px; margin-right: 20px">
                             <h1 class="text-xl font-bold">{{ $user->name }}</h1>
+                            <!-- send email button -->
                             <form action="{{ route('send.email', $user->id) }}" method="POST" id="sendEmailForm">
                                 @csrf
                                 <button type="submit" class="btn btn-primary" id="sendEmailButton">
                                     Send Email <span id="spinner" style="display: none;"></span>
                                 </button>
                             </form>
+                            <!-- Bid Button -->
+                            <form
+                                action="{{ route('bid', ['userid' => $user->id, 'serviceid' => $user->serviceid, 'freelancerid' => $user->freelancer_id]) }}"
+                                method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-primary">Bid</button>
+                            </form>
                         </div>
                     @endif
-                    <!-- Bid Button -->
-                    <form action="{{ route('bid', ['userid' => $user->id, 'serviceid' => $user->serviceid]) }}"
-                        method="POST">
-                        @csrf
-                        <button type="submit" class="btn btn-success">Bid</button>
-                    </form>
-                    <!-- end of bid button -->
+
+
+
+
 
                     <!-- Displaying the number of bids -->
-                    <p style="font-size: 50px">Total Bids: {{ $user->bids->count() }}</p>
+                    <p style="font-size: 30px">Total Bids: {{ $user->bids->count() }}</p>
                     @if($user->serviceimage)
                         <div>
                             <img src="{{ asset('storage/' . $user->serviceimage) }}" alt="Service Image"
