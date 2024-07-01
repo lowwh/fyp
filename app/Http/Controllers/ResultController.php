@@ -14,13 +14,17 @@ use App\Notifications\BiddingSuccessNotification;
 
 class ResultController extends Controller
 {
-    public function index()
+    public function show()
     {
         try {
+            $userId = auth()->id();
             // Fetch all results joined with student names
             $results = Result::leftJoin('users', 'results.freelancer_id', '=', 'users.freelancer_id')
                 ->leftJoin('services', 'results.gig_id', '=', 'services.id')
                 ->select('results.*', 'users.name', 'services.id as serviceid', )
+                //->where('results.bidder_id', $userId)
+
+
                 ->get();
 
             // Pass the results data to the view

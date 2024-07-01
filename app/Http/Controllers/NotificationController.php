@@ -50,4 +50,13 @@ class NotificationController extends Controller
         //return redirect("/viewservice/{{ $id}}/{{ $gig_id }}");
         return redirect()->route('messages.bidshow', ['user_id' => $user_id, 'biddername' => $biddername, 'bidder_id' => $bidder_id, 'service_id' => $service_id, 'freelancer_id' => $freelancer_id, 'notification_id' => $id]);
     }
+
+
+    public function markAsReadForBiddingSuccessUser($id)
+    {
+        $notification = Auth::user()->notifications()->findOrFail($id);
+        $notification->markAsRead();
+        return redirect("/home");
+
+    }
 }

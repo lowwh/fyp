@@ -65,7 +65,7 @@
         <form method="post"
             action="/get/progression/{{$service_id}}/{{$freelancer_id}}/{{$bidder_id}}/{{$notification_id}}">
             @csrf
-            <button class="btn btn-primary" type="submit" id="confirmButton">Confirm</button>
+            <button class="btn btn-primary" type="submit" id="confirmButton" disabled>Confirm</button>
         </form>
     </div>
 </div>
@@ -114,6 +114,7 @@
 <script>
     document.getElementById('viewRequestButton').addEventListener('click', function () {
         document.getElementById('step-under-review').classList.add('completed');
+        document.getElementById('confirmButton').disabled = false;
     });
 </script>
 @endsection

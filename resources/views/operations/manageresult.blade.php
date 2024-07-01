@@ -36,87 +36,92 @@
                                 @endphp
 
                                 @foreach ($results as $result)
-                                                            @if (!in_array($result->freelancer_id, $uniqueFreelancerIds))
-                                                                                        @php
-                                                                                            $uniqueFreelancerIds[] = $result->freelancer_id;
-                                                                                        @endphp
-                                                                                        <tr>
-
-                                                                                            <td>{{ $result->freelancer_id }}</td>
-                                                                                            <td>{{ $result->name }}</td>
-                                                                                            <td>
-                                                                                                <button class="btn btn-info show-more"
-                                                                                                    data-student-id="{{ $result->freelancer_id }}">Show More</button>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr class="additional-row d-none" data-student-id="{{ $result->freelancer_id }}">
-                                                                                            <td colspan="4">
-                                                                                                <table class="table table-bordered">
-                                                                                                    <thead>
+                                                        @can('view', $result)
+                                                                                @if (!in_array($result->freelancer_id, $uniqueFreelancerIds))
+                                                                                                        @php
+                                                                                                            $uniqueFreelancerIds[] = $result->freelancer_id;
+                                                                                                        @endphp
                                                                                                         <tr>
-                                                                                                            <th>Gig Id</th>
-                                                                                                            <th>Progress Bar</th>
-                                                                                                            @can('isFreelancer')
-                                                                                                                <th>Actions</th>
-                                                                                                            @endcan
+
+                                                                                                            <td>{{ $result->freelancer_id }}</td>
+                                                                                                            <td>{{ $result->name }}</td>
+                                                                                                            <td>
+                                                                                                                <button class="btn btn-info show-more"
+                                                                                                                    data-student-id="{{ $result->freelancer_id }}">Show More</button>
+                                                                                                            </td>
                                                                                                         </tr>
-                                                                                                    </thead>
-                                                                                                    <tbody>
-                                                                                                        @foreach ($results as $innerResult)
-                                                                                                            @if ($innerResult->freelancer_id === $result->freelancer_id)
-                                                                                                                <tr>
-                                                                                                                    <td>{{ $innerResult->gig_id }}</td>
-                                                                                                                    <td>
-                                                                                                                        <div class="progress">
-                                                                                                                            <div class="progress-bar" role="progressbar"
-                                                                                                                                style="width: {{ $innerResult->progress }}%;"
-                                                                                                                                aria-valuenow="{{ $innerResult->progress }}"
-                                                                                                                                aria-valuemin="0" aria-valuemax="100">
-                                                                                                                                {{ $innerResult->progress }}%
-                                                                                                                            </div>
-                                                                                                                        </div>
-                                                                                                                        <span class="result-score"></span>
-                                                                                                                        <form class="update-form d-none"
-                                                                                                                            action="{{ route('result.update', $innerResult->id) }}"
-                                                                                                                            method="POST" style="display: inline;">
-                                                                                                                            @csrf
-                                                                                                                            <input type="text" name="progress"
-                                                                                                                                value="{{ $innerResult->progress }}">
-                                                                                                                            <button type="submit" class="btn btn-primary">Save</button>
-                                                                                                                        </form>
-                                                                                                                    </td>
-                                                                                                                    <td>
-                                                                                                                        @can('isFreelancer')
-                                                                                                                            <button class="btn btn-primary update-btn">Update</button>
-                                                                                                                        @endcan
-                                                                                                                        <form class="delete-form"
-                                                                                                                            action="{{ route('result.delete', $innerResult->id) }}"
-                                                                                                                            method="GET" style="display: inline;">
-                                                                                                                            @csrf
+                                                                                                        <tr class="additional-row d-none" data-student-id="{{ $result->freelancer_id }}">
+                                                                                                            <td colspan="4">
+                                                                                                                <table class="table table-bordered">
+                                                                                                                    <thead>
+                                                                                                                        <tr>
+                                                                                                                            <th>Gig Id</th>
+                                                                                                                            <th>Progress Bar</th>
                                                                                                                             @can('isFreelancer')
-                                                                                                                                <button type="submit"
-                                                                                                                                    class="btn btn-danger delete-btn">Delete</button>
+                                                                                                                                <th>Actions</th>
                                                                                                                             @endcan
-                                                                                                                        </form>
-                                                                                                                        @can('isUser')
-                                                                                                                            @if($innerResult->progress == 100.00)
-                                                                                                                                <form action="/historygig/{{$result->serviceid}}" method="get">
-                                                                                                                                    <button type="submit"
-                                                                                                                                        class="btn btn-success btn-sm">Done</button>
-                                                                                                                                </form>
+                                                                                                                        </tr>
+                                                                                                                    </thead>
+                                                                                                                    <tbody>
 
-                                                                                                                            @endif
-                                                                                                                        @endcan
+                                                                                                                        @foreach ($results as $innerResult)
+                                                                                                                            @can('view', $innerResult)
+                                                                                                                                @if ($innerResult->freelancer_id === $result->freelancer_id)
+                                                                                                                                    <tr>
+                                                                                                                                        <td>{{ $innerResult->gig_id }}</td>
+                                                                                                                                        <td>
+                                                                                                                                            <div class="progress">
+                                                                                                                                                <div class="progress-bar" role="progressbar"
+                                                                                                                                                    style="width: {{ $innerResult->progress }}%;"
+                                                                                                                                                    aria-valuenow="{{ $innerResult->progress }}"
+                                                                                                                                                    aria-valuemin="0" aria-valuemax="100">
+                                                                                                                                                    {{ $innerResult->progress }}%
+                                                                                                                                                </div>
+                                                                                                                                            </div>
+                                                                                                                                            <span class="result-score"></span>
+                                                                                                                                            <form class="update-form d-none"
+                                                                                                                                                action="{{ route('result.update', $innerResult->id) }}"
+                                                                                                                                                method="POST" style="display: inline;">
+                                                                                                                                                @csrf
+                                                                                                                                                <input type="text" name="progress"
+                                                                                                                                                    value="{{ $innerResult->progress }}">
+                                                                                                                                                <button type="submit" class="btn btn-primary">Save</button>
+                                                                                                                                            </form>
+                                                                                                                                        </td>
+                                                                                                                                        <td>
+                                                                                                                                            @can('isFreelancer')
+                                                                                                                                                <button class="btn btn-primary update-btn">Update</button>
+                                                                                                                                            @endcan
+                                                                                                                                            <form class="delete-form"
+                                                                                                                                                action="{{ route('result.delete', $innerResult->id) }}"
+                                                                                                                                                method="GET" style="display: inline;">
+                                                                                                                                                @csrf
+                                                                                                                                                @can('isFreelancer')
+                                                                                                                                                    <button type="submit"
+                                                                                                                                                        class="btn btn-danger delete-btn">Delete</button>
+                                                                                                                                                @endcan
+                                                                                                                                            </form>
+                                                                                                                                            @can('isUser')
+                                                                                                                                                @if($innerResult->progress == 100.00)
+                                                                                                                                                    <form action="/historygig/{{$result->serviceid}}" method="get">
+                                                                                                                                                        <button type="submit"
+                                                                                                                                                            class="btn btn-success btn-sm">Done</button>
+                                                                                                                                                    </form>
 
-                                                                                                                    </td>
-                                                                                                                </tr>
-                                                                                                            @endif
-                                                                                                        @endforeach
-                                                                                                    </tbody>
-                                                                                                </table>
-                                                                                            </td>
-                                                                                        </tr>
-                                                            @endif
+                                                                                                                                                @endif
+                                                                                                                                            @endcan
+
+                                                                                                                                        </td>
+                                                                                                                                    </tr>
+                                                                                                                                @endif
+                                                                                                                            @endcan
+                                                                                                                        @endforeach
+                                                                                                                    </tbody>
+                                                                                                                </table>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                @endif
+                                                        @endcan
                                 @endforeach
                             </tbody>
                         </table>

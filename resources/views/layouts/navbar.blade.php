@@ -110,7 +110,8 @@
 
                         <!-- Bidding Success notification Dropdown Menu-->
                         @foreach(Auth::user()->unreadBiddingSuccessNotifications as $notification)
-                            <a href="{{ route('bidding.notifications.markAsReadUser', $notification->id) }}" class="dropdown-item">
+                            <a href="{{ route('bidding.notifications.markAsReadUserBidSuccess', $notification->id) }}"
+                                class="dropdown-item">
                                 <div class="notification-text">
                                     <i class="fas fa-gavel mr-2"></i>
                                     <div class="notification-details">

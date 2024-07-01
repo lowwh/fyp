@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\service;
 use App\Models\result;
 use App\Models\rating;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class HistoryController extends Controller
 {
@@ -36,10 +36,12 @@ class HistoryController extends Controller
             ->join('results', 'results.gig_id', '=', 'services.id')
 
 
+
             ->select('services.image_path', 'ratings.expectation', 'ratings.suggestion', 'ratings.rating', 'ratings.reason', 'ratings.gig_id', 'users.image_path as userimage', 'results.progress')
             ->where('results.progress', 100)
             ->where('users.id', $userId)
-            // ->where('services.user_id', $userId)
+            ->where('results.bidder_id', $userId)
+            ->distinct()
 
             ->get();
 

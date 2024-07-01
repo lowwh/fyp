@@ -68,7 +68,7 @@ Route::middleware('auth')->group(function () {
 
     //Manage result
     //Route::view('manageresult', '/operations/manageresult');
-    Route::get('/manageresult', [ResultController::class, 'index']);
+    Route::get('/manageresult', [ResultController::class, 'show']);
     Route::post('/resultupdate/{id}', [ResultController::class, 'update'])->name('result.update');
     Route::get('/resultdelete/{id}', [ResultController::class, 'destroy'])->name('result.delete');
     Route::post('/get/progression/{service_id}/{freelancer_id}/{bidder_id}/{notification_id}', [ResultController::class, 'addresult']);
@@ -121,7 +121,13 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/notifications/mark-as-read/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+
+
+    //TODO:come from nav blade and pass notification id
+    Route::get('/notifications/markAsRead2/{id}', [NotificationController::class, 'markAsReadForBiddingSuccessUser'])->name('bidding.notifications.markAsReadUserBidSuccess');
+
     Route::get('/notifications/markAsRead/{id}', [NotificationController::class, 'markBidNotificationAsRead'])->name('bidding.notifications.markAsRead');
+
     Route::get('/notifications/markAsReadUser/{id}', [NotificationController::class, 'markBidNotificationAsReadUser'])->name('bidding.notifications.markAsReadUser');
 
     //send Message
