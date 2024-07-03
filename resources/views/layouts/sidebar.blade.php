@@ -130,14 +130,14 @@
 
           <ul class="nav nav-treeview">
             @can('isFreelancer')
-        <li class="nav-item">
+          <!-- <li class="nav-item">
 
           <a href="addresult" class="nav-link">
           <i class="fas fa-folder-plus nav-icon"></i>
           <p>Add Progress</p>
           </a>
 
-        </li>
+        </li> -->
       @endcan
             <li class="nav-item">
               <a href="manageresult" class="nav-link">

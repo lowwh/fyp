@@ -18,19 +18,23 @@ class ResultController extends Controller
     {
         try {
             $userId = auth()->id();
-            // Fetch all results joined with student names
+
             $results = Result::leftJoin('users', 'results.freelancer_id', '=', 'users.freelancer_id')
                 ->leftJoin('services', 'results.gig_id', '=', 'services.id')
-                ->select('results.*', 'users.name', 'services.id as serviceid', )
-                //->where('results.bidder_id', $userId)
-
-
+                ->leftJoin('users as bidders', 'results.bidder_id', '=', 'bidders.id')
+                ->select('results.*', 'users.name', 'services.id as serviceid', 'bidders.name as biddername')
                 ->get();
 
-            // Pass the results data to the view
+
+
+
+
+
+
+
             return view("operations.manageresult", compact('results'));
         } catch (\Exception $e) {
-            // Log or handle the exception
+
             dd($e->getMessage()); // Output the error message for debugging
         }
     }
@@ -38,8 +42,8 @@ class ResultController extends Controller
 
     public function showAddResultForm()
     {
-        $freelancers = user::all(); // Fetch all students from the database
-        // $coursesOptions = ["Chemistry", "Mathematics", "Fundamentals of Programming", "Project Management"]; // Example courses options, replace with your actual data
+        $freelancers = user::all();
+
 
         return view("operations.addresult", compact('freelancers'));
     }
