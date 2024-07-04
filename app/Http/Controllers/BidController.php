@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Bid;
 use App\Notifications\BidPlacedNotification;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class BidController extends Controller
 {
@@ -27,6 +27,6 @@ class BidController extends Controller
 
         $user->notify(new BidPlacedNotification($bid));
 
-        return back()->with('bid', 'Your bidding is pending!');
+        return back()->with('bid', 'Your bid is pending. Please wait for the freelancer to review and confirm your bid. You will be notified once the freelancer has made a decision');
     }
 }

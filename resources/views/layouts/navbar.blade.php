@@ -40,11 +40,19 @@
                     <div class="dropdown-divider"></div>
                     @foreach(Auth::user()->unreadNotifications as $notification)
                         <a href="{{ route('notifications.markAsRead', $notification->id) }}" class="dropdown-item">
-                            <i class="fas fa-envelope mr-2"></i> New message from
-                            {{ $notification->data['sender_name'] ?? 'Unknown' }}
+                            <div class="notification-text">
+                                <i class="fas fa-envelope mr-2"></i>
+                                <div class="notification-details">
+                                    <div class="notification-main">
+                                        New message from
+                                        {{ $notification->data['sender_name'] ?? 'Unknown' }}
+                                    </div>
+                                </div>
+                            </div>
                             <span class="float-right text-muted text-sm">{{ $notification->created_at->diffForHumans() }}</span>
                         </a>
                     @endforeach
+
                     <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                 </div>
@@ -121,7 +129,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <span class="float-right text-muted text-sm">{{ $notification->created_at->diffForHumans() }}</span>
+                                <span class="float-right text-muted">{{ $notification->created_at->diffForHumans() }}</span>
                             </a>
                         @endforeach
                         <div class="dropdown-divider"></div>
@@ -156,6 +164,14 @@
 <style>
     .dropdown-item {
         white-space: normal;
+        padding: 20px 18px;
+
+        font-size: 1rem;
+
+        background-color: #f8f9fa;
+
+        border-bottom: 1px solid #dee2e6;
+
     }
 
     .dropdown-item .notification-text {
@@ -168,10 +184,30 @@
         justify-content: space-between;
         align-items: center;
         width: 100%;
+
     }
 
     .dropdown-item .notification-main {
         flex-grow: 1;
         margin-left: 10px;
+    }
+
+    .dropdown-item i {
+        font-size: 2rem;
+
+        margin-right: 10px;
+
+    }
+
+    .dropdown-item .text-muted {
+        font-size: 0.8rem;
+        transform: translateY(-10px)
+    }
+
+    .navbar-badge {
+        background-color: red;
+        color: white;
+        font-size: 11px;
+        font-weight: bold;
     }
 </style>

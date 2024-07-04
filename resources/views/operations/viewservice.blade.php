@@ -5,12 +5,12 @@
     <div class="row">
         <div class="col-md-8">
             @if (session('status'))
-                <div class="alert alert-success">
+                <div class="alert alert-success" id="statusAlert">
                     {{ session('status') }}
                 </div>
             @endif
             @if (session('bid'))
-                <div class="alert alert-yellow">
+                <div class="alert alert-yellow" id="bidAlert">
                     {{ session('bid') }}
                 </div>
             @endif
@@ -34,9 +34,10 @@
                             <!-- Bid Button -->
                             <form
                                 action="{{ route('bid', ['userid' => $user->id, 'serviceid' => $user->serviceid, 'freelancerid' => $user->freelancer_id]) }}"
-                                method="POST">
+                                method="POST" id="bidForm">
                                 @csrf
-                                <button type="submit" class="btn btn-primary">Bid</button>
+                                <button type="submit" class="btn btn-primary bid-button"
+                                    data-user="{{$user->name}}">Bid</button>
                             </form>
                         </div>
                     @endif
@@ -339,6 +340,38 @@
             // Optional: Disable the button to prevent multiple submissions
             document.getElementById('sendEmailButton').setAttribute('disabled', true);
         });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var bidForms = document.querySelectorAll('.bid-button');
+        bidForms.forEach(function (form) {
+            form.addEventListener('click', function (event) {
+                event.preventDefault();
+                var userName = this.getAttribute('data-user');
+                var confirmBid = confirm('Are you sure you want to bid on ' + userName + '\'s service?');
+                if (confirmBid) {
+                    document.getElementById('bidForm').submit();
+                }
+            });
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var statusAlert = document.getElementById('statusAlert');
+        if (statusAlert) {
+
+            setTimeout(function () {
+                statusAlert.style.display = 'none';
+            }, 5000);
+        }
+
+        var bidAlert = document.getElementById('bidAlert');
+        if (bidAlert) {
+
+            setTimeout(function () {
+                bidAlert.style.display = 'none';
+            }, 5000);
+        }
     });
 </script>
 

@@ -80,7 +80,7 @@
                                 <a href="/viewservice/{{ $freelancer->main_id }}/{{ $freelancer->serviceid }}"
                                     class="btn btn-secondary mt-auto view-service-button">View Service</a>
                                 <a href="{{ route('messages.create', $freelancer->main_id) }}"
-                                    class="btn btn-primary mt-auto">Send Message</a>
+                                    class="btn btn-success mt-auto">Send Message</a>
                             </div>
                         </div>
                     </div>
@@ -168,6 +168,10 @@
     .btn-secondary {
         background-color: #6c757d;
         border-color: #6c757d;
+        margin: 6px
+    }
+
+    .btn-success {
         margin: 6px
     }
 
