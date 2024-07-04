@@ -114,7 +114,8 @@ Route::middleware('auth')->group(function () {
     Route::get('receivedmessages', [MessageController::class, 'receivedMessageIndex'])->name('receivedmessages');
     Route::get('messages/create/{user}', [MessageController::class, 'create'])->name('messages.create');
     Route::post('messages', [MessageController::class, 'store'])->name('messages.store');
-    Route::get('messages/{user}/{message}', [MessageController::class, 'show'])->name('messages.show');
+    Route::get('messages/{user}/show/{message}', [MessageController::class, 'show'])->name('messages.show');
+
     // Route::get('messages/{biddername}/{user_id}', [MessageController::class, 'bidshow'])->name('messages.bidshow');
 
     Route::get('test/messages/{biddername}/{bidder_id}/{service_id}/{freelancer_id}/{user_id}/{notification_id}', [MessageController::class, 'bidshow'])->name('messages.bidshow');

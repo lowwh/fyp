@@ -67,13 +67,19 @@ class MessageController extends Controller
 
     public function show(User $user, Message $message)
     {
-        // Ensure the user is either the sender or the receiver of the message
-        if (Auth::id() !== $message->sender_id && Auth::id() !== $message->receiver_id) {
-            abort(403);
-        }
+        // Assuming Message model has sender_id and receiver_id fields
+        $messages = Message::where(function ($query) use ($user, $message) {
+            $query->where('sender_id', $user->id)->where('receiver_id', Auth::id())
+                ->orWhere('sender_id', Auth::id())->where('receiver_id', $user->id);
+        })->orderBy('created_at')->get();
 
-        return view('messages.show', compact('user', 'message'));
+        $receiver = $user; // The user you are having a conversation with
+
+        $messages->load('sender');
+
+        return view('messages.show', compact('messages', 'receiver'));
     }
+
 
 
     public function bidshow($biddername, $bidder_id, $service_id, $freelancer_id, $user_id, $notification_id)

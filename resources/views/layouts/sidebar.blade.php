@@ -54,12 +54,12 @@
                 <p>Inbox</p>
               </a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a href="{{ route('sendmessages') }}" class="nav-link">
                 <i class="fas fa-paper-plane nav-icon"></i>
                 <p>Send Message </p>
               </a>
-            </li>
+            </li> -->
           </ul>
 
         </li>
