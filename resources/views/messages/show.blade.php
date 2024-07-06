@@ -18,6 +18,21 @@
             </div>
         </div>
     @endforeach
+
+    <!-- Message input form -->
+    <div class="conversation">
+        <form action="{{ route('messages.store') }}" method="POST" id="messageForm">
+            @csrf
+            <input type="hidden" name="receiver_id" value="{{ $receiver->id }}">
+
+            <div class="form-group position-relative">
+                <textarea name="content" id="content" class="form-control" rows="1" required></textarea>
+                <button type="submit" class="btn btn-primary send-button" id="sendButton">
+                    <i class="fa fa-paper-plane"></i>
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
 @endsection
 
@@ -63,4 +78,37 @@
     .message-avatar img {
         border-radius: 50%;
     }
+
+    .form-group {
+        position: relative;
+    }
+
+    .form-control {
+        padding-right: 40px;
+        /* Make space for the send button */
+    }
+
+    .send-button {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: none;
+        background: none;
+        font-size: 1.5em;
+        color: #007bff;
+        cursor: pointer;
+    }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const sendButton = document.getElementById('sendButton');
+        const messageForm = document.getElementById('messageForm');
+
+        sendButton.addEventListener('click', function (event) {
+            event.preventDefault();
+            messageForm.submit();
+        });
+    });
+</script>

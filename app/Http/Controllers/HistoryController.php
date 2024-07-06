@@ -10,20 +10,22 @@ use Illuminate\Support\Facades\Auth;
 
 class HistoryController extends Controller
 {
-    public function showGigs($id)
+    public function showrating($id)
     {
         // Get all gig data for the freelancer with 100% progress
-
         $results = Result::leftJoin('services', 'results.gig_id', '=', 'services.id')
 
-            ->select('services.title', 'services.description', 'services.image_path', 'services.id', 'services.servicetype', 'services.price')
+            ->select('results.id as resultid', 'services.title', 'services.description', 'services.image_path', 'services.id', 'services.servicetype', 'services.price')
             ->where('services.id', $id)
+            ->distinct()
+
             ->get();
 
 
 
+
         // Pass the gig data to the new Blade view
-        return view('operations.history', ['results' => $results]);
+        return view('operations.rating', ['results' => $results]);
     }
 
     public function index()
@@ -59,12 +61,16 @@ class HistoryController extends Controller
         ]);
         $rating = new rating();
 
+
+
         $rating->gig_id = $id;
         $rating->user_id = Auth::id();
         $rating->expectation = $request->expectation;
         $rating->reason = $request->reason;
         $rating->suggestion = $request->suggestion;
         $rating->rating = $request->rating;
+        $rating->result_id = $request->resultid;
+
         $rating->save();
 
         return redirect('/history');

@@ -13,8 +13,14 @@ class rating extends Model
         'expectation',
         'reason',
         'suggestion',
-        'rating'
+        'rating',
+        'result_id'
     ];
 
     public $timestamps = false;
+
+    public function result()
+    {
+        return $this->belongsTo(Result::class);
+    }
 }

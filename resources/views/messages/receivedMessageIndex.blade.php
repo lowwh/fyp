@@ -25,7 +25,7 @@
                     class="btn btn-primary">View Messages from
                     {{ $message->sender->name }}</a>
 
-                <a href="{{ route('messages.create', $message->sender_id) }}" class="btn btn-primary">Reply</a>
+                <!-- <a href="{{ route('messages.create', $message->sender_id) }}" class="btn btn-primary">Reply</a> -->
             </div>
         </div>
     @endforeach

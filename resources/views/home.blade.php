@@ -6,14 +6,14 @@
     <div class="container-fluid">
         <div class="container">
             <div class="row mb-2">
-                <div class="col-sm-20">
+                <div class="col-sm-12">
                     <ol class="breadcrumb float-sm-left">
                         <li class="breadcrumb-item active"><i class="fas fa-home nav-icon"></i> Home</li>
                     </ol>
                 </div>
             </div>
 
-            <h1>Freelancers List</h1>
+            <h1 class="display-4 text-center">Freelancers List</h1>
 
             <!-- Sort Dropdown -->
             <div class="row mb-4">
@@ -33,57 +33,75 @@
                 </div>
             </div>
 
-
-
             <div class="row">
                 @foreach($freelancers as $freelancer)
-                    <div class="col-md-4 mb-4">
-                        <div class="card freelancer-card">
-                            <div class="card-body d-flex justify-content-between flex-column">
-                                <div class="mb-3">
-                                    @if($freelancer->serviceimage)
-                                        <div class="service-image">
-                                            <img src="{{ asset('storage/' . $freelancer->serviceimage) }}" alt="Service Image">
-                                        </div>
-                                    @endif
-                                    <br>
-                                    @if($freelancer->image_path)
-                                        <div class="freelancer-image">
-                                            <img src="{{ asset('storage/' . $freelancer->image_path) }}" alt="Freelancer Image">
-                                        </div>
-                                    @endif
-                                    <div class="gig-info">
+                                <div class="col-md-4 mb-4">
+                                    <div class="card freelancer-card">
+                                        <div class="card-body d-flex flex-column">
+                                            <div class="text-center mb-3">
+                                                @if($freelancer->serviceimage)
+                                                    <div class="service-image">
+                                                        <img src="{{ asset('storage/' . $freelancer->serviceimage) }}" alt="Service Image"
+                                                            class="img-fluid rounded">
+                                                    </div>
+                                                @endif
+                                                <br>
+                                                @if($freelancer->image_path)
+                                                    <div class="freelancer-image mx-auto">
+                                                        <img src="{{ asset('storage/' . $freelancer->image_path) }}" alt="Freelancer Image"
+                                                            class="rounded-circle">
+                                                    </div>
+                                                @endif
+                                            </div>
+                                            <div class="gig-info text-center">
+                                                <div class="gig-detail">
+                                                    <h5 class="card-title mb-0">Gig ID:</h5>
+                                                    <p>{{ $freelancer->serviceid }}</p>
+                                                </div>
+                                                <div class="gig-detail">
+                                                    <h5 class="card-title mb-0">Gig Title:</h5>
+                                                    <p>{{ $freelancer->title }}</p>
+                                                </div>
+                                                <div class="gig-detail">
+                                                    <h5 class="card-title mb-0">State:</h5>
+                                                    <p>{{ $freelancer->state }}</p>
+                                                </div>
+                                                @if(isset($freelancer->skills))
+                                                    <div class="gig-detail">
+                                                        <h5 class="card-title mb-0">Skills:</h5>
+                                                        <p>{{ $freelancer->skills }}</p>
+                                                    </div>
+                                                @endif
+                                            </div>
+
+                                            <div class="rating text-center mt-3">
+                                                @php
+    $serviceRatings = $ratings->where('gig_id', $freelancer->serviceid);
+    $ratingCount = $serviceRatings->count();
+                                                @endphp
+                                                <span class="fa fa-star checked"></span>
+                                                <span class="fa fa-star checked"></span>
+                                                <span class="fa fa-star checked"></span>
+                                                <span class="fa fa-star"></span>
+                                                <span class="fa fa-star"></span>
+                                                <span>{{ $ratingCount }} reviews</span>
+                                            </div>
 
 
-
-
-                                        <div class="gig-detail">
-                                            <h5 class="card-title mb-0">Gig ID:</h5>
-                                            <p>{{ $freelancer->serviceid }}</p>
-                                        </div>
-                                        <div class="gig-detail">
-                                            <h5 class="card-title mb-0">Gig Title:</h5>
-                                            <p>{{ $freelancer->title }}</p>
-                                        </div>
-                                        <div class="gig-detail">
-                                            <h5 class="card-title mb-0">State:</h5>
-                                            <p>{{ $freelancer->state }}</p>
+                                            <div class="price-info text-center mt-3">
+                                                <h5 class="card-title">From: RM{{ $freelancer->price }}</h5>
+                                            </div>
+                                            <div class="mt-auto d-flex justify-content-around">
+                                                <a href="/viewprofile/{{ $freelancer->main_id }}"
+                                                    class="btn btn-primary view-profile-button">View Profile</a>
+                                                <a href="/viewservice/{{ $freelancer->main_id }}/{{ $freelancer->serviceid }}"
+                                                    class="btn btn-secondary view-service-button">View Service</a>
+                                                <a href="{{ route('messages.create', $freelancer->main_id) }}"
+                                                    class="btn btn-success">Send Message</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="price-info">
-                                    <h5 class="card-title">From: RM</h5>
-                                    <p>{{ $freelancer->price }}</p>
-                                </div>
-                                <a href="/viewprofile/{{ $freelancer->main_id }}"
-                                    class="btn btn-primary mt-auto view-profile-button">View Profile</a>
-                                <a href="/viewservice/{{ $freelancer->main_id }}/{{ $freelancer->serviceid }}"
-                                    class="btn btn-secondary mt-auto view-service-button">View Service</a>
-                                <a href="{{ route('messages.create', $freelancer->main_id) }}"
-                                    class="btn btn-success mt-auto">Send Message</a>
-                            </div>
-                        </div>
-                    </div>
                 @endforeach
             </div>
             <div class="d-flex justify-content-center">
@@ -95,8 +113,6 @@
 
 <script src="{{ mix('/js/app.js') }}"></script>
 
-
-
 <style>
     .breadcrumb {
         background-color: #f8f9fa;
@@ -104,28 +120,41 @@
     }
 
     .card {
-        background-color: #fff;
-        border: 1px solid #dee2e6;
-        border-radius: .25rem;
+        border: none;
+        border-radius: .75rem;
+        overflow: hidden;
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
     }
 
     .freelancer-card {
-        width: 100%;
-        background-color: white;
-        padding: 5px;
-        border-radius: 5px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease-in-out;
+    }
+
+    .freelancer-card:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
 
     .service-image img {
-        max-width: 300px;
+        width: 100%;
         height: 300px;
+        border-radius: 10px;
     }
+    
 
     .freelancer-image img {
-        width: 50px;
-        height: 50px;
+        width: 80px;
+        height: 80px;
         border-radius: 50%;
+        margin-top: -40px;
+        border: 3px solid white;
     }
 
     .gig-info .gig-detail {
@@ -135,48 +164,62 @@
     .gig-info h5 {
         display: inline;
         font-weight: bold;
-        font-size: 1.2rem;
-        margin-top: 5px
+        font-size: 1rem;
+        color: #333;
     }
 
     .gig-info p {
         display: inline;
-        margin-left: 10px;
-        font-size: 1.2rem;
+        margin-left: 5px;
+        font-size: 1rem;
+        color: #666;
+    }
+
+    .rating .fa-star {
+        color: #ffd700;
+    }
+
+    .rating span {
+        font-size: 0.9rem;
+        color: #666;
     }
 
     .price-info {
-        text-align: center;
-        align-items: center;
-        align-self: flex-end;
+        font-size: 1.2rem;
+        color: #333;
+        font-weight: bold;
+        margin-top: 10px;
         background-color: #f0f8ff;
-        padding: 5px;
-        padding-top: 14px;
-        border-radius: 5px;
+        padding: 10px;
+        border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        margin-bottom: 10px;
-        width: 40%
+    }
+
+    .btn-primary,
+    .btn-secondary,
+    .btn-success {
+        margin: 6px;
+        width: 100%;
+        transition: opacity 0.3s;
     }
 
     .btn-primary {
         background-color: #007bff;
         border-color: #007bff;
-        margin: 6px;
-
     }
 
     .btn-secondary {
         background-color: #6c757d;
         border-color: #6c757d;
-        margin: 6px
     }
 
     .btn-success {
-        margin: 6px
+        background-color: #28a745;
+        border-color: #28a745;
     }
 
     .btn:hover {
-        opacity: 0.5;
+        opacity: 0.8;
     }
 </style>
 @endsection

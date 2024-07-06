@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Result;
 use App\Models\Bid;
 use App\Models\service;
+use App\Models\rating;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -25,6 +26,20 @@ class ResultController extends Controller
                 ->select('results.*', 'users.name', 'services.id as serviceid', 'bidders.name as biddername')
                 ->get();
 
+            $matchingResults = Rating::whereExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('results')
+                    ->whereColumn('ratings.gig_id', 'results.gig_id');
+            })->get();
+
+            // Example: If there are matching results, perform some action
+            if ($matchingResults->isNotEmpty()) {
+                // Perform your action here, such as storing information
+                // Example: Store information about the matching results
+                $exists = true;
+            } else {
+                $exists = false;
+            }
 
 
 
@@ -32,7 +47,9 @@ class ResultController extends Controller
 
 
 
-            return view("operations.manageresult", compact('results'));
+
+
+            return view("operations.manageresult", compact('results', 'exists'));
         } catch (\Exception $e) {
 
             dd($e->getMessage()); // Output the error message for debugging

@@ -107,7 +107,8 @@ Route::middleware('auth')->group(function () {
 
     // Route::view('/historygig', 'operations.history');
     Route::get('/history', [HistoryController::class, 'index']);
-    Route::get('/historygig/{id}', [HistoryController::class, 'showGigs'])->name('show.gigs');
+    //TODO:show gig
+    Route::get('/showrating/{id}', [HistoryController::class, 'showrating'])->name('show.rating');
 
     Route::post('/rating/{id}', [HistoryController::class, 'rating']);
 

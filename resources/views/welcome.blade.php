@@ -4,51 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description"
-        content="Student Result Management System - UECS3294 Advanced Web Application Development" />
+    <meta name="description" content="Platform for Independent Contractor Communities" />
     <meta name="author" content="P2_02" />
     <title>PLATFORM FOR INDEPENDENT CONTRACTOR COMMUNITIES</title>
 
     <!-- Core theme CSS (includes Bootstrap)-->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/styles.css') }}">
-
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- Additional custom styles -->
     <style>
-        .scrollable-notice {
-            max-height: 170px;
-            overflow-y: auto;
-        }
-
-        .bg-image-full {
-            background-position: center;
-            background-size: cover;
-            height: 500px;
-            width: 100%;
-            animation: slideShow 20s infinite;
-            border-radius: 20px;
-        }
-
-        @keyframes slideShow {
-            0% {
-                background-image: url('images/background-image2.jpg');
-            }
-
-            33% {
-                background-image: url('images/background-image4.jfif');
-            }
-
-            66% {
-                background-image: url('images/freelancer-image.jpg');
-            }
-
-            100% {
-                background-image: url('images/background-image3.jfif');
-            }
-        }
-
-        html,
-        body {
+        body,
+        html {
             height: 100%;
             margin: 0;
+            font-family: 'Roboto', sans-serif;
         }
 
         .wrapper {
@@ -76,7 +46,39 @@
             margin-left: auto;
         }
 
-        /* Ensure the images fit well within the card */
+        .bg-image-full {
+            background-position: center;
+            background-size: cover;
+            height: 500px;
+            width: 100%;
+            animation: slideShow 20s infinite;
+            border-radius: 20px;
+        }
+
+
+        @keyframes slideShow {
+            0% {
+                background-image: url('images/background-image2.jpg');
+            }
+
+            33% {
+                background-image: url('images/background-image4.jfif');
+            }
+
+            66% {
+                background-image: url('images/freelancer-image.jpg');
+            }
+
+            100% {
+                background-image: url('images/background-image3.jfif');
+            }
+        }
+
+        .scrollable-notice {
+            max-height: 170px;
+            overflow-y: auto;
+        }
+
         .card-img {
             width: 100%;
             height: 100%;
@@ -84,16 +86,12 @@
             border-radius: 20px;
         }
 
-        /* Style for the flip cards */
         .flip-card {
             height: 300px;
-            /* Adjust height to fit the image */
             perspective: 1000px;
             transition: transform 0.6s;
-
         }
 
-        /* Inner flip card container */
         .flip-card-inner {
             position: relative;
             width: 100%;
@@ -103,36 +101,111 @@
             transform-style: preserve-3d;
         }
 
-        /* Front and back of the flip card */
         .flip-card-front,
         .flip-card-back {
             position: absolute;
-            width: 90%;
-            height: 90%;
+            width: 100%;
+            height: 100%;
             backface-visibility: hidden;
             border-radius: 20px;
-
         }
 
-        /* Front side of the flip card */
         .flip-card-front {
             z-index: 2;
             transform: rotateY(0deg);
         }
 
-        /* Back side of the flip card */
         .flip-card-back {
             transform: rotateY(180deg);
         }
 
-        /* Flipped state of the flip card */
         .flip-card.flipped .flip-card-inner {
             transform: rotateY(180deg);
         }
 
         .card {
             border-radius: 20px;
-            background-color: darkgrey;
+            background-color: #f8f9fa;
+        }
+
+        .flip-card-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+
+        .cta-section {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+            padding: 50px 0;
+        }
+
+        .cta-section h2,
+        .cta-section p {
+            margin-bottom: 20px;
+        }
+
+        .cta-section a {
+            text-transform: uppercase;
+        }
+
+        blockquote {
+            background: #f9f9f9;
+            border-left: 10px solid #ccc;
+            margin: 1.5em 10px;
+            padding: 0.5em 10px;
+            quotes: "\201C" "\201D" "\2018" "\2019";
+        }
+
+        blockquote:before {
+            color: #ccc;
+            content: open-quote;
+            font-size: 4em;
+            line-height: 0.1em;
+            margin-right: 0.25em;
+            vertical-align: -0.4em;
+        }
+
+        blockquote p {
+            display: inline;
+        }
+
+        .scrollable-notice {
+            max-height: 170px;
+            overflow-y: auto;
+            background-color: #f8f9fa;
+            border: 2px solid #007bff;
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .scrollable-notice ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .scrollable-notice li {
+            padding: 10px 0;
+            border-bottom: 1px solid #ccc;
+            transition: background-color 0.3s;
+        }
+
+        .scrollable-notice li:hover {
+            background-color: #e9ecef;
+        }
+
+        .scrollable-notice li a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+        }
+
+        .scrollable-notice li a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -169,10 +242,9 @@
                 <div class="col-xl-12">
                     <div class="bg-image-full"></div>
                 </div>
-                <div class="col-xl-12" style="margin-top:30px">
-                    <!-- order-0 places this column first on smaller screens, order-xl-1 places it second on xl screens -->
+                <div class="col-xl-12 mt-5">
                     <h2>Notice Board</h2>
-                    <hr color="#000" />
+                    <hr />
                     <div class="scrollable-notice">
                         <ul>
                             @foreach($notices as $notice)
@@ -190,39 +262,34 @@
         <section class="content py-5">
             <div class="container my-5">
                 <div class="row justify-content-center">
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 text-center">
                         <h2>Welcome to Our Platform</h2>
-                        <p>Our platform is designed to empower electricians and painter to enter the gig economy with
-                            confidence. Whether they
-                            specialize in residential lines, commercial work, interior design, or exterior cladding,
-                            professionals in these
-                            industries will find great value in using this platform.</p>
+                        <p>Our platform is designed to empower electricians and painters to enter the gig economy with
+                            confidence. Whether they specialize in residential lines, commercial work, interior design,
+                            or exterior cladding, professionals in these industries will find great value in using this
+                            platform.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Services Section -->
-        <section class="py-5">
+        <section class="py-5 bg-light">
             <div class="container">
                 <h2 class="text-center">Our Services</h2>
                 <div class="row">
-                    <div class="col-md-4">
-                        <!-- Service 1 Card -->
+                    <div class="col-md-4 mb-4">
                         <div class="card">
-                            <div class="card-body">
+                            <div class="card-body text-center">
                                 <h3 class="card-title">Painting</h3>
-                                <!-- Flip Card -->
                                 <div class="card flip-card">
-                                    <div class="card-body flip-card-inner">
-                                        <!-- Front Side -->
+                                    <div class="flip-card-inner">
                                         <div class="flip-card-front">
-                                            <img src="images/background-image3.jfif" alt="Service 1 Front"
+                                            <img src="images/background-image3.jfif" alt="Painting Service Front"
                                                 class="card-img">
                                         </div>
-                                        <!-- Back Side -->
                                         <div class="flip-card-back">
-                                            <img src="images/background-image3.jfif" alt="Service 1 Back"
+                                            <img src="images/background-image3.jfif" alt="Painting Service Back"
                                                 class="card-img">
                                         </div>
                                     </div>
@@ -230,22 +297,18 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <!-- Service 2 Card -->
+                    <div class="col-md-4 mb-4">
                         <div class="card">
-                            <div class="card-body">
+                            <div class="card-body text-center">
                                 <h3 class="card-title">Electrician</h3>
-                                <!-- Flip Card -->
                                 <div class="card flip-card">
-                                    <div class="card-body flip-card-inner">
-                                        <!-- Front Side -->
+                                    <div class="flip-card-inner">
                                         <div class="flip-card-front">
-                                            <img src="images/background-image4.jfif" alt="Service 2 Front"
+                                            <img src="images/background-image4.jfif" alt="Electrician Service Front"
                                                 class="card-img">
                                         </div>
-                                        <!-- Back Side -->
                                         <div class="flip-card-back">
-                                            <img src="images/background-image4.jfif" alt="Service 2 Back"
+                                            <img src="images/background-image4.jfif" alt="Electrician Service Back"
                                                 class="card-img">
                                         </div>
                                     </div>
@@ -253,22 +316,18 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <!-- Service 3 Card -->
+                    <div class="col-md-4 mb-4">
                         <div class="card">
-                            <div class="card-body">
-                                <h3 class="card-title">Service 2</h3>
-                                <!-- Flip Card -->
+                            <div class="card-body text-center">
+                                <h3 class="card-title">Service 3</h3>
                                 <div class="card flip-card">
-                                    <div class="card-body flip-card-inner">
-                                        <!-- Front Side -->
+                                    <div class="flip-card-inner">
                                         <div class="flip-card-front">
-                                            <img src="images/background-image2.jpg" alt="Service 2 Front"
+                                            <img src="images/background-image2.jpg" alt="Service 3 Front"
                                                 class="card-img">
                                         </div>
-                                        <!-- Back Side -->
                                         <div class="flip-card-back">
-                                            <img src="images/background-image2.jpg" alt="Service 2 Back"
+                                            <img src="images/background-image2.jpg" alt="Service 3 Back"
                                                 class="card-img">
                                         </div>
                                     </div>
@@ -279,7 +338,6 @@
                 </div>
             </div>
         </section>
-
 
         <!-- Testimonials Section -->
         <section class="bg-light py-5">
@@ -309,12 +367,11 @@
         </section>
 
         <!-- Call to Action Section -->
-        <section class="py-5">
-            <div class="container text-center">
+        <section class="cta-section text-center">
+            <div class="container">
                 <h2>Ready to Join?</h2>
                 <p>Sign up today and start finding opportunities.</p>
-                <a href="register" class="btn btn-primary">Register</a>
-
+                <a href="/register" class="btn btn-primary">Register</a>
             </div>
         </section>
 
@@ -337,18 +394,13 @@
     <!-- Flip Card JS -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Select the inner cards
             var flipCards = document.querySelectorAll('.flip-card');
+            var flipInterval = 2000;
 
-            // Set the time interval (in milliseconds) for flipping the cards
-            var flipInterval = 2000; // 2 seconds
-
-            // Function to add the 'flipped' class
             function flip(card) {
                 card.classList.toggle('flipped');
             }
 
-            // Set an interval to flip the cards continuously
             flipCards.forEach(function (card) {
                 setInterval(function () {
                     flip(card);

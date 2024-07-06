@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Result extends Model
 {
     use HasFactory;
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
+
+
 }
