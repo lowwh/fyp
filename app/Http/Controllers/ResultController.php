@@ -187,7 +187,7 @@ class ResultController extends Controller
         session()->flash('success', 'Bidding successfully added!');
 
         // Redirect back or to another route
-        return redirect()->back();
+        return redirect('manageresult');
 
 
 

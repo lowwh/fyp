@@ -2,10 +2,13 @@
 
 @section('content')
 <div class="container">
-    <h1>Messages</h1>
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>Messages</h1>
 
-    <div style="background-color:lightgrey; width:300px">
-        <h2>Received Messages</h2>
+    </div>
+
+    <div class="bg-light p-3 my-4 rounded shadow-sm">
+        <h2 class="text-center">Received Messages</h2>
     </div>
 
     @php
@@ -16,17 +19,30 @@
     @endphp
 
     @foreach($groupedMessages as $message)
-        <div class="card mb-3">
+        <div class="card mb-3 shadow-sm">
             <div class="card-body">
-                <h5 class="card-title">From: {{ $message->sender->name }}</h5>
-                <p class="card-text">{{ Str::limit($message->content, 1) }}</p>
-                <p class="card-text"><small class="text-muted">{{ $message->created_at->diffForHumans() }}</small></p>
-                <a href="{{ route('messages.show', ['user' => $message->sender->id, 'message' => $message->id]) }}"
-                    class="btn btn-primary">View Messages from
-                    {{ $message->sender->name }}</a>
-
-                <!-- <a href="{{ route('messages.create', $message->sender_id) }}" class="btn btn-primary">Reply</a> -->
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="card-title">From: {{ $message->sender->name }}</h5>
+                        <p class="card-text">{{ Str::limit($message->content, 50) }}</p>
+                        <p class="card-text"><small class="text-muted">{{ $message->created_at->diffForHumans() }}</small>
+                        </p>
+                    </div>
+                    <div>
+                        <a href="{{ route('messages.show', ['user' => $message->sender->id, 'message' => $message->id]) }}"
+                            class="btn btn-primary">
+                            <i class="fas fa-envelope-open-text"></i> View Messages
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     @endforeach
-</div>@endsection
+
+    @if($groupedMessages->isEmpty())
+        <div class="alert alert-info" role="alert">
+            You have no received messages.
+        </div>
+    @endif
+</div>
+@endsection

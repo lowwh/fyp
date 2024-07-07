@@ -61,7 +61,7 @@ class MessageController extends Controller
         $receiver = User::find($request->receiver_id);
         $receiver->notify(new NewMessageNotification($message));
 
-        return redirect()->route('sendmessages')->with('success', 'Message sent successfully.');
+        return redirect()->route('receivedmessages')->with('success', 'Message sent successfully.');
     }
 
 

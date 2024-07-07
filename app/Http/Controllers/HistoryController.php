@@ -17,6 +17,7 @@ class HistoryController extends Controller
 
             ->select('results.id as resultid', 'services.title', 'services.description', 'services.image_path', 'services.id', 'services.servicetype', 'services.price')
             ->where('services.id', $id)
+            ->groupBy('services.id', 'results.id', 'services.title', 'services.description', 'services.image_path', 'services.servicetype', 'services.price')
             ->distinct()
 
             ->get();

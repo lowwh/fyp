@@ -48,8 +48,12 @@
                         </div>
                     @endforeach
                 @else
-                    <div class="bg-white rounded-lg p-5 mb-5 text-center shadow" style="max-width: 600px; margin: 0 auto;">
-                        <p style="font-size: 32px; font-weight: bold;">No History Service yet</p>
+                    <div class="no-history bg-light rounded-lg p-5 mb-5 text-center shadow"
+                        style="max-width: 600px; margin: 0 auto;">
+                        <p class="display-4 font-weight-bold mb-4">No History Service Yet</p>
+                        <p class="lead">You haven't completed any services yet. Start browsing and complete your first
+                            service today!</p>
+                        <a href="{{ url('/searchresult') }}" class="btn btn-primary mt-3">Browse Services</a>
                     </div>
                 @endif
             </div>
@@ -137,6 +141,41 @@
 
     .bg-white {
         background-color: #fff;
+    }
+
+    .bg-light {
+        background-color: #f8f9fa;
+    }
+
+    .no-history {
+        border-radius: 15px;
+        padding: 2rem;
+        text-align: center;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .display-4 {
+        font-size: 2.5rem;
+    }
+
+    .font-weight-bold {
+        font-weight: 700;
+    }
+
+    .lead {
+        font-size: 1.25rem;
+        font-weight: 300;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        font-weight: bold;
+        color: #fff;
+        border-radius: 0.3rem;
+        text-transform: uppercase;
     }
 </style>
 @endsection
