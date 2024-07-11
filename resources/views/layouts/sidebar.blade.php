@@ -241,6 +241,16 @@
           </a>
 
         </li>
+        <li class="nav-item">
+          <a href="/chatgpt" class="nav-link">
+            <i class="fas fa-question-circle nav-icon"></i>
+            <p>
+              CHATGPT
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+
+        </li>
       </ul>
     </nav>
     <!-- /.sidebar-menu -->

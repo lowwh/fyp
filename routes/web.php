@@ -51,6 +51,10 @@ Route::get('/', [NoticeController::class, 'welcome'])->name('welcome');
 
 
 Route::middleware('auth')->group(function () {
+
+    Route::get('/chatgpt', function () {
+        return view('operations.chatgpt');
+    });
     Route::get('/uploadphoto/{id}', [ProfileController::class, 'show']);
     Route::post('/uploadphoto/{id}', [ProfileController::class, 'update']);
 

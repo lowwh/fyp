@@ -35,73 +35,79 @@
 
             <div class="row">
                 @foreach($freelancers as $freelancer)
-                                <div class="col-md-4 mb-4">
-                                    <div class="card freelancer-card">
-                                        <div class="card-body d-flex flex-column">
-                                            <div class="text-center mb-3">
-                                                @if($freelancer->serviceimage)
-                                                    <div class="service-image">
-                                                        <img src="{{ asset('storage/' . $freelancer->serviceimage) }}" alt="Service Image"
-                                                            class="img-fluid rounded">
-                                                    </div>
-                                                @endif
-                                                <br>
-                                                @if($freelancer->image_path)
-                                                    <div class="freelancer-image mx-auto">
-                                                        <img src="{{ asset('storage/' . $freelancer->image_path) }}" alt="Freelancer Image"
-                                                            class="rounded-circle">
-                                                    </div>
-                                                @endif
-                                            </div>
-                                            <div class="gig-info text-center">
-                                                <div class="gig-detail">
-                                                    <h5 class="card-title mb-0">Gig ID:</h5>
-                                                    <p>{{ $freelancer->serviceid }}</p>
-                                                </div>
-                                                <div class="gig-detail">
-                                                    <h5 class="card-title mb-0">Gig Title:</h5>
-                                                    <p>{{ $freelancer->title }}</p>
-                                                </div>
-                                                <div class="gig-detail">
-                                                    <h5 class="card-title mb-0">State:</h5>
-                                                    <p>{{ $freelancer->state }}</p>
-                                                </div>
-                                                @if(isset($freelancer->skills))
-                                                    <div class="gig-detail">
-                                                        <h5 class="card-title mb-0">Skills:</h5>
-                                                        <p>{{ $freelancer->skills }}</p>
-                                                    </div>
-                                                @endif
-                                            </div>
-
-                                            <div class="rating text-center mt-3">
-                                                @php
-    $serviceRatings = $ratings->where('gig_id', $freelancer->serviceid);
-    $ratingCount = $serviceRatings->count();
-                                                @endphp
-                                                <span class="fa fa-star checked"></span>
-                                                <span class="fa fa-star checked"></span>
-                                                <span class="fa fa-star checked"></span>
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                                <span>{{ $ratingCount }} reviews</span>
-                                            </div>
+                                                                                                                <div class="col-md-4 mb-4">
+                                                                                                                    <div class="card freelancer-card">
+                                                                                                                        <div class="card-body d-flex flex-column">
+                                                                                                                            <div class="text-center mb-3">
+                                                                                                                                @if($freelancer->serviceimage)
+                                                                                                                                    <div class="service-image">
+                                                                                                                                        <img src="{{ asset('storage/' . $freelancer->serviceimage) }}" alt="Service Image"
+                                                                                                                                            class="img-fluid rounded">
+                                                                                                                                    </div>
+                                                                                                                                    @else
+                                                                                                                                        <div class="service-image">
+                                                                                                                                            <img src="{{ asset('images/noimage.jfif') }}" alt="Painting Service Back" class="card-img">
+                                                                                                                                        </div>
+                                                                                                                                    @endif
+                                                                                                                                <br>
+                                                                                                                                @if($freelancer->image_path)
+                                                                                                                                    <div class="freelancer-image mx-auto">
+                                                                                                                                        <img src="{{ asset('storage/' . $freelancer->image_path) }}" alt="Freelancer Image"
+                                                                                                                                            class="rounded-circle">
+                                                                                                                                    </div>
 
 
-                                            <div class="price-info text-center mt-3">
-                                                <h5 class="card-title">From: RM{{ $freelancer->price }}</h5>
-                                            </div>
-                                            <div class="mt-auto d-flex justify-content-around">
-                                                <a href="/viewprofile/{{ $freelancer->main_id }}"
-                                                    class="btn btn-primary view-profile-button">View Profile</a>
-                                                <a href="/viewservice/{{ $freelancer->main_id }}/{{ $freelancer->serviceid }}"
-                                                    class="btn btn-secondary view-service-button">View Service</a>
-                                                <a href="{{ route('messages.create', $freelancer->main_id) }}"
-                                                    class="btn btn-success">Send Message</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
+                                                                                                                                @endif
+                                                                                                                            </div>
+                                                                                                                            <div class="gig-info text-center">
+                                                                                                                                <div class="gig-detail">
+                                                                                                                                    <h5 class="card-title mb-0">Gig ID:</h5>
+                                                                                                                                    <p>{{ $freelancer->serviceid }}</p>
+                                                                                                                                </div>
+                                                                                                                                <div class="gig-detail">
+                                                                                                                                    <h5 class="card-title mb-0">Gig Title:</h5>
+                                                                                                                                    <p>{{ $freelancer->title }}</p>
+                                                                                                                                </div>
+                                                                                                                                <div class="gig-detail">
+                                                                                                                                    <h5 class="card-title mb-0">State:</h5>
+                                                                                                                                    <p>{{ $freelancer->state }}</p>
+                                                                                                                                </div>
+                                                                                                                                <div class="gig-detail">
+                                                                                                                                    <h5 class="card-title mb-0">Posted On:</h5>
+                                                                                                                                    <p>{{ $freelancer->service_created_date }}</p>
+                                                                                                                                </div>
+
+                                                                                                                            </div>
+
+                                                                                                                            <div class="rating text-center mt-3">
+                                                                                                                                @php
+                    $serviceRatings = $ratings->where('gig_id', $freelancer->serviceid);
+                    $ratingCount = $serviceRatings->count();
+                                                                                                                                @endphp
+                                                                                                                                <span class="fa fa-star checked"></span>
+                                                                                                                                <span class="fa fa-star checked"></span>
+                                                                                                                                <span class="fa fa-star checked"></span>
+                                                                                                                                <span class="fa fa-star"></span>
+                                                                                                                                <span class="fa fa-star"></span>
+                                                                                                                                <span>{{ $ratingCount }} reviews</span>
+                                                                                                                            </div>
+
+
+                                                                                                                            <div class="price-info text-center mt-3">
+                                                                                                                                <h5 class="card-title">From: RM{{ $freelancer->price }}</h5>
+                                                                                                                            </div>
+                                                                                                                            <div class="mt-auto d-flex justify-content-around">
+                                                                                                                                <a href="/viewprofile/{{ $freelancer->main_id }}"
+                                                                                                                                    class="btn btn-primary view-profile-button">View Profile</a>
+                                                                                                                                <a href="/viewservice/{{ $freelancer->main_id }}/{{ $freelancer->serviceid }}"
+                                                                                                                                    class="btn btn-secondary view-service-button">View Service</a>
+                                                                                                                                <a href="{{ route('messages.create', $freelancer->main_id) }}"
+                                                                                                                                    class="btn btn-success">Send Message</a>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
                 @endforeach
             </div>
             <div class="d-flex justify-content-center">

@@ -25,7 +25,7 @@ class StudentController extends Controller
         $query = DB::table('users')
             ->leftJoin('services', 'services.user_id', '=', 'users.id')
 
-            ->select('users.state', 'users.id as main_id', 'services.id as serviceid', 'services.title', 'services.servicetype', 'services.price', 'services.image_path as serviceimage', 'services.image_path2 as serviceimage2', 'users.name', 'users.email', 'users.age', 'users.gender', 'users.image_path', 'users.freelancer_id')
+            ->select(DB::raw("DATE(services.created_at) as service_created_date"), 'users.state', 'users.id as main_id', 'services.id as serviceid', 'services.title', 'services.servicetype', 'services.price', 'services.image_path as serviceimage', 'services.image_path2 as serviceimage2', 'users.name', 'users.email', 'users.age', 'users.gender', 'users.image_path', 'users.freelancer_id')
             ->where('users.role', 'freelancer')
             ->whereNotNull('services.title')
             ->whereNotNull('services.description');

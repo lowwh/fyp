@@ -112,6 +112,7 @@ class ResultController extends Controller
             ->join('users', 'services.user_id', '=', 'users.id')
             ->leftJoin('ratings', 'ratings.gig_id', '=', 'services.id')
             ->select(
+                'services.image_path as serviceimage',
                 'services.servicetype',
                 'services.description',
                 DB::raw("DATE(services.created_at) as service_created_date"),
@@ -120,10 +121,11 @@ class ResultController extends Controller
                 'services.id as serviceid',
                 'users.id as userid',
                 'users.state',
+                'users.image_path',
                 DB::raw("COUNT(ratings.gig_id) as gigs_count") // Count gig_id
             )
             ->where('services.servicetype', $validatedData['servicetype'])
-            ->groupBy('services.servicetype', 'services.description', 'services.created_at', 'services.price', 'services.title', 'services.id', 'users.id', 'users.state')
+            ->groupBy('users.image_path', 'services.image_path', 'services.servicetype', 'services.description', 'services.created_at', 'services.price', 'services.title', 'services.id', 'users.id', 'users.state')
             ->get();
 
         if ($results->isEmpty()) {

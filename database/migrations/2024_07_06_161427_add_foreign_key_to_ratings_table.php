@@ -26,8 +26,7 @@ class AddForeignKeyToRatingsTable extends Migration
             // Drop foreign key constraint
             $table->dropForeign(['result_id']);
 
-            // Drop the result_id column if needed
-            // $table->dropColumn('result_id'); // Uncomment if you want to drop the column on rollback
+
         });
     }
 }

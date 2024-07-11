@@ -23,8 +23,9 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
+                        <div>{{Auth::user()->unreadNotifications->count()}}</div>
                         <h5 class="card-title">From: {{ $message->sender->name }}</h5>
-                        <p class="card-text">{{ Str::limit($message->content, 50) }}</p>
+                        <!-- <p class="card-text">{{ Str::limit($message->content, 50) }}</p> -->
                         <p class="card-text"><small class="text-muted">{{ $message->created_at->diffForHumans() }}</small>
                         </p>
                     </div>
