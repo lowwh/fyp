@@ -40,6 +40,25 @@
             margin-bottom: 10px;
         }
 
+        .profile-image {
+            position: absolute;
+            top: 50%;
+            /* Adjust as needed to center vertically */
+            right: 10px;
+            /* Adjust to overlap on the right */
+            transform: translate(0, -250%);
+            /* Center vertically */
+            z-index: 10;
+            /* Ensure user image appears above service image */
+            width: 50px;
+            /* Adjust width as needed */
+            margin-top: 10px;
+            /* Adjust top margin to control overlap */
+            margin-left: 0;
+            /* Adjust left margin as needed */
+
+        }
+
         @media print {
 
             .container form,
@@ -131,7 +150,22 @@
                                                 </div>
                                             @endif
                                         </div>
-                                        <div class="col-md-8">
+
+                                        <div class="col-md-2">
+                                            @if($result->image_path)
+                                                <div class="profile-image">
+                                                    <img src="{{ asset('storage/' . $result->image_path) }}" alt="Profile Image"
+                                                        class="img-fluid rounded-circle">
+                                                </div>
+                                            @else
+                                                <div class="profile-image">
+                                                    <img src="{{ asset('images/default_profile_image.png') }}"
+                                                        alt="Default Profile Image" class="img-fluid rounded-circle">
+                                                </div>
+                                            @endif
+                                        </div>
+
+                                        <div class="col-md-6">
                                             <p><strong>Service Title:</strong> {{ $result->title }}</p>
 
                                             <p class="service-state"><strong>Service State:</strong> {{ $result->state }}</p>
@@ -143,15 +177,16 @@
                                                 <p class="rating-state"><strong>Total Rating:</strong> 0</p>
                                             @endif
 
-
-
                                             <p class="service-date"><strong>Posted On:</strong>
                                                 {{ $result->service_created_date }}</p>
                                             <a href="/viewservice/{{ $result->userid }}/{{ $result->serviceid }}"
                                                 class="btn btn-secondary mt-auto">View</a>
+                                            <a href="/viewprofile/{{ $result->userid }}"
+                                                class="btn btn-primary view-profile-button">View Profile</a>
+                                            <a href="{{ route('messages.create', $result->userid) }}"
+                                                class="btn btn-success">Send Message</a>
+
                                         </div>
-
-
                                     </div>
                                 </div>
                             @endforeach
@@ -319,7 +354,6 @@
             }
             return 0; // Default to 0 if element not found
         }
-
 
         function sortResultsByPrice() {
             var sortByPriceButton = document.getElementById('sortByPriceButton');

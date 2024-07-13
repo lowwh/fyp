@@ -51,7 +51,7 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form method="post" action="/rating/{{$result['id']}}">
+                                <form method="post" action="/rating/{{$result['id']}}/{{$userid}}">
                                     @csrf
                                     <div class="modal-body">
                                         <div class="form-group">

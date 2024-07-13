@@ -10,6 +10,11 @@
                     <ol class="breadcrumb float-sm-left">
                         <li class="breadcrumb-item active"><i class="fas fa-home nav-icon"></i> Home</li>
                     </ol>
+                    @if (session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
                 </div>
             </div>
 
@@ -82,8 +87,8 @@
 
                                                                                                                             <div class="rating text-center mt-3">
                                                                                                                                 @php
-                    $serviceRatings = $ratings->where('gig_id', $freelancer->serviceid);
-                    $ratingCount = $serviceRatings->count();
+    $serviceRatings = $ratings->where('gig_id', $freelancer->serviceid);
+    $ratingCount = $serviceRatings->count();
                                                                                                                                 @endphp
                                                                                                                                 <span class="fa fa-star checked"></span>
                                                                                                                                 <span class="fa fa-star checked"></span>

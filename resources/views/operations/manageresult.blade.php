@@ -29,106 +29,142 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @php
-                                    $previousFreelancerId = null;
+                                @php 
                                     $uniqueFreelancerIds = [];
                                 @endphp
 
                                 @foreach ($results as $result)
-                                    {{-- Check if user can view the result --}}
-                                    @can('view', $result)
-                                        {{-- Check if freelancer ID is unique --}}
-                                        @if (!in_array($result->freelancer_id, $uniqueFreelancerIds))
-                                            @php
-                                                $uniqueFreelancerIds[] = $result->freelancer_id;
-                                            @endphp
-                                            {{-- Display main row for each unique freelancer --}}
-                                            <tr>
-                                                <td>{{ $result->freelancer_id }}</td>
-                                                <td>{{ $result->name }}</td>
-                                                <td>
-                                                    <button class="btn btn-info show-more" data-student-id="{{ $result->freelancer_id }}">Show More</button>
-                                                </td>
-                                            </tr>
-                                            {{-- Display additional details row --}}
-                                            <tr class="additional-row d-none" data-student-id="{{ $result->freelancer_id }}">
-                                                <td colspan="4">
-                                                    <table class="table table-bordered">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Gig Id</th>
-                                                                <th>Bidder Name</th>
-                                                                <th>Progress Bar</th>
-                                                                {{-- Show actions column for freelancers --}}
-                                                                @can('isFreelancer')
-                                                                    <th>Actions</th>
-                                                                @endcan
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {{-- Loop through results again to display inner details --}}
-                                                            @foreach ($results as $innerResult)
-                                                                {{-- Check if user can view the inner result --}}
-                                                                @can('view', $innerResult)
-                                                                    {{-- Check if inner result matches the current freelancer --}}
-                                                                    @if ($innerResult->freelancer_id === $result->freelancer_id)
-                                                                        <tr>
-                                                                            <td>{{ $innerResult->gig_id }}</td>
-                                                                            <td>{{ $innerResult->biddername }}</td>
-                                                                            <td>
-                                                                                <div class="progress">
-                                                                                    <div class="progress-bar" role="progressbar" style="width: {{ $innerResult->progress }}%" aria-valuenow="{{ $innerResult->progress }}" aria-valuemin="0" aria-valuemax="100">
-                                                                                        {{ $innerResult->progress }}%
-                                                                                    </div>
-                                                                                </div>
-                                                                                <span class="result-score"></span>
-                                                                                {{-- Form for updating progress --}}
-                                                                                <form class="update-form d-none" action="{{ route('result.update', $innerResult->id) }}" method="POST" style="display: inline;">
-                                                                                    @csrf
-                                                                                    <input type="text" name="progress" value="{{ $innerResult->progress }}">
-                                                                                    <button type="submit" class="btn btn-primary">Save</button>
-                                                                                </form>
-                                                                            </td>
-                                                                            <td>
-                                                                                {{-- Display update button for freelancers --}}
-                                                                                @can('isFreelancer')
-                                                                                    <button class="btn btn-primary update-btn">Update</button>
-                                                                                @endcan
-                                                                                {{-- Form for deleting result --}}
-                                                                                <form class="delete-form" action="{{ route('result.delete', $innerResult->id) }}" method="GET" style="display: inline;">
-                                                                                    @csrf
-                                                                                    {{-- Display delete button for freelancers --}}
-                                                                                    @can('isFreelancer')
-                                                                                        <button type="submit" class="btn btn-danger delete-btn">Delete</button>
-                                                                                    @endcan
-                                                                                </form>
-                                                                                {{-- Show rating form for users --}}
-                                                                                {{-- Show rating form for users --}}
-                                                                                        @can('isUser')
-                                                                                             @if($innerResult->progress == 100.00)
-        {{-- Check if rating has been done --}}
-                                                                                                @if($exists)
-                                                                                                    <span class="text-success">Complete</span>
-                                                                                                @else
-                                                                                                  <form action="/showrating/{{$result->serviceid}}" method="get">
-                                                                                                      <button type="submit" class="btn btn-success btn-sm">Done</button>
-                                                                                                 </form>
-                                                                                                @endif
-                                                                                          @endif
-                                                                                        @endcan
+                                                        @can('view', $result)
+                                                                                @if (!in_array($result->freelancer_id, $uniqueFreelancerIds))
+                                                                                                        @php
+                                                                                                            $uniqueFreelancerIds[] = $result->freelancer_id
+                                                                                                        @endphp
+                                                                                                        <tr>
+                                                                                                            <td>{{ $result->freelancer_id }}</td>
+                                                                                                            <td>{{ $result->name }}</td>
+                                                                                                            <td>
+                                                                                                                <button class="btn btn-info show-more"
+                                                                                                                    data-student-id="{{ $result->freelancer_id }}">Show More</button>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                        <tr class="additional-row d-none" data-student-id="{{ $result->freelancer_id }}">
+                                                                                                            <td colspan="4">
+                                                                                                                <table class="table table-bordered">
+                                                                                                                    <thead>
+                                                                                                                        <tr>
+                                                                                                                            <th>Gig Id</th>
+                                                                                                                            <th>Bidder Name</th>
+                                                                                                                            <th>Progress Bar</th>
+                                                                                                                            <th>Progress</th>
+                                                                                                                            <th>Actions</th>
+                                                                                                                        </tr>
+                                                                                                                    </thead>
+                                                                                                                    <tbody>
+                                                                                                                        @foreach ($results as $innerResult)
+                                                                                                                            @can('view', $innerResult)
+                                                                                                                                @if ($innerResult->freelancer_id === $result->freelancer_id)
+                                                                                                                                    <tr>
+                                                                                                                                        <td>{{ $innerResult->gig_id }}</td>
+                                                                                                                                        <td>{{ $innerResult->biddername }}</td>
+                                                                                                                                        <td>
+                                                                                                                                            <div class="progress">
+                                                                                                                                                <div class="progress-bar" role="progressbar"
+                                                                                                                                                    style="width: {{ $innerResult->progress }}%"
+                                                                                                                                                    aria-valuenow="{{ $innerResult->progress }}"
+                                                                                                                                                    aria-valuemin="0" aria-valuemax="100">
+                                                                                                                                                    {{ $innerResult->progress }}%
+                                                                                                                                                </div>
+                                                                                                                                            </div>
+                                                                                                                                            <span class="result-score"></span>
+                                                                                                                                            <form class="update-form d-none"
+                                                                                                                                                action="{{ route('result.update', $innerResult->id) }}"
+                                                                                                                                                method="POST" style="display: inline;">
+                                                                                                                                                @csrf
+                                                                                                                                                <input type="text" name="progress"
+                                                                                                                                                    value="{{ $innerResult->progress }}">
+                                                                                                                                                <button type="submit" class="btn btn-primary">Save</button>
+                                                                                                                                            </form>
+                                                                                                                                        </td>
+                                                                                                                                        <td>
+                                                                                                                                            @can('isFreelancer')
+                                                                                                                                                @if($innerResult->status === 'Pending')
+                                                                                                                                                    <span class="text-pending">Pending</span>
+                                                                                                                                                @elseif($innerResult->status === 'Rejected')
+                                                                                                                                                    <span class="text-rejected"==='Rejected'>Rejected</span>
 
-                                                                                
-                                                                            </td>
-                                                                        </tr>
-                                                                    @endif
-                                                                @endcan
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                        @endif
-                                    @endcan
+                                                                                                                                                @endif
+                                                                                                                                                @if($innerResult->progress == 100.00 && $innerResult->exists)
+                                                                                                                                                    <span class="text-success">{{ $innerResult->status }}</span>
+                                                                                                                                                @endif
+                                                                                                                                            @endcan
+                                                                                                                                            @can('isUser')
+                                                                                                                                                @if($innerResult->status === 'Pending' || $innerResult->status === 'Rejected')
+                                                                                                                                                    <span class="text-pending">Pending</span>
+                                                                                                                                                @endif
+                                                                                                                                                @if ($innerResult->progress == 100.00 && $innerResult->exists)
+                                                                                                                                                    <span class="text-success">{{ $innerResult->status }}</span>
+                                                                                                                                                @endif
+                                                                                                                                            @endcan
+                                                                                                                                        </td>
+                                                                                                                                        <td>
+                                                                                                                                            @can('isFreelancer')
+                                                                                                                                                @if($innerResult->status === 'Pending' || $innerResult->status === 'Rejected')
+                                                                                                                                                    <button class="btn btn-primary update-btn">Update</button>
+                                                                                                                                                    <form class="delete-form"
+                                                                                                                                                        action="{{ route('result.delete', $innerResult->id) }}"
+                                                                                                                                                        method="GET" style="display: inline;">
+                                                                                                                                                        @csrf
+                                                                                                                                                        <button type="submit"
+                                                                                                                                                            class="btn btn-danger delete-btn">Delete</button>
+                                                                                                                                                    </form>
+                                                                                                                                                @endif
+                                                                                                                                            @endcan
+                                                                                                                                            @can('isUser')
+                                                                                                                                                @if($innerResult->progress === '100.00' && $innerResult->status === 'Pending')
+                                                                                                                                                    <div class="flex-container">
+                                                                                                                                                        <form
+                                                                                                                                                            action="/showrating/{{ $innerResult->resultid }}/{{$innerResult->userid}}"
+                                                                                                                                                            method="get">
+                                                                                                                                                            <button type="submit"
+                                                                                                                                                                class="btn btn-success btn-sm flex-item">Done</button>
+                                                                                                                                                        </form>
+                                                                                                                                                        <form
+                                                                                                                                                            action="{{ route('reject-progress', ['resultid' => $innerResult->resultid, 'userid' => $innerResult->userid]) }}"
+                                                                                                                                                            method="get">
+                                                                                                                                                            <button type="submit"
+                                                                                                                                                                class="btn btn-danger btn-sm flex-item">Reject</button>
+                                                                                                                                                        </form>
+                                                                                                                                                    </div>
+                                                                                                                                                @endif
+                                                                                                                                                @if($innerResult->progress === '100.00' && $innerResult->status === 'Rejected')
+                                                                                                                                                    <div class="flex-container">
+                                                                                                                                                        <form
+                                                                                                                                                            action="/showrating/{{ $innerResult->resultid }}/{{$innerResult->userid}}"
+                                                                                                                                                            method="get">
+                                                                                                                                                            <button type="submit"
+                                                                                                                                                                class="btn btn-success btn-sm flex-item">Done</button>
+                                                                                                                                                        </form>
+                                                                                                                                                        <form
+                                                                                                                                                            action="{{ route('reject-progress', ['resultid' => $innerResult->resultid, 'userid' => $innerResult->userid]) }}"
+                                                                                                                                                            method="get">
+                                                                                                                                                            <button type="submit"
+                                                                                                                                                                class="btn btn-danger btn-sm flex-item">Reject</button>
+                                                                                                                                                        </form>
+                                                                                                                                                    </div>
+                                                                                                                                                @endif
+
+                                                                                                                                            @endcan
+                                                                                                                                        </td>
+                                                                                                                                    </tr>
+                                                                                                                                @endif
+                                                                                                                            @endcan
+                                                                                                                        @endforeach
+                                                                                                                    </tbody>
+                                                                                                                </table>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                @endif
+                                                        @endcan
                                 @endforeach
                             </tbody>
                         </table>
@@ -139,38 +175,51 @@
     </div>
 </div>
 
-<!-- JavaScript for handling show more functionality -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Attach click event listener to show more buttons
         document.querySelectorAll('.show-more').forEach(function (button) {
             button.addEventListener('click', function () {
-                var studentId = this.dataset.studentId; // Get the student_id from the button's data attribute
+                var studentId = this.dataset.studentId;
                 var additionalRows = document.querySelectorAll('.additional-row[data-student-id="' + studentId + '"]');
-                var currentButtonRow = this.closest('tr');
-
-                // Hide all other additional rows and show only the clicked one
                 document.querySelectorAll('.additional-row').forEach(function (row) {
                     if (row.dataset.studentId !== studentId) {
                         row.classList.add('d-none');
                     }
                 });
-
-                // Toggle the display of additional rows for the specific student only
                 additionalRows.forEach(function (row) {
                     row.classList.toggle('d-none');
                 });
             });
         });
 
-        // Attach click event listener to update buttons
         document.querySelectorAll('.update-btn').forEach(function (button) {
             button.addEventListener('click', function () {
                 var row = this.closest('tr');
-                row.querySelector('.progress').classList.add('d-none'); // Hide result score
-                row.querySelector('.update-form').classList.remove('d-none'); // Show update form
+                row.querySelector('.progress').classList.add('d-none');
+                row.querySelector('.update-form').classList.remove('d-none');
             });
         });
     });
 </script>
+
 @endsection
+
+<style>
+    .flex-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .flex-item {
+        margin-right: 0;
+    }
+
+    .text-pending {
+        color: orange;
+    }
+
+    .text-rejected {
+        color: red;
+    }
+</style>

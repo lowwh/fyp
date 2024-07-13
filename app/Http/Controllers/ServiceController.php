@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\service;
+use App\Models\user;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
@@ -119,6 +120,21 @@ class ServiceController extends Controller
         $service = service::findOrFail($request->id);
         $service->delete();
         return redirect('/manageService');
+    }
+
+
+
+    public function acceptService($id)
+    {
+        if (Auth::user()->has_rejected_service) {
+            return redirect()->route('home')->with('error', 'You cannot accept a new service after rejecting one.');
+        }
+
+        $service = Service::find($id);
+        $service->status = 'Accepted';
+        $service->save();
+
+        return redirect()->route('services.index')->with('status', 'Service accepted.');
     }
 
 

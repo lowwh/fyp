@@ -29,6 +29,8 @@ use App\Http\Controllers\BidController;
 |
 */
 
+Route::post('/get/progression/{service_id}/{freelancer_id}/{bidder_id}/{notification_id}', [ResultController::class, 'addresult'])->middleware('check.service.rejection');
+
 
 
 Route::get('/', function () {
@@ -75,7 +77,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/manageresult', [ResultController::class, 'show']);
     Route::post('/resultupdate/{id}', [ResultController::class, 'update'])->name('result.update');
     Route::get('/resultdelete/{id}', [ResultController::class, 'destroy'])->name('result.delete');
-    Route::post('/get/progression/{service_id}/{freelancer_id}/{bidder_id}/{notification_id}', [ResultController::class, 'addresult']);
+
 
     //Freelancer -> add and manage
     Route::view('/addstudent', 'operations.addstudent');
@@ -111,10 +113,12 @@ Route::middleware('auth')->group(function () {
 
     // Route::view('/historygig', 'operations.history');
     Route::get('/history', [HistoryController::class, 'index']);
-    //TODO:show gig
-    Route::get('/showrating/{id}', [HistoryController::class, 'showrating'])->name('show.rating');
 
-    Route::post('/rating/{id}', [HistoryController::class, 'rating']);
+    Route::get('/showrating/{resultid}/{userid}', [HistoryController::class, 'showrating'])->name('show.rating');
+    //TODO:show gig
+    Route::post('/rating/{id}/{userid}', [HistoryController::class, 'rating']);
+    Route::get('/reject-progress/{resultid}/{userid}', [ResultController::class, 'rejectProgress'])->name('reject-progress');
+
 
     Route::get('receivedmessages', [MessageController::class, 'receivedMessageIndex'])->name('receivedmessages');
     Route::get('messages/create/{user}', [MessageController::class, 'create'])->name('messages.create');

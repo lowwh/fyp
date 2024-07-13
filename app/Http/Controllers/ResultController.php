@@ -23,33 +23,21 @@ class ResultController extends Controller
             $results = Result::leftJoin('users', 'results.freelancer_id', '=', 'users.freelancer_id')
                 ->leftJoin('services', 'results.gig_id', '=', 'services.id')
                 ->leftJoin('users as bidders', 'results.bidder_id', '=', 'bidders.id')
-                ->select('results.*', 'users.name', 'services.id as serviceid', 'bidders.name as biddername')
+                ->select('results.*', 'results.id as resultid', 'results.status', 'users.name', 'services.id as serviceid', 'bidders.name as biddername', 'users.id as userid')
                 ->get();
 
-            $matchingResults = Rating::whereExists(function ($query) {
-                $query->select(DB::raw(1))
-                    ->from('results')
-                    ->whereColumn('ratings.gig_id', 'results.gig_id');
-            })->get();
+            foreach ($results as $result) {
+                $result->exists = Rating::whereExists(function ($query) use ($result) {
+                    $query->select(DB::raw(1))
+                        ->from('results')
+                        ->whereColumn('ratings.result_id', 'results.id')
+                        ->where('results.id', $result->resultid);
 
-            // Example: If there are matching results, perform some action
-            if ($matchingResults->isNotEmpty()) {
-                // Perform your action here, such as storing information
-                // Example: Store information about the matching results
-                $exists = true;
-            } else {
-                $exists = false;
+                })->exists();
             }
 
-
-
-
-
-
-
-
-
-            return view("operations.manageresult", compact('results', 'exists'));
+            //return $result;
+            return view("operations.manageresult", compact('results'));
         } catch (\Exception $e) {
 
             dd($e->getMessage()); // Output the error message for debugging
@@ -177,21 +165,36 @@ class ResultController extends Controller
             $bid->save();
         }
 
-        $notification = Auth::user()->notifications()->findOrFail($req->notification_id);
-        $notification->markAsRead();
+
         // Find the freelancer or user to notify
         $replybackbidder = User::find($req->bidder_id);
 
         // Send notification
         $replybackbidder->notify(new BiddingSuccessNotification($req->bidder_id, $req->service_id));
 
-        // Flash a success message to the session (optional)
+
         session()->flash('success', 'Bidding successfully added!');
 
-        // Redirect back or to another route
+
         return redirect('manageresult');
 
 
 
+    }
+
+
+    public function rejectProgress(Request $req, $resultid, $userid)
+    {
+
+        $reject = Result::findOrFail($resultid);
+        $reject->status = 'Rejected';
+        $reject->progress = 0.00;
+        $reject->save();
+
+        $setRejected = User::findOrFail($userid);
+        $setRejected->has_rejected_service = true;
+        $setRejected->save();
+        //return redirect()->route('home')->with('status', 'Service rejected.');
+        return redirect('manageresult');
     }
 }

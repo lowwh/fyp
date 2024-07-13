@@ -95,7 +95,7 @@
                                     <div class="row mb-3">
 
                                         <div class="col-md-6">
-                                            <p id="name">{{ $user->description }}</p>
+                                            <p id="name">{{ $user['description'] }}</p>
                                         </div>
                                     </div>
                                 </div>

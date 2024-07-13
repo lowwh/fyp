@@ -6,27 +6,30 @@ use Illuminate\Http\Request;
 use App\Models\service;
 use App\Models\result;
 use App\Models\rating;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class HistoryController extends Controller
 {
-    public function showrating($id)
+    public function showrating($resultid, $userid)
     {
         // Get all gig data for the freelancer with 100% progress
         $results = Result::leftJoin('services', 'results.gig_id', '=', 'services.id')
 
             ->select('results.id as resultid', 'services.title', 'services.description', 'services.image_path', 'services.id', 'services.servicetype', 'services.price')
-            ->where('services.id', $id)
+            ->where('results.id', $resultid)
             ->groupBy('services.id', 'results.id', 'services.title', 'services.description', 'services.image_path', 'services.servicetype', 'services.price')
             ->distinct()
 
             ->get();
 
+        $user_id = $userid;
 
 
+        //return ($resultid);
 
         // Pass the gig data to the new Blade view
-        return view('operations.rating', ['results' => $results]);
+        return view('operations.rating', ['results' => $results, 'userid' => $user_id]);
     }
 
     public function index()
@@ -52,7 +55,7 @@ class HistoryController extends Controller
         return view('operations.showallhistory', ['results' => $results]);
     }
 
-    public function rating(Request $request, $id)
+    public function rating(Request $request, $id, $userid)
     {
         $request->validate([
             'expectation' => 'required',
@@ -73,6 +76,14 @@ class HistoryController extends Controller
         $rating->result_id = $request->resultid;
 
         $rating->save();
+
+        $updateResultStatus = Result::findOrFail($request->resultid);
+        $updateResultStatus->status = 'completed';
+        $updateResultStatus->save();
+
+        $setToTrue = User::findOrFail($userid);
+        $setToTrue->has_rejected_service = 'false';
+        $setToTrue->save();
 
         return redirect('/history');
     }

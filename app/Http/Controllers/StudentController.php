@@ -54,6 +54,7 @@ class StudentController extends Controller
 
 
 
+
         // Return the view with freelancers and states data
         return view('home', ['freelancers' => $freelancers, 'states' => $states, 'ratings' => $ratings]);
     }

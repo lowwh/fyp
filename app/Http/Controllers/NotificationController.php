@@ -22,6 +22,7 @@ class NotificationController extends Controller
     public function markBidNotificationAsRead($id)
     {
         $notification = Auth::user()->notifications()->findOrFail($id);
+        $notification->markAsRead();
 
         $biddername = $notification->data['bidder_name'];
         $bidder_id = $notification->data['bidder_id'];
