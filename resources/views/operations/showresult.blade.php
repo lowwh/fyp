@@ -97,6 +97,11 @@
                     </div>
                 </form>
 
+
+                @if(isset($results))
+                    <div id="chatgpt" data-results="{{ json_encode($results) }}"></div>
+                @endif
+
                 <div style="background-color: white;">
                     <div style="display: inline-block; margin: 10px;">
                         <button id="sortByDateButton" class="btn btn-primary" onclick="sortResultsByDate()">

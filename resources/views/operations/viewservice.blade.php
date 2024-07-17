@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container" style="background-color:#D3D3D3;">
+<div class="container" style="background-color:#f8f9fa;">
     <div class="row">
         <div class="col-md-8">
             @if (session('status'))
-                <div class="alert alert-success" id="statusAlert">
+                <div class="alert alert-info" id="statusAlert">
                     {{ session('status') }}
                 </div>
             @endif
             @if (session('bid'))
-                <div class="alert alert-yellow" id="bidAlert">
+                <div class="alert alert-info" id="bidAlert">
                     {{ session('bid') }}
                 </div>
             @endif
@@ -27,7 +27,7 @@
                             <!-- send email button -->
                             <form action="{{ route('send.email', $user->id) }}" method="POST" id="sendEmailForm">
                                 @csrf
-                                <button type="submit" class="btn btn-primary" id="sendEmailButton">
+                                <button type="submit" class="btn btn-info" id="sendEmailButton">
                                     Send Email <span id="spinner" style="display: none;"></span>
                                 </button>
                             </form>
@@ -36,8 +36,7 @@
                                 action="{{ route('bid', ['userid' => $user->id, 'serviceid' => $user->serviceid, 'freelancerid' => $user->freelancer_id]) }}"
                                 method="POST" id="bidForm">
                                 @csrf
-                                <button type="submit" class="btn btn-primary bid-button"
-                                    data-user="{{$user->name}}">Bid</button>
+                                <button type="submit" class="btn btn-info bid-button" data-user="{{$user->name}}">Bid</button>
                             </form>
                         </div>
                     @endif
@@ -64,11 +63,11 @@
                 <div class="col-md-11"
                     style="box-shadow: 4px 4px 6px rgba(0.2, 0.2, 0.2, 0.2); background-color: white">
                     <div class="card mb-3" style="margin-top:20px">
-                        <div class="card-header"
+                        <div class="card-header bg-light shadow-sm"
                             style="background-color:white; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); ">
                             About this gig
                         </div>
-                        <div class="card-body"
+                        <div class="card-body bg-light shadow-sm"
                             style="background-color:white; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);">
                             <!-- Tabs for BIO -->
                             <ul class="nav nav-tabs" id="profileTab" role="tablist">
