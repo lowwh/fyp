@@ -5224,29 +5224,16 @@ var Chatgpt = /*#__PURE__*/function (_Component) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
               // Prepare the messages for the ChatGPT API
-              //TODO:remember to assign the data in here const nessage based on the api given
-              // const message =[
-              // ]
               options = {
                 method: "POST",
-                url: "https://open-ai34.p.rapidapi.com/v1/chat/completions",
+                url: "https://chatgpt-gpt4-5.p.rapidapi.com/ask",
                 headers: {
                   "x-rapidapi-key": "0076122529mshc1bfa1743700bffp1de4a1jsn399f9fef4fb5",
-                  "x-rapidapi-host": "open-ai34.p.rapidapi.com",
+                  "x-rapidapi-host": "chatgpt-gpt4-5.p.rapidapi.com",
                   "Content-Type": "application/json"
                 },
                 data: {
-                  model: "Qwen/Qwen2-72B-Instruct",
-                  messages: [{
-                    content: "Hi there!",
-                    role: "user"
-                  }],
-                  max_new_tokens: 1,
-                  temperature: 0.2,
-                  top_p: 0.7,
-                  top_k: 50,
-                  repetition_penalty: 1,
-                  stop: ["<|im_start|>", "<|im_end|>"]
+                  query: JSON.stringify(results) + " help me do analysis about the search result, select the most recommended service for user"
                 }
               };
               _context2.prev = 1;
@@ -5254,12 +5241,12 @@ var Chatgpt = /*#__PURE__*/function (_Component) {
               return axios__WEBPACK_IMPORTED_MODULE_2___default().request(options);
             case 4:
               response = _context2.sent;
-              console.log("Chatgpt response:", response.data);
+              console.log("API response:", response.data);
 
               // Update state with chat response
               this.setState({
-                chatResponse: response.data.content
-              });
+                chatResponse: response.data.response
+              }); // Adjust based on API response structure
               _context2.next = 12;
               break;
             case 9:
@@ -5306,9 +5293,8 @@ var Chatgpt = /*#__PURE__*/function (_Component) {
             }, index);
           })
         }), chatResponse && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-          className: "chat-response",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h2", {
-            children: "ChatGPT Result:"
+            children: "ChatGPT Response:"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
             children: chatResponse
           })]

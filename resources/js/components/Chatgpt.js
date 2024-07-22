@@ -31,44 +31,28 @@ export default class Chatgpt extends Component {
     async sendToChatGPT(results) {
         // Prepare the messages for the ChatGPT API
 
-        //TODO:remember to assign the data in here const nessage based on the api given
-
-        // const message =[
-
-        // ]
-
         const options = {
             method: "POST",
-            url: "https://open-ai34.p.rapidapi.com/v1/chat/completions",
+            url: "https://chatgpt-gpt4-5.p.rapidapi.com/ask",
             headers: {
                 "x-rapidapi-key":
                     "0076122529mshc1bfa1743700bffp1de4a1jsn399f9fef4fb5",
-                "x-rapidapi-host": "open-ai34.p.rapidapi.com",
+                "x-rapidapi-host": "chatgpt-gpt4-5.p.rapidapi.com",
                 "Content-Type": "application/json",
             },
             data: {
-                model: "Qwen/Qwen2-72B-Instruct",
-                messages: [
-                    {
-                        content: "Hi there!",
-                        role: "user",
-                    },
-                ],
-                max_new_tokens: 1,
-                temperature: 0.2,
-                top_p: 0.7,
-                top_k: 50,
-                repetition_penalty: 1,
-                stop: ["<|im_start|>", "<|im_end|>"],
+                query:
+                    JSON.stringify(results) +
+                    " help me do analysis about the search result, select the most recommended service for user",
             },
         };
 
         try {
             const response = await axios.request(options);
-            console.log("Chatgpt response:", response.data);
+            console.log("API response:", response.data);
 
             // Update state with chat response
-            this.setState({ chatResponse: response.data.content });
+            this.setState({ chatResponse: response.data.response }); // Adjust based on API response structure
         } catch (error) {
             console.error("Error sending message to ChatGPT:", error);
         }
@@ -92,12 +76,13 @@ export default class Chatgpt extends Component {
                             <div>
                                 <strong>Gig Count:</strong> {result.gigs_count}
                             </div>
+                            {/* Add more fields as needed */}
                         </li>
                     ))}
                 </ul>
                 {chatResponse && (
-                    <div className="chat-response">
-                        <h2>ChatGPT Result:</h2>
+                    <div>
+                        <h2>ChatGPT Response:</h2>
                         <p>{chatResponse}</p>
                     </div>
                 )}

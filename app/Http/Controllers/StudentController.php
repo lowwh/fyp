@@ -6,6 +6,7 @@ use App\Models\Student;
 use App\Models\User;
 use App\Models\service;
 use App\Models\rating;
+use App\Models\Voucher;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -77,7 +78,7 @@ class StudentController extends Controller
         $users = User::join('services', 'users.id', '=', 'services.user_id')
 
 
-            ->select('users.id as userid', 'users.freelancer_id', 'services.id as serviceid', 'users.*', 'services.title', 'services.description', 'services.price', 'users.image_path as userimage', 'services.image_path as serviceimage', DB::raw("DATE(users.created_at) as user_created_date"))
+            ->select('services.price', 'users.id as userid', 'users.freelancer_id', 'services.id as serviceid', 'users.*', 'services.title', 'services.description', 'services.price', 'users.image_path as userimage', 'services.image_path as serviceimage', DB::raw("DATE(users.created_at) as user_created_date"))
             ->where('services.user_id', $id)
             ->where('services.id', $gig_id)
             ->get();
@@ -93,6 +94,9 @@ class StudentController extends Controller
 
 
             ->get();
+
+
+
 
         return view('operations.viewservice', compact('users', 'comments'));
     }

@@ -17,6 +17,7 @@ use App\Http\Controllers\EmailController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\BidController;
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +30,7 @@ use App\Http\Controllers\BidController;
 |
 */
 
-Route::post('/get/progression/{service_id}/{freelancer_id}/{bidder_id}/{notification_id}', [ResultController::class, 'addresult'])->middleware('check.service.rejection');
+
 
 
 
@@ -128,6 +129,15 @@ Route::middleware('auth')->group(function () {
     // Route::get('messages/{biddername}/{user_id}', [MessageController::class, 'bidshow'])->name('messages.bidshow');
 
     Route::get('test/messages/{biddername}/{bidder_id}/{service_id}/{freelancer_id}/{user_id}/{notification_id}', [MessageController::class, 'bidshow'])->name('messages.bidshow');
+    Route::post('/get/progression/{service_id}/{freelancer_id}/{bidder_id}/{notification_id}', [ResultController::class, 'addresult'])->middleware('check.service.rejection');
+    Route::post('/bid/{userid}/{serviceid}/{freelancerid}/{serviceprice}', [BidController::class, 'store'])->name('bid');
+    Route::post('/process-payment/{userid}/{serviceid}/{freelancerid}/{serviceprice}', [PaymentController::class, 'processPayment'])->name('payment.process');
+    Route::get('/pay/{userid}/{serviceid}/{freelancerid}/{price}', [PaymentController::class, 'index'])->name('payment');
+    // web.php
+    // routes/web.php
+    Route::get('/pay', [PaymentController::class, 'showCheckout'])->name('checkout.show');
+    Route::post('/voucher/apply', [PaymentController::class, 'applyVoucher'])->name('voucher.apply');
+
 
 
     Route::get('/notifications/mark-as-read/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
@@ -144,11 +154,17 @@ Route::middleware('auth')->group(function () {
     Route::get('sendmessages', [MessageController::class, 'sendMessageIndex'])->name('sendmessages');
 
 
+    Route::get('/payment', function () {
+        return view('operations.payment');
+    });
+    Route::post('/invoices/create', [PaymentController::class, 'createInvoice']);
+    Route::post('/payments/pay', [PaymentController::class, 'payInvoice']);
 
 
 
 
-    Route::post('/bid/{userid}/{serviceid}/{freelancerid}', [BidController::class, 'store'])->name('bid');
+
+
 
 
 });

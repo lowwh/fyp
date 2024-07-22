@@ -66,6 +66,7 @@ class MessageController extends Controller
 
 
     public function show(User $user, Message $message)
+    //TODO:remmeber to do this
     {
         // Assuming Message model has sender_id and receiver_id fields
         $messages = Message::where(function ($query) use ($user, $message) {

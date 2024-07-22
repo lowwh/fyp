@@ -7,10 +7,12 @@ use App\Models\User;
 use App\Models\Bid;
 use App\Notifications\BidPlacedNotification;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 
 class BidController extends Controller
 {
-    public function store($id, Request $request, $serviceid, $freelancerid)
+    public function store($id, Request $request, $serviceid, $freelancerid, $serviceprice)
     {
         $user = User::findOrFail($id);
 
@@ -21,6 +23,7 @@ class BidController extends Controller
         $bid->bidder_name = Auth::user()->name;
         $bid->service_id = $serviceid;
         $bid->freelancer_id = $freelancerid;
+        $bid->service_price = $serviceprice;
 
         $bid->save();
 
@@ -29,4 +32,7 @@ class BidController extends Controller
 
         return back()->with('bid', 'Your bid is pending. Please wait for the freelancer to review and confirm your bid. You will be notified once the freelancer has made a decision');
     }
+
+
+
 }

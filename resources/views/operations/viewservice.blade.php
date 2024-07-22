@@ -32,12 +32,12 @@
                                 </button>
                             </form>
                             <!-- Bid Button -->
-                            <form
-                                action="{{ route('bid', ['userid' => $user->id, 'serviceid' => $user->serviceid, 'freelancerid' => $user->freelancer_id]) }}"
-                                method="POST" id="bidForm">
-                                @csrf
-                                <button type="submit" class="btn btn-info bid-button" data-user="{{$user->name}}">Bid</button>
-                            </form>
+                            <!-- <form
+                                        action="{{ route('bid', ['userid' => $user->id, 'serviceid' => $user->serviceid, 'freelancerid' => $user->freelancer_id, 'serviceprice' => $user->price]) }}"
+                                        method="POST" id="bidForm">
+                                        @csrf
+                                        <button type="submit" class="btn btn-info bid-button" data-user="{{$user->name}}">Bid</button>
+                                    </form> -->
                         </div>
                     @endif
 
@@ -88,16 +88,30 @@
 
                             <div class="tab-content mt-3" id="profileTabContent">
                                 <!-- BIO Tab -->
+
                                 <div class="tab-pane fade show active" id="bio" role="tabpanel"
                                     aria-labelledby="bio-tab">
-
                                     <div class="row mb-3">
-
                                         <div class="col-md-6">
                                             <p id="name">{{ $user['description'] }}</p>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="continue-button">
+                                                <form
+                                                    action="{{ route('payment', ['userid' => $user->id, 'serviceid' => $user->serviceid, 'freelancerid' => $user->freelancer_id, 'price' => $user->price]) }}"
+                                                    method="get">
+                                                    <button class="btn btn-primary">Continue</button>
+
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+
+
                                 <!-- end of bio tab -->
 
                                 <!-- about tab  -->

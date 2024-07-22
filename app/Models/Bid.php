@@ -14,7 +14,8 @@ class Bid extends Model
         'user_id',
         'bidder_id',
         'service_id',
-        'freelancer_id'
+        'freelancer_id',
+        'service_price'
     ];
 
     public function user()

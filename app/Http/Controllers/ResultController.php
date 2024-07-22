@@ -160,6 +160,8 @@ class ResultController extends Controller
             ->where('freelancer_id', $req->freelancer_id)
             ->first();
 
+
+
         if ($bid) {
             $bid->status = 'completed';
             $bid->save();

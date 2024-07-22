@@ -79,6 +79,15 @@ class User extends Authenticatable
         return $this->notifications()->whereNull('read_at')->where('type', 'App\Notifications\NewMessageNotification');
     }
 
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
 
 
 }

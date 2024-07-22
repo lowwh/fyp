@@ -2,9 +2,11 @@
 
 @section('content')
 <div class="container">
+
     <h1>Conversation with {{ $receiver->name }}</h1>
 
     @foreach($messages as $message)
+
         <div class="message {{ $message->sender_id == Auth::id() ? 'sent' : 'received' }}">
             @if($message->sender_id != Auth::id())
                 <div class="message-avatar">
