@@ -5,7 +5,6 @@
 <div class="content-wrapper">
     <div class="container-fluid">
         <div class="container">
-
             <!-- List Format -->
             <div class="row">
                 @if($results->isNotEmpty())
@@ -58,7 +57,6 @@
                 @endif
             </div>
             <!-- End List Format -->
-
         </div>
     </div>
 </div>
@@ -88,6 +86,14 @@
     .card {
         border-radius: 10px;
         overflow: hidden;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     }
 
     .card-body {
@@ -139,10 +145,6 @@
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     }
 
-    .bg-white {
-        background-color: #fff;
-    }
-
     .bg-light {
         background-color: #f8f9fa;
     }
@@ -176,6 +178,30 @@
         color: #fff;
         border-radius: 0.3rem;
         text-transform: uppercase;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .card-body {
+            padding: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+        }
+
+        .card-text {
+            font-size: 0.9rem;
+        }
+
+        .img-fluid {
+            max-height: 150px;
+        }
     }
 </style>
 @endsection

@@ -28,6 +28,7 @@ class NotificationController extends Controller
         $bidder_id = $notification->data['bidder_id'];
         $user_id = $notification->data['user_id'];
 
+
         $service_id = $notification->data['service_id'];
         $freelancer_id = $notification->data['freelancer_id'];
         $service_price = $notification->data['service_price'];

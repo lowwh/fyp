@@ -116,15 +116,27 @@ Route::middleware('auth')->group(function () {
     Route::get('/history', [HistoryController::class, 'index']);
 
     Route::get('/showrating/{resultid}/{userid}', [HistoryController::class, 'showrating'])->name('show.rating');
-    //TODO:show gig
+
     Route::post('/rating/{id}/{userid}', [HistoryController::class, 'rating']);
     Route::get('/reject-progress/{resultid}/{userid}', [ResultController::class, 'rejectProgress'])->name('reject-progress');
 
 
-    Route::get('receivedmessages', [MessageController::class, 'receivedMessageIndex'])->name('receivedmessages');
+
+
+
+    //TODO: route from the home blade when click on the send message
     Route::get('messages/create/{user}', [MessageController::class, 'create'])->name('messages.create');
-    Route::post('messages', [MessageController::class, 'store'])->name('messages.store');
+    Route::post('sendMessages', [MessageController::class, 'sendMessage'])->name('messages.sendMessage');
+    Route::get('receivedmessages', [MessageController::class, 'receivedMessageIndex'])->name('receivedmessages');
     Route::get('messages/{user}/show/{message}', [MessageController::class, 'show'])->name('messages.show');
+
+    //TODO:show chat when click on the send button
+    Route::post('messages', [MessageController::class, 'store'])->name('messages.store');
+
+    Route::get('/ratings', [MessageController::class, 'showRatings']);
+
+
+
 
     // Route::get('messages/{biddername}/{user_id}', [MessageController::class, 'bidshow'])->name('messages.bidshow');
 
@@ -137,6 +149,9 @@ Route::middleware('auth')->group(function () {
     // routes/web.php
     Route::get('/pay', [PaymentController::class, 'showCheckout'])->name('checkout.show');
     Route::post('/voucher/apply', [PaymentController::class, 'applyVoucher'])->name('voucher.apply');
+    // routes/web.php
+    Route::view('/terms', 'operations.terms')->name('terms');
+
 
 
 

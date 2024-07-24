@@ -63,7 +63,6 @@ class PaymentController extends Controller
     {
         $user = User::findOrFail($userid);
 
-
         $bid = new Bid();
         $bid->user_id = $user->id;
         $bid->bidder_id = auth()->id();
@@ -74,24 +73,23 @@ class PaymentController extends Controller
 
         $bid->save();
 
-
         $user->notify(new BidPlacedNotification($bid));
 
         $invoiceNumber = 'INV-' . strtoupper(uniqid());
+        $finalPrice = $request->input('final_price');
 
         Invoice::create([
             'user_id' => $request->user()->id,
             'invoice_number' => $invoiceNumber,
-            'amount' => $serviceprice,
+            'amount' => $finalPrice,
             'status' => 'paid',
             'payment_method' => $request->input('card_type')
-
         ]);
 
-        //return back()->with('bid', 'Your bid is pending. Please wait for the freelancer to review and confirm your bid. You will be notified once the freelancer has made a decision');
-        // return redirect('manageresult');
         return back()->with('bid', 'Your bid is pending. Please wait for the freelancer to review and confirm your bid. You will be notified once the freelancer has made a decision');
+
     }
+
 
     public function showCheckout()
     {

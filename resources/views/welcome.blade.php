@@ -136,8 +136,8 @@
         }
 
         .cta-section {
-            background: linear-gradient(to right, #6a11cb, #2575fc);
-            color: white;
+            background: white;
+            color: #000;
             padding: 50px 0;
         }
 

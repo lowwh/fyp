@@ -129,6 +129,84 @@
             text-decoration: underline;
             margin-top: 10px;
         }
+
+        /* Loading icon styles */
+        .loading-icon {
+            display: none;
+            margin-left: 10px;
+        }
+
+        .tick-icon {
+            display: none;
+            color: #28a745;
+            font-size: 2em;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        /* Progress bar styles */
+        .progress-container {
+            margin-top: 20px;
+        }
+
+        progress {
+            width: 100%;
+            height: 20px;
+            -webkit-appearance: none;
+        }
+
+        progress::-webkit-progress-bar {
+            background-color: #e9ecef;
+            border-radius: 5px;
+        }
+
+        progress::-webkit-progress-value {
+            background-color: #007bff;
+            border-radius: 5px;
+        }
+
+        /* Order summary styles */
+        .order-summary {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .order-summary p {
+            margin-bottom: 10px;
+        }
+
+        #orderTotal {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        /* Terms and conditions styles */
+        .terms-container {
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+
+        .terms-container a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .terms-container a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .checkout-container {
+                padding: 20px;
+            }
+
+            .card-body {
+                padding: 15px;
+            }
+        }
     </style>
 </head>
 
@@ -140,26 +218,40 @@
             </div>
         @endif
         <h2 class="title">Checkout</h2>
+
+        <!-- Order Summary -->
+        <div class="order-summary">
+            <h3 class="title">Order Summary</h3>
+            <p><strong>Freelancer ID:</strong> {{ $freelancerid }}</p>
+            <p><strong>Service ID:</strong> {{ $serviceid }}</p>
+            <p><strong>Original Price:</strong> ${{ number_format($price, 2) }}</p>
+            <p><strong>Discount:</strong> <span id="voucherDiscount">0%</span></p>
+            <p><strong>Total Amount:</strong> $<span id="orderTotal">{{ number_format($price, 2) }}</span></p>
+        </div>
+
+        <!-- Payment Form -->
         <div class="row">
             <div class="col-md-6">
                 <div class="card service-details">
-                    <div class="card-body">
-                        <h4 class="card-title">Service Details</h4>
+                    <!-- <div class="card-body">
+                        <h1 class="card-title">Service Details</h1>
+                        <br><br>
                         <p><strong>Freelancer ID:</strong> {{ $freelancerid }}</p>
                         <p><strong>Service ID:</strong> {{ $serviceid }}</p>
                         <p><strong>Price:</strong> ${{ number_format($price, 2) }}</p>
-                        <!-- Hidden input to store original price -->
-                        <input type="hidden" id="originalPrice" value="{{ $price }}">
-                    </div>
+
+                       
+                    </div> -->
+                    <input type="hidden" id="originalPrice" value="{{ $price }}">
                 </div>
                 <div class="card-body">
                     <form
                         action="{{ route('payment.process', ['userid' => $userid, 'serviceid' => $serviceid, 'freelancerid' => $freelancerid, 'serviceprice' => $price]) }}"
-                        method="POST">
+                        method="POST" id="paymentForm">
                         @csrf
 
                         <div class="form-group">
-                            <label for="cardOptions" class="form-label">Select a Card</label>
+                            <label for="cardOptions" class="form-label">Select a payment method</label>
                             <div class="card-option">
                                 <input type="radio" id="visa" name="card_type" value="visa">
                                 <label for="visa"><img src="{{ asset('images/visa.webp') }}" alt="Visa">Visa</label>
@@ -174,6 +266,7 @@
                                 <label for="duitnow"><img src="{{ asset('images/duitnow.png') }}"
                                         alt="DuitNow">DuitNow</label>
                             </div>
+
                         </div>
 
                         <div class="mb-3">
@@ -198,60 +291,90 @@
                             <label for="finalPrice" class="form-label">Final Price</label>
                             <p id="finalPrice">${{ number_format($price, 2) }}</p>
                             <span id="removeVoucher" class="remove-voucher" style="display:none;">Remove Voucher</span>
+                            <input type="hidden" id="finalPriceInput" name="final_price" value="{{ $price }}">
                         </div>
 
-                        <button type="submit" class="btn btn-primary btn-block w-100" id="payNowButton">Pay Now</button>
+
+
+                        <div class="terms-container">
+                            <p>By proceeding, you agree to our <a href="{{ route('terms') }}" target="_blank">Terms and
+                                    Conditions</a>.</p>
+                        </div>
+
+                        <div id="formErrors" class="alert alert-danger" style="display:none;"></div>
+
+                        <button type="submit" class="btn btn-primary">Pay Now</button>
+                        <img src="{{ asset('images/loading.gif') }}" alt="Loading" class="loading-icon"
+                            id="loadingIcon">
+                        <span class="tick-icon" id="successTick">&#10003;</span>
                     </form>
                 </div>
             </div>
         </div>
+
+        <!-- User Feedback -->
+        <div class="feedback-container">
+            <h3 class="title">Additional Information</h3>
+            <p>Ensure that you review the final price and voucher details before submitting your payment.</p>
+        </div>
     </div>
 
     <script>
-        document.querySelectorAll('.voucher-item').forEach(function (item) {
-            item.addEventListener('click', function () {
-                if (document.querySelector('.voucher-item.selected')) {
-                    alert('You have already applied a voucher.');
-                    return;
-                }
+        document.addEventListener('DOMContentLoaded', function () {
+            const voucherItems = document.querySelectorAll('.voucher-item');
+            const voucherCodeInput = document.getElementById('voucherCode');
+            const finalPriceInput = document.getElementById('finalPriceInput');
+            const finalPriceElement = document.getElementById('finalPrice');
+            const removeVoucherButton = document.getElementById('removeVoucher');
+            const orderTotalElement = document.getElementById('orderTotal');
+            const progress = document.getElementById('progress');
+            const loadingIcon = document.getElementById('loadingIcon');
+            const successTick = document.getElementById('successTick');
+            const formErrors = document.getElementById('formErrors');
 
-                const voucherCode = item.getAttribute('data-code');
-                const discountPercentage = parseFloat(item.getAttribute('data-discount'));
-                document.getElementById('voucherCode').value = voucherCode;
 
+
+            voucherItems.forEach(item => {
+                item.addEventListener('click', function () {
+                    const code = this.dataset.code;
+                    const discount = this.dataset.discount;
+                    voucherCodeInput.value = code;
+                    finalPriceInput.value = calculateDiscountedPrice(discount);
+                    finalPriceElement.textContent = `$${finalPriceInput.value}`;
+                    orderTotalElement.textContent = finalPriceInput.value;
+                    removeVoucherButton.style.display = 'inline';
+                });
+            });
+
+            removeVoucherButton.addEventListener('click', function () {
+                voucherCodeInput.value = '';
+                finalPriceInput.value = document.getElementById('originalPrice').value;
+                finalPriceElement.textContent = `$${finalPriceInput.value}`;
+                orderTotalElement.textContent = finalPriceInput.value;
+                this.style.display = 'none';
+            });
+
+            function calculateDiscountedPrice(discount) {
                 const originalPrice = parseFloat(document.getElementById('originalPrice').value);
-                const discountAmount = (originalPrice * discountPercentage) / 100;
-                const finalPrice = originalPrice - discountAmount;
+                return (originalPrice - (originalPrice * (discount / 100))).toFixed(2);
+            }
 
-                document.getElementById('finalPrice').innerText = `$${finalPrice.toFixed(2)}`;
+            document.getElementById('paymentForm').addEventListener('submit', function (event) {
+                const errors = [];
+                const cardType = document.querySelector('input[name="card_type"]:checked');
 
-                // Mark the selected voucher
-                document.querySelectorAll('.voucher-item').forEach(voucher => voucher.classList.remove('selected'));
-                item.classList.add('selected');
-                item.style.pointerEvents = 'none';  // Disable further clicks on this voucher
+                if (!cardType) {
+                    errors.push('Please select a payment method.');
+                }
 
-                // Show remove voucher link
-                document.getElementById('removeVoucher').style.display = 'inline';
-            });
-        });
-
-        document.getElementById('removeVoucher').addEventListener('click', function () {
-            const originalPrice = parseFloat(document.getElementById('originalPrice').value);
-
-            // Reset final price to original price
-            document.getElementById('finalPrice').innerText = `$${originalPrice.toFixed(2)}`;
-            document.getElementById('voucherCode').value = '';
-
-            // Remove selected voucher styling
-            document.querySelectorAll('.voucher-item').forEach(voucher => {
-                if (voucher.classList.contains('selected')) {
-                    voucher.classList.remove('selected');
-                    voucher.style.pointerEvents = 'auto';  // Enable clicks again
+                if (errors.length > 0) {
+                    event.preventDefault();
+                    formErrors.innerHTML = errors.join('<br>');
+                    formErrors.style.display = 'block';
+                } else {
+                    formErrors.style.display = 'none';
                 }
             });
-
-            // Hide remove voucher link
-            document.getElementById('removeVoucher').style.display = 'none';
         });
     </script>
 </body>

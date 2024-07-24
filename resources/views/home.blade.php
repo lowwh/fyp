@@ -18,7 +18,7 @@
                 </div>
             </div>
 
-            <h1 class="display-4 text-center title-text">Freelancers List</h1>
+            <!-- <h1 class="display-4 text-center title-text">Freelancers List</h1> -->
 
             <!-- Sort Dropdown -->
             <div class="row mb-4">
@@ -104,7 +104,7 @@
                                             <div class="mt-auto d-flex justify-content-around">
                                                 <a href="/viewprofile/{{ $freelancer->main_id }}" class="btn btn-primary view-profile-button">View Profile</a>
                                                 <a href="/viewservice/{{ $freelancer->main_id }}/{{ $freelancer->serviceid }}" class="btn btn-secondary view-service-button">View Service</a>
-                                                <a href="{{ route('messages.create', $freelancer->main_id) }}" class="btn btn-success">Send Message</a>
+                                                <a href="{{ route('messages.create', $freelancer->main_id, $freelancer->image_path) }}" class="btn btn-success">Send Message</a>
                                             </div>
                                 </div>
                             </div>
