@@ -11,4 +11,9 @@ class service extends Model
 
     public $fillable = ['title', 'price', 'description', 'servicetype', 'image_path', 'image_path2'];
 
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
 }

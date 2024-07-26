@@ -33,11 +33,11 @@
                             </form>
                             <!-- Bid Button -->
                             <!-- <form
-                                                        action="{{ route('bid', ['userid' => $user->id, 'serviceid' => $user->serviceid, 'freelancerid' => $user->freelancer_id, 'serviceprice' => $user->price]) }}"
-                                                        method="POST" id="bidForm">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-info bid-button" data-user="{{$user->name}}">Bid</button>
-                                                    </form> -->
+                                                                                        action="{{ route('bid', ['userid' => $user->id, 'serviceid' => $user->serviceid, 'freelancerid' => $user->freelancer_id, 'serviceprice' => $user->price]) }}"
+                                                                                        method="POST" id="bidForm">
+                                                                                        @csrf
+                                                                                        <button type="submit" class="btn btn-info bid-button" data-user="{{$user->name}}">Bid</button>
+                                                                                    </form> -->
                         </div>
                     @endif
 

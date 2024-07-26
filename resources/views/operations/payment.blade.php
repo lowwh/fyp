@@ -5,10 +5,7 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout</title>
-
+    <!-- Include your head content here -->
     <style>
         /* General styles */
         body {
@@ -207,6 +204,19 @@
                 padding: 15px;
             }
         }
+
+        /* No voucher message styles */
+        .no-voucher-message {
+            text-align: center;
+            padding: 20px;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            color: #721c24;
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
     </style>
 </head>
 
@@ -233,15 +243,6 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="card service-details">
-                    <!-- <div class="card-body">
-                        <h1 class="card-title">Service Details</h1>
-                        <br><br>
-                        <p><strong>Freelancer ID:</strong> {{ $freelancerid }}</p>
-                        <p><strong>Service ID:</strong> {{ $serviceid }}</p>
-                        <p><strong>Price:</strong> ${{ number_format($price, 2) }}</p>
-
-                       
-                    </div> -->
                     <input type="hidden" id="originalPrice" value="{{ $price }}">
                 </div>
                 <div class="card-body">
@@ -266,7 +267,6 @@
                                 <label for="duitnow"><img src="{{ asset('images/duitnow.png') }}"
                                         alt="DuitNow">DuitNow</label>
                             </div>
-
                         </div>
 
                         <div class="mb-3">
@@ -277,15 +277,22 @@
                         <div class="vouchers-container">
                             <label for="availableVouchers" class="form-label">Available Vouchers</label>
                             <ul class="voucher-list" id="availableVouchers">
-                                @foreach($vouchers as $voucher)
-                                    <li class="voucher-item" data-code="{{ $voucher->code }}"
-                                        data-discount="{{ $voucher->discount_percentage }}">
-                                        <span class="voucher-code">{{ $voucher->code }}</span>
-                                        <span class="voucher-discount">{{ $voucher->discount_percentage }}% off</span>
-                                    </li>
-                                @endforeach
+                                @if($availableVouchers->isEmpty())
+                                    <div class="no-voucher-message">
+                                        <h1>No available vouchers</h1>
+                                    </div>
+                                @else
+                                    @foreach($availableVouchers as $voucher)
+                                        <li class="voucher-item" data-code="{{ $voucher->code }}"
+                                            data-discount="{{ $voucher->discount_percentage }}">
+                                            <span class="voucher-code">{{ $voucher->code }}</span>
+                                            <span class="voucher-discount">{{ $voucher->discount_percentage }}% off</span>
+                                        </li>
+                                    @endforeach
+                                @endif
                             </ul>
                         </div>
+
 
                         <div class="mb-3">
                             <label for="finalPrice" class="form-label">Final Price</label>
@@ -293,8 +300,6 @@
                             <span id="removeVoucher" class="remove-voucher" style="display:none;">Remove Voucher</span>
                             <input type="hidden" id="finalPriceInput" name="final_price" value="{{ $price }}">
                         </div>
-
-
 
                         <div class="terms-container">
                             <p>By proceeding, you agree to our <a href="{{ route('terms') }}" target="_blank">Terms and
@@ -308,6 +313,12 @@
                             id="loadingIcon">
                         <span class="tick-icon" id="successTick">&#10003;</span>
                     </form>
+                    <div>
+                        <form method="post" action="/check/{{$serviceid}}/{{$userid}}">
+                            @csrf
+                            <button>Check</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -327,21 +338,22 @@
             const finalPriceElement = document.getElementById('finalPrice');
             const removeVoucherButton = document.getElementById('removeVoucher');
             const orderTotalElement = document.getElementById('orderTotal');
+            const voucherDiscountElement = document.getElementById('voucherDiscount');
             const progress = document.getElementById('progress');
             const loadingIcon = document.getElementById('loadingIcon');
             const successTick = document.getElementById('successTick');
             const formErrors = document.getElementById('formErrors');
-
-
 
             voucherItems.forEach(item => {
                 item.addEventListener('click', function () {
                     const code = this.dataset.code;
                     const discount = this.dataset.discount;
                     voucherCodeInput.value = code;
-                    finalPriceInput.value = calculateDiscountedPrice(discount);
-                    finalPriceElement.textContent = `$${finalPriceInput.value}`;
-                    orderTotalElement.textContent = finalPriceInput.value;
+                    const discountedPrice = calculateDiscountedPrice(discount);
+                    finalPriceInput.value = discountedPrice;
+                    finalPriceElement.textContent = `$${discountedPrice}`;
+                    orderTotalElement.textContent = `$${discountedPrice}`;
+                    voucherDiscountElement.textContent = `${discount}%`;
                     removeVoucherButton.style.display = 'inline';
                 });
             });
@@ -349,8 +361,10 @@
             removeVoucherButton.addEventListener('click', function () {
                 voucherCodeInput.value = '';
                 finalPriceInput.value = document.getElementById('originalPrice').value;
-                finalPriceElement.textContent = `$${finalPriceInput.value}`;
-                orderTotalElement.textContent = finalPriceInput.value;
+                const originalPrice = finalPriceInput.value;
+                finalPriceElement.textContent = `$${originalPrice}`;
+                orderTotalElement.textContent = `$${originalPrice}`;
+                voucherDiscountElement.textContent = '0%';
                 this.style.display = 'none';
             });
 
@@ -377,6 +391,7 @@
             });
         });
     </script>
+
 </body>
 
 </html>

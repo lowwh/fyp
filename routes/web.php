@@ -136,6 +136,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/ratings', [MessageController::class, 'showRatings']);
 
 
+    Route::post('/check/{serviceid}/{userid}', [PaymentController::class, 'check']);
+
+
 
 
     // Route::get('messages/{biddername}/{user_id}', [MessageController::class, 'bidshow'])->name('messages.bidshow');
