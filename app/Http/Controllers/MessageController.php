@@ -141,7 +141,7 @@ class MessageController extends Controller
         if ($bid && $bid->status === 'completed') {
             $status = 'completed';
         }
-        return view('messages.bidshow', compact('biddername', 'bidder_id', 'service_id', 'freelancer_id', 'status', 'notification_id'));
+        return view('messages.bidshow', compact('biddername', 'bidder_id', 'service_id', 'freelancer_id', 'status', 'notification_id', 'user_id'));
     }
 
     public function showRatings()

@@ -56,6 +56,7 @@
                                     <div class="modal-body">
                                         <div class="form-group">
                                             <input type="hidden" name="resultid" value="{{ $result->resultid }}">
+                                            <input type="hidden" name="userid" value="{{ $userid }}">
                                             <label>Did this service meet
                                                 your expectations?</label><br>
                                             <div class="form-check form-check-inline">

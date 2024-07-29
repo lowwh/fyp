@@ -13,3 +13,4 @@ require("./bootstrap");
  */
 
 require("./components/Chatgpt");
+require("./components/scripts");

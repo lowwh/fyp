@@ -63,7 +63,7 @@
         </button>
         <br><br>
         <form method="post"
-            action="/get/progression/{{$service_id}}/{{$freelancer_id}}/{{$bidder_id}}/{{$notification_id}}">
+            action="/get/progression/{{$service_id}}/{{$freelancer_id}}/{{$bidder_id}}/{{$notification_id}}/{{$user_id}}">
             @csrf
             <button class="btn btn-primary" type="submit" id="confirmButton" disabled>Confirm</button>
         </form>

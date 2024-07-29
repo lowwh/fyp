@@ -23,7 +23,7 @@ class ResultController extends Controller
             $results = Result::leftJoin('users', 'results.freelancer_id', '=', 'users.freelancer_id')
                 ->leftJoin('services', 'results.gig_id', '=', 'services.id')
                 ->leftJoin('users as bidders', 'results.bidder_id', '=', 'bidders.id')
-                ->select('results.*', 'results.id as resultid', 'results.status', 'users.name', 'services.id as serviceid', 'bidders.name as biddername', 'users.id as userid')
+                ->select('results.*', 'results.id as resultid', 'results.status', 'users.name', 'services.id as serviceid', 'bidders.name as biddername', 'users.id as userid', 'results.user_id as userid')
                 ->get();
 
             foreach ($results as $result) {
@@ -72,7 +72,7 @@ class ResultController extends Controller
             ->first();
 
         if ($existingResult) {
-            // If result exists, return back with error message
+
             return redirect()->back()->withInput()->withErrors(['error' => 'Freelancer ID with the Gig Id  already exists. Please try again.']);
         }
 
@@ -153,6 +153,7 @@ class ResultController extends Controller
         $result->freelancer_id = $req->freelancer_id;
         $result->gig_id = $req->service_id;
         $result->bidder_id = $req->bidder_id;
+        $result->user_id = $req->user_id;
         $result->save();
 
         $bid = Bid::where('user_id', $req->bidder_id)

@@ -30,6 +30,7 @@ class HistoryController extends Controller
 
         // Pass the gig data to the new Blade view
         return view('operations.rating', ['results' => $results, 'userid' => $user_id]);
+        //return $user_id;
     }
 
     public function index()
@@ -74,6 +75,7 @@ class HistoryController extends Controller
         $rating->suggestion = $request->suggestion;
         $rating->rating = $request->rating;
         $rating->result_id = $request->resultid;
+        $rating->service_owner_id = $request->userid;
 
         $rating->save();
 

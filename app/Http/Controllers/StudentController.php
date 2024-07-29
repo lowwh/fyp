@@ -61,15 +61,22 @@ class StudentController extends Controller
     }
 
 
+    //TODO:remember to solve this to retrieve the suggestion from the rating table
     public function viewprofile($id)
     {
         $user = DB::table('users')
             ->leftJoin('services', 'services.user_id', '=', 'users.id')
-            ->select('users.*', 'services.id as service_id', 'services.title', 'services.description')
+            ->select('users.*', 'services.id as service_id', 'services.title', 'services.description', 'services.servicetype', 'users.state', 'users.language')
             ->where('users.id', $id)
             ->get();
 
-        return view('operations.viewprofile', ['user' => $user]);
+        $rating = DB::table('users')
+            ->leftJoin('ratings', 'ratings.service_owner_id', '=', 'users.id')
+            ->select('ratings.suggestion')
+            ->where('users.id', $id)
+            ->get();
+        //return $rating;
+        return view('operations.viewprofile', ['user' => $user, 'ratings' => $rating]);
     }
 
 

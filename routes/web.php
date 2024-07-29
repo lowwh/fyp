@@ -18,6 +18,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\BidController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\FreeTrialController;
 
 /*
 |--------------------------------------------------------------------------
@@ -124,13 +125,13 @@ Route::middleware('auth')->group(function () {
 
 
 
-    //TODO: route from the home blade when click on the send message
+
     Route::get('messages/create/{user}', [MessageController::class, 'create'])->name('messages.create');
     Route::post('sendMessages', [MessageController::class, 'sendMessage'])->name('messages.sendMessage');
     Route::get('receivedmessages', [MessageController::class, 'receivedMessageIndex'])->name('receivedmessages');
     Route::get('messages/{user}/show/{message}', [MessageController::class, 'show'])->name('messages.show');
 
-    //TODO:show chat when click on the send button
+
     Route::post('messages', [MessageController::class, 'store'])->name('messages.store');
 
     Route::get('/ratings', [MessageController::class, 'showRatings']);
@@ -144,7 +145,7 @@ Route::middleware('auth')->group(function () {
     // Route::get('messages/{biddername}/{user_id}', [MessageController::class, 'bidshow'])->name('messages.bidshow');
 
     Route::get('test/messages/{biddername}/{bidder_id}/{service_id}/{freelancer_id}/{user_id}/{notification_id}', [MessageController::class, 'bidshow'])->name('messages.bidshow');
-    Route::post('/get/progression/{service_id}/{freelancer_id}/{bidder_id}/{notification_id}', [ResultController::class, 'addresult'])->middleware('check.service.rejection');
+    Route::post('/get/progression/{service_id}/{freelancer_id}/{bidder_id}/{notification_id}/{user_id}', [ResultController::class, 'addresult'])->middleware('check.service.rejection');
     Route::post('/bid/{userid}/{serviceid}/{freelancerid}/{serviceprice}', [BidController::class, 'store'])->name('bid');
     Route::post('/process-payment/{userid}/{serviceid}/{freelancerid}/{serviceprice}', [PaymentController::class, 'processPayment'])->name('payment.process');
     Route::get('/pay/{userid}/{serviceid}/{freelancerid}/{price}', [PaymentController::class, 'index'])->name('payment');
