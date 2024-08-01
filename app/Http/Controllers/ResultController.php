@@ -200,4 +200,12 @@ class ResultController extends Controller
         //return redirect()->route('home')->with('status', 'Service rejected.');
         return redirect('manageresult');
     }
+
+    public function updateDeliveryDate($resultid, Request $req)
+    {
+        $update = Result::findOrFail($resultid);
+        $update->estimate_delivery_date = $req->estimatedDeliveryDate;
+        $update->save();
+        return redirect('manageresult');
+    }
 }

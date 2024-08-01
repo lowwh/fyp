@@ -237,6 +237,7 @@
             <p><strong>Original Price:</strong> ${{ number_format($price, 2) }}</p>
             <p><strong>Discount:</strong> <span id="voucherDiscount">0%</span></p>
             <p><strong>Total Amount:</strong> $<span id="orderTotal">{{ number_format($price, 2) }}</span></p>
+
         </div>
 
         <!-- Payment Form -->
@@ -314,10 +315,10 @@
                         <span class="tick-icon" id="successTick">&#10003;</span>
                     </form>
                     <div>
-                        <form method="post" action="/check/{{$serviceid}}/{{$userid}}">
+                        <!-- <form method="post" action="/check/{{$serviceid}}/{{$userid}}">
                             @csrf
                             <button>Check</button>
-                        </form>
+                        </form> -->
                     </div>
                 </div>
             </div>

@@ -80,6 +80,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/resultupdate/{id}', [ResultController::class, 'update'])->name('result.update');
     Route::get('/resultdelete/{id}', [ResultController::class, 'destroy'])->name('result.delete');
 
+    Route::post('update/deliveryDate/{resultid}', [ResultController::class, 'updateDeliveryDate']);
+
 
     //Freelancer -> add and manage
     Route::view('/addstudent', 'operations.addstudent');
