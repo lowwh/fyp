@@ -56,6 +56,8 @@ Route::get('/', [NoticeController::class, 'welcome'])->name('welcome');
 
 Route::middleware('auth')->group(function () {
 
+    Route::get('/ratings', [MessageController::class, 'showRatings']);
+
     Route::get('/chatgpt', function () {
         return view('operations.chatgpt');
     });
@@ -115,6 +117,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/manageprofile', [ProfileController::class, 'index']);
     Route::get('/editprofile', [ProfileController::class, 'index'])->name('edit.profile');
 
+
+    Route::post('/update/balance/{id}', [ProfileController::class, 'upbalance'])->name('update.balance');
     // Route::view('/historygig', 'operations.history');
     Route::get('/history', [HistoryController::class, 'index']);
 
@@ -136,7 +140,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('messages', [MessageController::class, 'store'])->name('messages.store');
 
-    Route::get('/ratings', [MessageController::class, 'showRatings']);
+
 
 
     Route::post('/check/{serviceid}/{userid}', [PaymentController::class, 'check']);
@@ -149,8 +153,8 @@ Route::middleware('auth')->group(function () {
     Route::get('test/messages/{biddername}/{bidder_id}/{service_id}/{freelancer_id}/{user_id}/{notification_id}', [MessageController::class, 'bidshow'])->name('messages.bidshow');
     Route::post('/get/progression/{service_id}/{freelancer_id}/{bidder_id}/{notification_id}/{user_id}', [ResultController::class, 'addresult'])->middleware('check.service.rejection');
     Route::post('/bid/{userid}/{serviceid}/{freelancerid}/{serviceprice}', [BidController::class, 'store'])->name('bid');
-    Route::post('/process-payment/{userid}/{serviceid}/{freelancerid}/{serviceprice}', [PaymentController::class, 'processPayment'])->name('payment.process');
-    Route::get('/pay/{userid}/{serviceid}/{freelancerid}/{price}', [PaymentController::class, 'index'])->name('payment');
+    Route::post('/process-payment/{serviceOwnerId}/{userid}/{serviceid}/{freelancerid}/{serviceprice}', [PaymentController::class, 'processPayment'])->name('payment.process');
+    Route::get('/pay/{serviceOwnerId}/{userid}/{serviceid}/{freelancerid}/{price}', [PaymentController::class, 'index'])->name('payment');
     // web.php
     // routes/web.php
     Route::get('/pay', [PaymentController::class, 'showCheckout'])->name('checkout.show');

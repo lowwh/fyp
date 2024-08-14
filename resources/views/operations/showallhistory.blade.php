@@ -1,28 +1,38 @@
 @extends('layouts.app')
 
 @section('content')
-
-<div class="content-wrapper">
-    <div class="container-fluid">
-        <div class="container">
-            <!-- List Format -->
+<div class="container">
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <!-- Total Price Section -->
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <div class="total-box bg-light rounded-lg p-4 shadow">
+                        <h4 class="mb-2 text-primary">Total Earnings</h4>
+                        <p class="display-4 font-weight-bold mb-0">${{ number_format($totalPrice, 2) }}</p>
+                    </div>
+                </div>
+            </div>
+            <!-- History List -->
             <div class="row">
                 @if($results->isNotEmpty())
                     @foreach($results as $result)
-                        <div class="col-md-4 mb-4">
-                            <div class="list-item card h-100 shadow-sm border-0 rounded">
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="service-card card shadow-lg border-0 rounded">
+                                @if($result->image_path)
+                                    <div class="position-relative">
+                                        <img src="{{ asset('storage/' . $result->image_path) }}" alt="Service Image"
+                                            class="card-img-top"
+                                            style="object-fit: cover; height: 180px; border-bottom: 1px solid #e0e0e0;">
+                                    </div>
+                                @endif
                                 <div class="card-body">
-                                    @if($result->image_path)
-                                        <div class="text-center mb-3">
-                                            <img src="{{ asset('storage/' . $result->image_path) }}" alt="Service Image"
-                                                class="img-fluid rounded" style="max-height: 200px; object-fit: cover;">
-                                        </div>
-                                    @endif
                                     @if($result->userimage)
-                                        <div class="text-center mb-3">
+                                        <div class="d-flex align-items-center mb-3">
                                             <img src="{{ asset('storage/' . $result->userimage) }}" alt="User Image"
-                                                class="rounded-circle" style="width: 50px; height: 50px;">
-                                            <h5 class="card-title mt-2">{{ $result->username }}</h5>
+                                                class="rounded-circle"
+                                                style="width: 60px; height: 60px; border: 2px solid #007bff;">
+                                            <h5 class="card-title ml-3">{{ $result->username }}</h5>
                                         </div>
                                     @endif
 
@@ -43,121 +53,116 @@
                                     <!-- Display Green Tick for Completed Task -->
                                     <p><i class="fa fa-check-circle text-success"></i> Completed</p>
                                 </div>
+                                <div class="card-footer d-flex justify-content-between align-items-center">
+                                    <p class="price mb-0"><strong>Price:</strong> ${{ number_format($result->price, 2) }}</p>
+                                    <a href="{{ url('/service/' . $result->gig_id) }}"
+                                        class="btn btn-outline-primary btn-sm">View Details</a>
+                                </div>
                             </div>
                         </div>
                     @endforeach
                 @else
                     <div class="no-history bg-light rounded-lg p-5 mb-5 text-center shadow"
                         style="max-width: 600px; margin: 0 auto;">
-                        <p class="display-4 font-weight-bold mb-4">No History Service Yet</p>
+                        <p class="display-4 font-weight-bold mb-4">No History Yet</p>
                         <p class="lead">You haven't completed any services yet. Start browsing and complete your first
                             service today!</p>
                         <a href="{{ url('/searchresult') }}" class="btn btn-primary mt-3">Browse Services</a>
                     </div>
                 @endif
             </div>
-            <!-- End List Format -->
+            <!-- End History List -->
         </div>
     </div>
 </div>
 
+@section('scripts')
 <script src="{{ mix('/js/app.js') }}"></script>
+@endsection
+
 <style>
-    .fa-star {
-        color: #ccc;
-        /* Default star color */
-    }
-
-    .checked {
-        color: orange;
-        /* Color for filled stars */
-    }
-
-    .fa-check-circle {
-        color: green;
-        /* Color for green tick */
-    }
-
-    .text-success {
-        color: green;
-        /* Bootstrap class for green text */
-    }
-
-    .card {
-        border-radius: 10px;
-        overflow: hidden;
-        background-color: #fff;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: transform 0.2s ease-in-out;
-    }
-
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .card-body {
-        padding: 1.25rem;
-    }
-
-    .card-title {
-        font-weight: bold;
-        font-size: 1.25rem;
-    }
-
-    .card-text {
-        font-size: 1rem;
-    }
-
-    .img-fluid {
-        border-radius: 10px;
-    }
-
-    .shadow-sm {
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .rounded {
-        border-radius: 10px;
-    }
-
-    .rounded-circle {
-        border-radius: 50%;
-    }
-
-    .text-center {
-        text-align: center;
-    }
-
-    .mb-3 {
-        margin-bottom: 1rem;
-    }
-
-    .mb-4 {
-        margin-bottom: 1.5rem;
-    }
-
-    .p-5 {
-        padding: 3rem;
-    }
-
-    .shadow {
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .bg-light {
+    .total-box {
         background-color: #f8f9fa;
-    }
-
-    .no-history {
-        border-radius: 15px;
-        padding: 2rem;
+        border-radius: 10px;
+        padding: 1.5rem;
         text-align: center;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
 
     .display-4 {
         font-size: 2.5rem;
+        color: #007bff;
+    }
+
+    .font-weight-bold {
+        font-weight: 700;
+    }
+
+    .service-card {
+        border-radius: 12px;
+        overflow: hidden;
+        background-color: #fff;
+        transition: box-shadow 0.3s ease;
+    }
+
+    .service-card:hover {
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-img-top {
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .card-title {
+        font-weight: 600;
+        font-size: 1.25rem;
+    }
+
+    .fa-star {
+        color: #ddd;
+    }
+
+    .checked {
+        color: #f39c12;
+    }
+
+    .fa-check-circle {
+        color: #28a745;
+    }
+
+    .text-success {
+        color: #28a745;
+    }
+
+    .price {
+        font-size: 1.1rem;
+        color: #333;
+    }
+
+    .btn-outline-primary {
+        border-color: #007bff;
+        color: #007bff;
+        font-weight: 500;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .no-history {
+        border-radius: 12px;
+        padding: 2rem;
+        text-align: center;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .display-4 {
+        font-size: 2rem;
     }
 
     .font-weight-bold {
@@ -169,38 +174,14 @@
         font-weight: 300;
     }
 
-    .btn-primary {
-        background-color: #007bff;
-        border: none;
-        padding: 0.75rem 1.5rem;
-        font-size: 1rem;
-        font-weight: bold;
-        color: #fff;
-        border-radius: 0.3rem;
-        text-transform: uppercase;
-        transition: background-color 0.3s ease-in-out;
-    }
-
-    .btn-primary:hover {
-        background-color: #0056b3;
-    }
-
     /* Responsive Design */
     @media (max-width: 768px) {
-        .card-body {
+        .total-box {
             padding: 1rem;
         }
 
-        .card-title {
-            font-size: 1.1rem;
-        }
-
-        .card-text {
-            font-size: 0.9rem;
-        }
-
-        .img-fluid {
-            max-height: 150px;
+        .display-4 {
+            font-size: 1.75rem;
         }
     }
 </style>

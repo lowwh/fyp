@@ -51,12 +51,13 @@ $uniqueFreelancerIds = [];
                                                     <table class="table table-bordered nested-table">
                                                         <thead>
                                                             <tr>
+                                                                <th>Id</th>
                                                                 <th>Gig Id</th>
                                                                 <th>Bidder Name</th>
                                                                 <th>Progress Bar</th>
                                                                 <th>Progress</th>
                                                                 <th>Current Date</th>
-                                                                <th>Estimated Delivery Date</th>
+                                                                <th>Deadline</th>
                                                                 <th>Actions</th>
                                                             </tr>
                                                         </thead>
@@ -65,6 +66,7 @@ $uniqueFreelancerIds = [];
                                                                 @can('view', $innerResult)
                                                                     @if ($innerResult->freelancer_id === $result->freelancer_id)
                                                                         <tr>
+                                                                            <td>{{$innerResult->resultid}}</td>
                                                                             <td>{{ $innerResult->gig_id }}</td>
                                                                             <td>{{ $innerResult->biddername }}</td>
                                                                             <td>

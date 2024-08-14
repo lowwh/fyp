@@ -38,13 +38,13 @@ class HistoryController extends Controller
 
         $userId = auth()->id();
         // $userId = auth()->id();
-        $results = service::join('ratings', 'ratings.gig_id', '=', 'services.id')
+        $results = service::join('ratings', 'ratings.gig_id', '=', 'services.id', )
             ->join('users', 'users.id', '=', 'ratings.user_id')
             ->join('results', 'results.gig_id', '=', 'services.id')
 
 
 
-            ->select('services.image_path', 'ratings.expectation', 'ratings.suggestion', 'ratings.rating', 'ratings.reason', 'ratings.gig_id', 'users.image_path as userimage', 'results.progress')
+            ->select('services.price', 'services.image_path', 'ratings.expectation', 'ratings.suggestion', 'ratings.rating', 'ratings.reason', 'ratings.gig_id', 'users.image_path as userimage', 'results.progress')
             ->where('results.progress', 100)
             ->where('users.id', $userId)
             ->where('results.bidder_id', $userId)
@@ -52,8 +52,10 @@ class HistoryController extends Controller
 
             ->get();
 
+        $totalPrice = $results->sum('price');
 
-        return view('operations.showallhistory', ['results' => $results]);
+
+        return view('operations.showallhistory', ['results' => $results, 'totalPrice' => $totalPrice]);
     }
 
     public function rating(Request $request, $id, $userid)

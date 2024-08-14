@@ -10,22 +10,21 @@
 
     <title>{{ config('app.name', 'SRMS') }}</title>
 
-
     <!-- AdminLTE -->
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{asset('adminlte/plugins/fontawesome-free/css/all.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/fontawesome-free/css/all.min.css') }}">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Tempusdominus Bootstrap 4 -->
     <link rel="stylesheet"
-        href="{{asset('adminlte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
+        href="{{ asset('adminlte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
     <!-- iCheck -->
-    <link rel="stylesheet" href="{{asset('adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
     <!-- JQVMap -->
-    <link rel="stylesheet" href="{{asset('adminlte/plugins/jqvmap/jqvmap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/jqvmap/jqvmap.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
     <!-- overlayScrollbars -->
@@ -35,33 +34,7 @@
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/summernote/summernote-bs4.min.css') }}">
 
-    <style>
-        .star-rating {
-            display: flex;
-            /* Arrange stars horizontally */
-            flex-direction: row-reverse;
-            /* Reverse order to position the first star on the right */
-        }
-
-        .star-rating input {
-            display: none;
-            /* Hide the radio buttons */
-        }
-
-        .star-rating label {
-            font-size: 20px;
-            cursor: pointer;
-            color: lightgray;
-            /* Initial star color */
-        }
-
-        .star-rating input:checked~label,
-        .star-rating label:hover,
-        .star-rating label:hover~label {
-            color: gold;
-            /* Change star color when checked or hovered */
-        }
-    </style>
+    @yield('styles') <!-- Optional: To include additional styles -->
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -75,13 +48,9 @@
         <!-- Content -->
         @yield('content')
 
-
         <!-- Footer -->
         @include('layouts.footer2')
     </div>
-
-
-
 
     <!-- AdminLTE -->
     <!-- jQuery -->
@@ -117,6 +86,8 @@
     <script src="{{ asset('adminlte/dist/js/adminlte.js') }}"></script>
 
     <script src="{{ asset('js/app.js') }}"></script>
+
+    @yield('scripts') <!-- To include additional scripts -->
 </body>
 
 </html>

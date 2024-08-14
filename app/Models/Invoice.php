@@ -9,9 +9,9 @@ class Invoice extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
 
-    public $fillable = ['user_id', 'invoice_number', 'amount', 'status', 'payment_method'];
+
+    public $fillable = ['user_id', 'invoice_number', 'amount', 'status', 'payment_method', 'service_id', 'serviceOwnerId'];
 
     public function user()
     {

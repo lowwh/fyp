@@ -38,6 +38,19 @@
           </a>
         </li>
 
+
+        <li class="nav-item">
+          <a href="/ratings" class="nav-link">
+            <i class="fas fa-tachometer-alt nav-icon"></i>
+            <p>
+              Status Dashboard
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+
+
+
+        </li>
         <li class="nav-item">
           <a href="{{ route('receivedmessages') }}" class="nav-link">
             <i class="fas fa-comments nav-icon"></i>

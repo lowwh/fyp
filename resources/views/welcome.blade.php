@@ -308,7 +308,7 @@
     </nav>
     <header class="header__container">
         <div class="header__image">
-            <img src="{{url('/images/header.png')}}" alt="Image" />
+            <!-- <img src="{{url('/images/header.png')}}" alt="Image" /> -->
         </div>
         <div class="header__content">
             <h2>INDEPENDENT CONTRACTOR COMMUNITY</h2>

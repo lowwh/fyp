@@ -36,6 +36,7 @@ class ResultController extends Controller
                 })->exists();
             }
 
+
             //return $result;
             return view("operations.manageresult", compact('results'));
         } catch (\Exception $e) {
@@ -87,7 +88,7 @@ class ResultController extends Controller
         return redirect()->back()->with('success', 'Result added successfully');
     }
 
-    // ResultController.php
+
     public function search(Request $request)
     {
         // Validate the request data
@@ -95,8 +96,8 @@ class ResultController extends Controller
             'servicetype' => 'required',
         ]);
 
-        // Perform the query with gig count
-        $results = DB::table('services') // Ensure you're using the correct table name here
+
+        $results = DB::table('services')
             ->join('users', 'services.user_id', '=', 'users.id')
             ->leftJoin('ratings', 'ratings.gig_id', '=', 'services.id')
             ->select(
@@ -105,12 +106,13 @@ class ResultController extends Controller
                 'services.description',
                 DB::raw("DATE(services.created_at) as service_created_date"),
                 'services.price',
+                'services.description',
                 'services.title',
                 'services.id as serviceid',
                 'users.id as userid',
                 'users.state',
                 'users.image_path',
-                DB::raw("COUNT(ratings.gig_id) as gigs_count") // Count gig_id
+                DB::raw("COUNT(ratings.gig_id) as gigs_count") // using raw query to count gig_id
             )
             ->where('services.servicetype', $validatedData['servicetype'])
             ->groupBy('users.image_path', 'services.image_path', 'services.servicetype', 'services.description', 'services.created_at', 'services.price', 'services.title', 'services.id', 'users.id', 'users.state')

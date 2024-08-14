@@ -54,7 +54,7 @@
                         </div>
                     </div>
 
-                    <!-- Tabs for BIO, Project, and Review -->
+                    <!-- Tabs for BIO, Project, Review, and My Wallet -->
                     <ul class="nav nav-tabs mb-4" id="profileTab" role="tablist">
                         <li class="nav-item" role="presentation">
                             <a class="nav-link active" id="bio-tab" data-bs-toggle="tab" href="#bio" role="tab"
@@ -69,6 +69,10 @@
                         <li class="nav-item" role="presentation">
                             <a class="nav-link" id="review-tab" data-bs-toggle="tab" href="#review" role="tab"
                                 aria-controls="review" aria-selected="false">Review</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="mywallet-tab" data-bs-toggle="tab" href="#mywallet" role="tab"
+                                aria-controls="mywallet" aria-selected="false">My Wallet</a>
                         </li>
                     </ul>
 
@@ -125,10 +129,106 @@
                         <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
                             <p>Review content goes here.</p>
                         </div>
+
+                        <!-- My Wallet Tab -->
+                        <div class="tab-pane fade" id="mywallet" role="tabpanel" aria-labelledby="mywallet-tab">
+                            <div class="row mb-4">
+                                <!-- Current Balance -->
+                                <div class="col-md-12 mb-4">
+                                    <h4 class="font-weight-bold">Current Balance:</h4>
+                                    <h3 class="text-success">RM{{$user->balance}}</h3>
+                                    <button type="button" class="btn btn-primary btn-lg px-5" data-bs-toggle="modal"
+                                        data-bs-target="#updatebalanceModal{{ $user->id }}">
+                                        Top Up
+                                    </button>
+
+                                </div>
+
+
+                            </div>
+
+                            <!-- Total Spending -->
+                            <div class="row mb-4">
+                                <div class="col-md-12 mb-4">
+                                    @can('isUser')
+                                        <h4 class="font-weight-bold">Total Spending:</h4>
+                                        <h3 class="text-success ">RM{{$totalSpend}}</h3>
+                                    @endcan
+                                    @can('isFreelancer')
+                                        <h4 class="font-weight-bold">Total Earn:</h4>
+                                        <h3 class="text-success">RM{{$totalEarn}}</h3>
+                                    @endcan
+                                </div>
+                            </div>
+
+                            <!-- Past Transactions -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4 class="font-weight-bold">Past Transactions:</h4>
+                                    @if ($pastTransactions->isEmpty())
+                                        <p>No past transactions found.</p>
+                                    @else
+                                        <div class="list-group">
+                                            @foreach ($pastTransactions as $invoice)
+                                                <a href="#" class="list-group-item list-group-item-action">
+                                                    <div class="d-flex w-100 justify-content-between">
+                                                        <h5 class="mb-1">Invoice Number: {{ $invoice->invoice_number }}</h5>
+                                                        <small>Status: {{ ucfirst($invoice->status) }}</small>
+                                                    </div>
+                                                    <p class="mb-1">
+                                                        Amount: ${{ number_format($invoice->amount, 2) }}<br>
+                                                        Payment Method: {{ ucfirst($invoice->payment_method) }}<br>
+                                                        Service ID: {{ $invoice->service_id }}
+                                                    </p>
+                                                    <small>
+                                                        Created At:
+                                                        @if ($invoice->created_at)
+                                                            {{ $invoice->created_at->format('Y-m-d H:i') }}
+                                                        @else
+                                                            Not Available
+                                                        @endif
+                                                    </small>
+                                                </a>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+
+
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Update balance modal -->
+    <div class="modal fade" id="updatebalanceModal{{$user->id}}" tabindex="-1" aria-labelledby="updateModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4">
+                <div class="modal-header border-0 bg-light">
+                    <h5 class="modal-title" id="updateModalLabel">Update Balance</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post" action="/update/balance/{{$user->id}}">
+                    @csrf
+                    <div class="modal-body">
+
+                        <div class="mb-3">
+                            <label for="amount" class="form-label">Amount:</label>
+                            <input type="text" class="form-control" id="amount" name="amount">
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 bg-light">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
     </div>
 
     <!-- Update Detail Modal -->
@@ -145,129 +245,52 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="image" class="form-label">Profile Image: </label>
-                            <input type="file" name="image" id="image" class="form-control">
-                            <span class="text-danger">@error('image'){{ $message }}@enderror</span>
+                            <input type="file" name="image" class="form-control" id="image">
                         </div>
                         <div class="mb-3">
-                            <label for="name" class="form-label">Freelancer Name: </label>
-                            <input type="text" name="name" id="name" class="form-control" value="{{ $user['name'] }}">
-                            <span class="text-danger">@error('name'){{ $message }}@enderror</span>
+                            <label for="email" class="form-label">Email:</label>
+                            <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}">
                         </div>
                         <div class="mb-3">
-                            <label for="gender" class="form-label">Gender: </label>
-                            <input type="text" name="gender" id="gender" class="form-control"
-                                value="{{ $user['gender'] }}">
-                            <span class="text-danger">@error('gender'){{ $message }}@enderror</span>
+                            <label for="name" class="form-label">Name:</label>
+                            <input type="text" class="form-control" id="name" name="name" value="{{ $user->name }}">
                         </div>
                         <div class="mb-3">
-                            <label for="age" class="form-label">Age: </label>
-                            <input type="text" name="age" id="age" class="form-control" value="{{ $user['age'] }}">
-                            <span class="text-danger">@error('age'){{ $message }}@enderror</span>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email: </label>
-                            <input type="text" name="email" id="email" class="form-control"
-                                value="{{ $user['email'] }}">
-                            <span class="text-danger">@error('email'){{ $message }}@enderror</span>
-                        </div>
-                        <div class="mb-3">
-                            <label for="servicetype" class="form-label">Service Type: </label>
-                            <input type="text" name="servicetype" id="servicetype" class="form-control"
-                                value="{{ $user['servicetype'] }}">
-                            <span class="text-danger">@error('servicetype'){{ $message }}@enderror</span>
+                            <label for="servicetype" class="form-label">Service Type:</label>
+                            <input type="text" class="form-control" id="servicetype" name="servicetype"
+                                value="{{ $user->servicetype }}">
                         </div>
                     </div>
-                    <div class="modal-footer border-0">
-                        <button type="submit" class="btn btn-primary">Upload</button>
+                    <div class="modal-footer border-0 bg-light">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+@endsection
 
+@section('styles')
 <style>
-    .profile-navbar .navbar {
-        border-bottom: 1px solid #eaeaea;
-    }
-
-    .profile-navbar .navbar-brand {
-        font-size: 1.25rem;
-        font-weight: bold;
-        color: #333;
-    }
-
-    /* Navbar */
-    .navbar {
-        border-bottom: 1px solid #eaeaea;
-    }
-
-    .navbar-brand {
-        font-size: 1.25rem;
-        font-weight: bold;
-        color: #333;
-    }
-
-    /* Card */
-    .card {
-        border: none;
-        border-radius: 0.75rem;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .card-body {
-        padding: 2rem;
-    }
-
-    /* Profile Image */
-    .img-fluid {
-        border: 3px solid #007bff;
-        border-radius: 50%;
-        width: 150px;
-        height: 150px;
-        object-fit: cover;
-    }
-
-    /* Tabs */
-    .nav-tabs {
-        border-bottom: 2px solid #007bff;
-    }
-
-    .nav-tabs .nav-link {
-        border: 1px solid transparent;
+    /* My Wallet Tab */
+    #mywallet .list-group-item {
         border-radius: 0.5rem;
-        padding: 0.5rem 1rem;
+        border: 1px solid #dee2e6;
+        margin-bottom: 1rem;
     }
 
-    .nav-tabs .nav-link.active {
-        color: #007bff;
-        background-color: #fff;
-        border-color: #007bff #007bff #fff;
-    }
-
-    /* Modal */
-    .modal-content {
-        border: none;
-        border-radius: 0.75rem;
-    }
-
-    .modal-header {
-        border-bottom: none;
+    #mywallet .list-group-item:hover {
         background-color: #f8f9fa;
     }
 
-    .btn-close {
-        background: none;
-        border: none;
-        color: #007bff;
+    #mywallet .text-success {
+        font-size: 1.5rem;
     }
 
-
-    /* Responsive */
-    @media (max-width: 767.98px) {
-        .navbar-nav {
-            margin-top: 0.5rem;
-        }
+    #mywallet .text-danger {
+        font-size: 1.5rem;
     }
 </style>
 @endsection

@@ -248,11 +248,12 @@
                 </div>
                 <div class="card-body">
                     <form
-                        action="{{ route('payment.process', ['userid' => $userid, 'serviceid' => $serviceid, 'freelancerid' => $freelancerid, 'serviceprice' => $price]) }}"
+                        action="{{ route('payment.process', ['serviceOwnerId' => $serviceOwnerId, 'userid' => $userid, 'serviceid' => $serviceid, 'freelancerid' => $freelancerid, 'serviceprice' => $price]) }}"
                         method="POST" id="paymentForm">
                         @csrf
 
                         <div class="form-group">
+                            <input type="hidden" name="serviceOwnerId" id="serviceOwnerId" value={{$serviceOwnerId}}>
                             <label for="cardOptions" class="form-label">Select a payment method</label>
                             <div class="card-option">
                                 <input type="radio" id="visa" name="card_type" value="visa">

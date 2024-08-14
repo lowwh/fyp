@@ -8,18 +8,24 @@ use App\Models\Payment;
 use App\Models\User;
 use App\Models\Bid;
 use App\Models\Service;
+
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\BidPlacedNotification;
 use Illuminate\Support\Facades\DB;
 use App\Models\Voucher;
 
+use function PHPSTORM_META\elementType;
+
 class PaymentController extends Controller
 {
 
-    public function index($userid, $serviceid, $freelancerid, $price)
+    public function index($serviceOwnerId, $userid, $serviceid, $freelancerid, $price)
     {
         // Fetch the authenticated user
         $user = User::findOrFail(Auth::user()->id);
+
+
+
 
 
 
@@ -50,7 +56,7 @@ class PaymentController extends Controller
             $availableVouchers = collect([]);
         }
 
-        return view('operations.payment', compact('userid', 'serviceid', 'freelancerid', 'price', 'availableVouchers'));
+        return view('operations.payment', compact('userid', 'serviceid', 'freelancerid', 'price', 'availableVouchers', 'serviceOwnerId'));
     }
 
 
@@ -87,41 +93,78 @@ class PaymentController extends Controller
     }
 
 
-    public function processPayment($userid, $serviceid, $freelancerid, $serviceprice, Request $request)
+    public function processPayment($serviceOwnerId, $userid, $serviceid, $freelancerid, $serviceprice, Request $request)
     {
         $user = User::findOrFail($userid);
 
         $bidderuserid = User::findOrFail(Auth::user()->id);
         $bidderuserid->increment('access_count');
 
+        $currentbalance = User::where('id', Auth::user()->id)
+            ->select('users.balance')
+            ->pluck('balance')
+            ->first();
 
 
-        $bid = new Bid();
-        $bid->user_id = $user->id;
-        $bid->bidder_id = auth()->id();
-        $bid->bidder_name = Auth::user()->name;
-        $bid->service_id = $serviceid;
-        $bid->freelancer_id = $freelancerid;
-        $bid->service_price = $serviceprice;
 
-        $bid->save();
+        // return $currentbalance;
 
-        $user->notify(new BidPlacedNotification($bid));
+        if ($currentbalance < $serviceprice) {
+            return back()->with('bid', 'Not Enough of money');
+        } else {
 
-        $invoiceNumber = 'INV-' . strtoupper(uniqid());
-        $finalPrice = $request->input('final_price');
 
-        Invoice::create([
-            'user_id' => $request->user()->id,
-            'invoice_number' => $invoiceNumber,
-            'amount' => $finalPrice,
-            'status' => 'paid',
-            'payment_method' => $request->input('card_type')
-        ]);
+            $bid = new Bid();
+            $bid->user_id = $user->id;
+            $bid->bidder_id = auth()->id();
+            $bid->bidder_name = Auth::user()->name;
+            $bid->service_id = $serviceid;
+            $bid->freelancer_id = $freelancerid;
+            $bid->service_price = $serviceprice;
 
-        return back()->with('bid', 'Your bid is pending. Please wait for the freelancer to review and confirm your bid. You will be notified once the freelancer has made a decision');
+            $bid->save();
+
+            $user->notify(new BidPlacedNotification($bid));
+
+            $invoiceNumber = 'INV-' . strtoupper(uniqid());
+            $finalPrice = $request->input('final_price');
+
+
+
+            Invoice::create([
+                'user_id' => $request->user()->id,
+                'invoice_number' => $invoiceNumber,
+                'amount' => $finalPrice,
+                'status' => 'paid',
+                'payment_method' => $request->input('card_type'),
+                'service_id' => $serviceid,
+                'serviceOwnerId' => $serviceOwnerId
+            ]);
+
+            $newbalance = $currentbalance - $serviceprice;
+
+            $userid = Auth::user()->id;
+            $updatebalance = User::findOrFail($userid);
+            $updatebalance->balance = $newbalance;
+            $updatebalance->save();
+
+
+
+
+
+
+
+            return back()->with('bid', 'Your bid is pending. Please wait for the freelancer to review and confirm your bid. You will be notified once the freelancer has made a decision');
+
+        }
+
+
+
+
+
 
     }
+
 
 
     public function showCheckout()
@@ -158,5 +201,7 @@ class PaymentController extends Controller
         echo "User {$user->name} has paid for the service '{$service->name}' {$paymentCount} times.";
 
     }
+
+
 }
 

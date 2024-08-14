@@ -10,6 +10,7 @@ use App\Models\Bid;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Rating;
+use App\Models\Result;
 use App\Notifications\NewMessageNotification;
 use Illuminate\Support\Facades\DB;
 
@@ -146,53 +147,71 @@ class MessageController extends Controller
 
     public function showRatings()
     {
-        // Fetch ratings from the database
-        $ratings = Rating::selectRaw('rating, COUNT(*) as count')
-            ->groupBy('rating')
-            ->orderBy('rating')
+
+        $userId = auth()->id();
+
+        // Fetch project status counts from the database
+        $statuses = Result::selectRaw('
+        status,
+        COUNT(*) as count
+    ')
+            ->where('user_id', $userId)
+            ->orWhere('bidder_id', $userId)
+            ->groupBy('status')
+            ->orderByRaw("FIELD(status, 'pending', 'completed', 'rejected')") // Ensure order: pending, completed, rejected
             ->get();
 
-        // Define an array of colors for the bars
+        // Define colors for the statuses in the correct order
         $colors = [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
+            'rgba(255, 159, 64, 0.2)', // Color for Pending
+            'rgba(25, 206, 8, 0.2)', // Color for Rejected
+            'rgba(255, 99, 132, 0.2)', // Color for Completed
         ];
 
-        // Define an array of border colors for the bars
+        // Define an array of border colors for the pie chart segments
         $borderColors = [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
+            'rgba(255, 159, 64, 1)', // Border color for Pending
+            'rgba(25, 206, 8, 1)', // Border color for Rejected
+            'rgba(255, 99, 132, 1)', // Border color for Completed
         ];
 
         // Prepare data for Chart.js
+        $statusesArray = $statuses->pluck('status')->toArray();
         $chartData = [
-            'labels' => $ratings->pluck('rating')->toArray(),
+            'labels' => $statusesArray,
             'datasets' => [
                 [
-                    'label' => 'Ratings Count',
-                    'data' => $ratings->pluck('count')->toArray(),
-                    'backgroundColor' => array_slice($colors, 0, $ratings->count()),
-                    'borderColor' => array_slice($borderColors, 0, $ratings->count()),
+                    'label' => 'Project Status Count',
+                    'data' => $statuses->pluck('count')->toArray(),
+                    'backgroundColor' => array_slice($colors, 0, $statuses->count()),
+                    'borderColor' => array_slice($borderColors, 0, $statuses->count()),
                     'borderWidth' => 1,
                 ]
             ]
         ];
 
-        return view('operations.graph', ['chartData' => $chartData]);
+        $pieChartData = [
+            'labels' => $statusesArray,
+            'datasets' => [
+                [
+                    'data' => $statuses->pluck('count')->toArray(),
+                    'backgroundColor' => array_slice($colors, 0, $statuses->count()),
+                    'borderColor' => array_slice($borderColors, 0, $statuses->count()),
+                    'borderWidth' => 1,
+                ]
+            ]
+        ];
+
+
+
+        return view('operations.graph', ['chartData' => $chartData, 'pieChartData' => $pieChartData]);
+
+
+
+
+
+
+
     }
-
-
-
-
-
-
 }
 
