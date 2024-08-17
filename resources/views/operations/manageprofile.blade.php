@@ -31,6 +31,13 @@
         <div class="col-md-12 col-lg-10">
             <div class="card mb-4 border-0 shadow-sm rounded-4">
                 <div class="card-body">
+                    <!-- Display success message -->
+                    @if (session('success'))
+                        <div id="successAlert" class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
                     <!-- User Info -->
                     <div class="row mb-4">
                         <div class="col-md-3 text-center">
@@ -107,7 +114,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <h5 class="font-weight-bold">Service Type:</h5>
-                                    <p>{{ $user->servicetype }}</p>
+                                    <p>{{ $user->serviceType }}</p>
                                 </div>
                             </div>
                             <div class="text-center mt-4">
@@ -240,25 +247,68 @@
                     <h5 class="modal-title" id="updateModalLabel">Update Profile Detail</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="post" enctype="multipart/form-data" action="/uploadphoto/{{$user['id']}}">
+                <form method="post" enctype="multipart/form-data" action="/uploadphoto/{{$user->id}}">
                     @csrf
                     <div class="modal-body">
+                        <!-- Profile Image Field -->
                         <div class="mb-3">
                             <label for="image" class="form-label">Profile Image: </label>
-                            <input type="file" name="image" class="form-control" id="image">
+                            <input type="file" name="image" class="form-control @error('image') is-invalid @enderror"
+                                id="image">
+                            @error('image')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email:</label>
-                            <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}">
-                        </div>
+
+                        <!-- Name Field -->
                         <div class="mb-3">
                             <label for="name" class="form-label">Name:</label>
-                            <input type="text" class="form-control" id="name" name="name" value="{{ $user->name }}">
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
+                                name="name" value="{{ old('name', $user->name) }}">
+                            @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
+
+                        <!-- Gender Field -->
                         <div class="mb-3">
-                            <label for="servicetype" class="form-label">Service Type:</label>
-                            <input type="text" class="form-control" id="servicetype" name="servicetype"
-                                value="{{ $user->servicetype }}">
+                            <label for="gender" class="form-label">Gender:</label>
+                            <input type="text" class="form-control @error('gender') is-invalid @enderror" id="gender"
+                                name="gender" value="{{ old('gender', $user->gender) }}">
+                            @error('gender')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- Age Field -->
+                        <div class="mb-3">
+                            <label for="age" class="form-label">Age:</label>
+                            <input type="text" class="form-control @error('age') is-invalid @enderror" id="age"
+                                name="age" value="{{ old('age', $user->age) }}">
+                            @error('age')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- Email Field -->
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email:</label>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
+                                name="email" value="{{ old('email', $user->email) }}">
+                            @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- Service Type Field -->
+                        <div class="mb-3">
+                            <label for="serviceType" class="form-label">Service Type:</label>
+                            <input type="text" class="form-control @error('serviceType') is-invalid @enderror"
+                                id="serviceType" name="serviceType"
+                                value="{{ old('serviceType', $user->serviceType) }}">
+                            @error('serviceType')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
                     <div class="modal-footer border-0 bg-light">
@@ -269,6 +319,7 @@
             </div>
         </div>
     </div>
+
 </div>
 @endsection
 
@@ -293,4 +344,5 @@
         font-size: 1.5rem;
     }
 </style>
+
 @endsection

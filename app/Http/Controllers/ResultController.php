@@ -115,6 +115,7 @@ class ResultController extends Controller
                 DB::raw("COUNT(ratings.gig_id) as gigs_count") // using raw query to count gig_id
             )
             ->where('services.servicetype', $validatedData['servicetype'])
+            ->orWhere('services.user_name', $validatedData['servicetype'])
             ->groupBy('users.image_path', 'services.image_path', 'services.servicetype', 'services.description', 'services.created_at', 'services.price', 'services.title', 'services.id', 'users.id', 'users.state')
             ->get();
 

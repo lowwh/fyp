@@ -26,7 +26,8 @@ class User extends Authenticatable
         'gender',
         'image_path',
         'state',
-        'language'
+        'language',
+        'serviceType'
     ];
 
     /**

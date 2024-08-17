@@ -69,31 +69,43 @@ class ProfileController extends Controller
 
     public function update(Request $request)
     {
+        // Define validation rules
+        $validate = [
+            'name' => 'required|string|max:255',
+            'age' => 'required|integer|min:1',
+            'email' => 'required|email|unique:users,email,',
+            'gender' => 'required|string|in:male,female,other',
+            'serviceType' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:2048', // Optional image validation
+        ];
 
+        // Validate the request data
+        $validatedData = $request->validate($validate);
 
+        // Find the user by ID
         $user = User::findOrFail($request->id);
-        // Check if the request has an image file
 
-        $user->name = $request->name;
-        $user->age = $request->age;
-        $user->email = $request->email;
-        $user->save();
+        // Update user details
+        $user->name = $validatedData['name'];
+        $user->age = $validatedData['age'];
+        $user->email = $validatedData['email'];
+        $user->gender = $validatedData['gender'];
+        $user->serviceType = $validatedData['serviceType'];
+
+        // Check if the request has an image file
         if ($request->hasFile('image')) {
             // Store the new image and get its path
             $imagepath = $request->file('image')->store('images', 'public');
 
             // Update the user's image_path
             $user->image_path = $imagepath;
-
-            // Save the changes to the user
-            $user->save();
-
-            return redirect('/manageprofile');
-        } else {
-            return redirect('/manageprofile');
         }
-    }
 
+        // Save the changes to the user
+        $user->save();
+
+        return redirect('/manageprofile')->with('success', 'Profile updated successfully!');
+    }
 
 
 

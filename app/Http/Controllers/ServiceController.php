@@ -34,6 +34,8 @@ class ServiceController extends Controller
 
     public function store(Request $request)
     {
+
+        $user = Auth::user();
         // Validate the incoming request data
         $this->validator($request->all())->validate();
 
@@ -52,6 +54,8 @@ class ServiceController extends Controller
 
         ]);
         $service->user_id = Auth::id();
+        $service->user_name = $user->name;
+
         $service->save();
 
 

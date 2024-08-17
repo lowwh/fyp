@@ -62,6 +62,7 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'state' => ['required'],
             'language' => ['required'],
+            'serviceType' => ['required']
         ]);
     }
 
@@ -82,6 +83,7 @@ class RegisterController extends Controller
             'gender' => $data['gender'],
             'state' => $data['state'],
             'language' => $data['language'],
+            'serviceType' => $data['serviceType']
         ]);
     }
 

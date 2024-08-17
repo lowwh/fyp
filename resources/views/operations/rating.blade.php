@@ -54,6 +54,17 @@
                                 <form method="post" action="/rating/{{$result['id']}}/{{$userid}}">
                                     @csrf
                                     <div class="modal-body">
+                                        <!-- Display validation errors -->
+                                        @if ($errors->any())
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
+
                                         <div class="form-group">
                                             <input type="hidden" name="resultid" value="{{ $result->resultid }}">
                                             <input type="hidden" name="userid" value="{{ $userid }}">
