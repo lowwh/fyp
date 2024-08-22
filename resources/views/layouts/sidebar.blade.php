@@ -52,6 +52,18 @@
 
         </li>
         <li class="nav-item">
+          <a href="/userRegistrationCount" class="nav-link">
+            <i class="fas fa-user nav-icon"></i>
+            <p>
+              User Dashboard
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+
+
+
+        </li>
+        <li class="nav-item">
           <a href="{{ route('receivedmessages') }}" class="nav-link">
             <i class="fas fa-comments nav-icon"></i>
             <p>
@@ -243,7 +255,7 @@
           </a>
 
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a href="/chatgpt" class="nav-link">
             <i class="fas fa-question-circle nav-icon"></i>
             <p>
@@ -252,7 +264,7 @@
             </p>
           </a>
 
-        </li>
+        </li> -->
       </ul>
     </nav>
     <!-- /.sidebar-menu -->

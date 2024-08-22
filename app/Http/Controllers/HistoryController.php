@@ -8,6 +8,7 @@ use App\Models\result;
 use App\Models\rating;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HistoryController extends Controller
 {
@@ -52,10 +53,22 @@ class HistoryController extends Controller
 
             ->get();
 
+        $earn = DB::table('invoices')
+            ->join('services', 'services.id', '=', 'invoices.service_id')
+            ->join('users', 'users.id', '=', 'services.user_id')
+            ->select('invoices.amount as amountEarn')
+            ->where('invoices.serviceOwnerId', $userId)
+            ->get();
+
+        $totalEarn = $earn->sum('amountEarn');
+
+
+
+
         $totalPrice = $results->sum('price');
 
 
-        return view('operations.showallhistory', ['results' => $results, 'totalPrice' => $totalPrice]);
+        return view('operations.showallhistory', ['results' => $results, 'totalPrice' => $totalPrice, 'earn' => $totalEarn]);
     }
 
     public function rating(Request $request, $id, $userid)

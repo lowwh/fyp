@@ -19,7 +19,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\BidController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\FreeTrialController;
-
+use App\Http\Controllers\GraphController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -56,7 +56,8 @@ Route::get('/', [NoticeController::class, 'welcome'])->name('welcome');
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('/ratings', [MessageController::class, 'showRatings']);
+    Route::get('/ratings', [GraphController::class, 'showRatings']);
+    Route::get('/userRegistrationCount', [GraphController::class, 'userRegistrationCount']);
 
     Route::get('/chatgpt', function () {
         return view('operations.chatgpt');

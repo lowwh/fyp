@@ -47,11 +47,17 @@ class ProfileController extends Controller
             ->where('invoices.serviceOwnerId', $userId)
             ->get();
 
+        $service = DB::table('users')
+            ->leftJoin('services', 'services.user_id', '=', 'users.id')
+            ->select('users.*', 'services.id as service_id', 'services.title', 'services.description', 'services.servicetype', 'users.state', 'users.language')
+            ->where('users.id', $userId)
+            ->get();
+
         $totalSpend = $spend->sum('amountSpend');
         $totalEarn = $earn->sum('amountEarn');
 
         $pastTransactions = Invoice::where('user_id', Auth::id())->get();
-        return view('operations.manageprofile', ['user' => $user, 'totalSpend' => $totalSpend, 'totalEarn' => $totalEarn, 'pastTransactions' => $pastTransactions]);
+        return view('operations.manageprofile', ['user' => $user, 'totalSpend' => $totalSpend, 'totalEarn' => $totalEarn, 'pastTransactions' => $pastTransactions, 'service' => $service]);
 
     }
 

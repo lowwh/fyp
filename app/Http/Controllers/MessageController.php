@@ -206,12 +206,6 @@ class MessageController extends Controller
 
         return view('operations.graph', ['chartData' => $chartData, 'pieChartData' => $pieChartData]);
 
-
-
-
-
-
-
     }
 }
 

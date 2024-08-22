@@ -129,6 +129,30 @@
                             <!-- Project Tab -->
                             <div class="tab-pane fade" id="project" role="tabpanel" aria-labelledby="project-tab">
                                 <p>Project content goes here.</p>
+                                <div class="row">
+                                    @foreach ($service as $record)
+                                        @if ($record->service_id)
+                                            <div class="col-md-6 mb-4">
+                                                <div class="card service-card shadow-sm">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title text-primary">{{ $record->title }}</h5>
+                                                        <p class="card-text"><strong>Service ID:</strong> {{ $record->service_id }}
+                                                        </p>
+                                                        <p class="card-text"><strong>Description:</strong>
+                                                            {{ $record->description }}</p>
+
+                                                        </p>
+                                                        <p class="card-text"><strong>Service Type:</strong>
+                                                            {{ $record->servicetype }}</p>
+
+                                                        </p>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                </div>
                             </div>
                         @endcan
 
@@ -342,6 +366,134 @@
 
     #mywallet .text-danger {
         font-size: 1.5rem;
+    }
+
+    .navbar-brand {
+        font-size: 1.75rem;
+        font-weight: bold;
+        color: #ff5733;
+    }
+
+    .navbar-toggler {
+        border-color: #ff5733;
+    }
+
+    .navbar-toggler-icon {
+        color: #ff5733;
+    }
+
+    .card {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .card-header {
+        background-color: #ff5733;
+        color: white;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .nav-tabs .nav-link.active {
+        background-color: #ff5733;
+        color: white;
+        border: none;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .nav-tabs .nav-link {
+        color: #ff5733;
+    }
+
+    .list-group-item {
+        border: none;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .list-group-item:last-child {
+        border-bottom: none;
+    }
+
+    .list-group-item strong {
+        color: #ff5733;
+    }
+
+    .list-group-item .fas.fa-star {
+        color: #ffcc00;
+    }
+
+    .service-card {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        transition: transform 0.2s;
+    }
+
+    .service-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .service-card .card-title {
+        font-weight: bold;
+        color: #ff5733;
+    }
+
+    .service-card .card-text {
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .service-card .btn-primary {
+        background-color: #ff5733;
+        border-color: #ff5733;
+    }
+
+    .service-card .btn-primary:hover {
+        background-color: #ff4500;
+        border-color: #ff4500;
+    }
+
+    .card-body p {
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #555;
+    }
+
+    .card-body .btn-primary {
+        background-color: #ff5733;
+        border-color: #ff5733;
+        color: #fff;
+        font-weight: bold;
+    }
+
+    .review-card {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+        transition: transform 0.2s;
+    }
+
+    .review-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .review-card .card-body {
+        padding: 1.25rem;
+    }
+
+    .review-card blockquote {
+        border-left: 4px solid #ff5733;
+        padding-left: 1rem;
+        margin: 0;
+        color: #555;
+        font-size: 1.1rem;
+    }
+
+    .review-card blockquote p {
+        margin-bottom: 0;
+    }
+
+    .card-body p {
+        font-size: 1rem;
+        line-height: 1.5;
     }
 </style>
 

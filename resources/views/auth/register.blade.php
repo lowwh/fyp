@@ -247,7 +247,7 @@
                                         <div class="select-container">
                                             <select id="role" class="form-control @error('role') is-invalid @enderror"
                                                 name="role" required>
-                                                <option value="lecturer">Lecturer</option>
+
                                                 <option value="admin">Admin</option>
                                                 <option value="freelancer">Freelancer</option>
                                                 <option value="user">User</option>

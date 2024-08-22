@@ -5,14 +5,18 @@
     <div class="content-wrapper">
         <div class="container-fluid">
             <!-- Total Price Section -->
-            <div class="row mb-4">
-                <div class="col-md-12">
-                    <div class="total-box bg-light rounded-lg p-4 shadow">
-                        <h4 class="mb-2 text-primary">Total Earnings</h4>
-                        <p class="display-4 font-weight-bold mb-0">${{ number_format($totalPrice, 2) }}</p>
+            @can('isFreelancer')
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="total-box bg-light rounded-lg p-4 shadow">
+
+                            <h4 class="mb-2 text-primary">Total Earnings</h4>
+                            <p class="display-4 font-weight-bold mb-0">RM{{ number_format($earn, 2) }}</p>
+
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endcan
             <!-- History List -->
             <div class="row">
                 @if($results->isNotEmpty())
