@@ -56,6 +56,8 @@ Route::get('/', [NoticeController::class, 'welcome'])->name('welcome');
 
 Route::middleware('auth')->group(function () {
 
+
+
     Route::get('/ratings', [GraphController::class, 'showRatings']);
     Route::get('/userRegistrationCount', [GraphController::class, 'userRegistrationCount']);
 

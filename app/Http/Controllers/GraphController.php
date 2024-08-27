@@ -9,12 +9,38 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 
+
 class GraphController extends Controller
 {
     public function showRatings()
     {
-
         $userId = auth()->id();
+
+        // Fetching summary data
+        $totalUsers = User::count();
+        $usercompletedProjects = Result::where('status', 'Completed')
+            ->where('bidder_id', $userId)
+
+            ->count();
+        $userpendingProjects = Result::where('status', 'Pending')
+            ->where('bidder_id', $userId)
+
+            ->count();
+        $userrejectedProjects = Result::where('status', 'Rejected')
+            ->where('bidder_id', $userId)
+            ->count();
+
+        $freelancercompletedProjects = Result::where('status', 'Completed')
+            ->where('user_id', $userId)
+
+            ->count();
+        $freelancerpendingProjects = Result::where('status', 'Pending')
+            ->where('user_id', $userId)
+
+            ->count();
+        $freelancerrejectedProjects = Result::where('status', 'Rejected')
+            ->where('user_id', $userId)
+            ->count();
 
         // Fetch project status counts from the database
         $statuses = Result::selectRaw('
@@ -68,13 +94,58 @@ class GraphController extends Controller
             ]
         ];
 
+        // User bar chart data
+        // Define colors for the statuses in the correct order
+        $barColors = [
+            'rgb(255, 99, 132)',
+            'rgb(54, 162, 235)',
+            'rgb(255, 205, 86)',
+            'rgb(205, 125, 186)',
+        ];
+
+        // Define an array of border colors for the pie chart segments
+        $barBorderColors = [
+            'rgba(255, 159, 64, 1)',
+            'rgba(25, 206, 8, 1)',
+            'rgba(255, 99, 132, 1)',
+        ];
+
+        $data = User::selectRaw("date_format(created_at, '%Y-%m-%d') as date, count(*) as aggregate")
+            ->whereDate('created_at', '>=', now()->subDays(30))
+            ->groupBy('date')
+            ->get();
+
+        $userArray = $data->pluck('date')->toArray();
+
+        $barChartData = [
+            'labels' => $userArray,
+            'datasets' => [
+                [
+                    'label' => 'User Registered Count in last 30 days',
+                    'data' => $data->pluck('aggregate')->toArray(),
+                    'backgroundColor' => array_slice($barColors, 0, $data->count()),
+                    'borderColor' => array_slice($barBorderColors, 0, $data->count()),
+                    'borderWidth' => 1,
+                ]
+            ]
+        ];
 
 
 
-
-        return view('operations.graph', ['chartData' => $chartData, 'pieChartData' => $pieChartData]);
-
+        return view('operations.graph', [
+            'chartData' => $chartData,
+            'pieChartData' => $pieChartData,
+            'barChartData' => $barChartData,
+            'totalUsers' => $totalUsers,
+            'usercompletedProjects' => $usercompletedProjects,
+            'userpendingProjects' => $userpendingProjects,
+            'userrejectedProjects' => $userrejectedProjects,
+            'freelancercompletedProjects' => $freelancercompletedProjects,
+            'freelancerpendingProjects' => $freelancerpendingProjects,
+            'freelancerrejectedProjects' => $freelancerrejectedProjects
+        ]);
     }
+
 
 
     public function userRegistrationCount()
