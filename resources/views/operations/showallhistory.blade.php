@@ -11,72 +11,147 @@
                         <div class="total-box bg-light rounded-lg p-4 shadow">
 
                             <h4 class="mb-2 text-primary">Total Earnings</h4>
-                            <p class="display-4 font-weight-bold mb-0">RM{{ number_format($earn, 2) }}</p>
+                            <p class="display-4 font-weight-bold mb-0">RM {{ number_format($earn, 2) }}</p>
+
+                        </div>
+                    </div>
+                </div>
+            @endcan
+            @can('isUser')
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="total-box bg-light rounded-lg p-4 shadow">
+
+                            <h4 class="mb-2 text-primary">Total Spending</h4>
+                            <p class="display-4 font-weight-bold mb-0">RM {{ number_format($totalPrice, 2) }}</p>
 
                         </div>
                     </div>
                 </div>
             @endcan
             <!-- History List -->
-            <div class="row">
-                @if($results->isNotEmpty())
-                    @foreach($results as $result)
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="service-card card shadow-lg border-0 rounded">
-                                @if($result->image_path)
-                                    <div class="position-relative">
-                                        <img src="{{ asset('storage/' . $result->image_path) }}" alt="Service Image"
-                                            class="card-img-top"
-                                            style="object-fit: cover; height: 180px; border-bottom: 1px solid #e0e0e0;">
-                                    </div>
-                                @endif
-                                <div class="card-body">
-                                    @if($result->userimage)
-                                        <div class="d-flex align-items-center mb-3">
-                                            <img src="{{ asset('storage/' . $result->userimage) }}" alt="User Image"
-                                                class="rounded-circle"
-                                                style="width: 60px; height: 60px; border: 2px solid #007bff;">
-                                            <h5 class="card-title ml-3">{{ $result->username }}</h5>
+            @can('isUser')
+                <div class="row">
+                    @if($results->isNotEmpty())
+                        @foreach($results as $result)
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="service-card card shadow-lg border-0 rounded">
+                                    @if($result->image_path)
+                                        <div class="position-relative">
+                                            <img src="{{ asset('storage/' . $result->image_path) }}" alt="Service Image"
+                                                class="card-img-top"
+                                                style="object-fit: cover; height: 180px; border-bottom: 1px solid #e0e0e0;">
                                         </div>
                                     @endif
+                                    <div class="card-body">
+                                        @if($result->userimage)
+                                            <div class="d-flex align-items-center mb-3">
+                                                <img src="{{ asset('storage/' . $result->userimage) }}" alt="User Image"
+                                                    class="rounded-circle"
+                                                    style="width: 60px; height: 60px; border: 2px solid #007bff;">
+                                                <h5 class="card-title ml-3">{{ $result->username }}</h5>
+                                            </div>
+                                        @endif
 
-                                    <p><strong>Gig ID:</strong> {{ $result->gig_id }}</p>
+                                        <p><strong>Gig ID:</strong> {{ $result->gig_id }}</p>
 
-                                    <!-- Display Rating as Stars -->
-                                    <p><strong>Rating:</strong>
-                                        @for ($i = 1; $i <= 5; $i++)
-                                            @if ($i <= $result->rating)
-                                                <span class="fa fa-star checked"></span>
-                                            @else
-                                                <span class="fa fa-star"></span>
-                                            @endif
-                                        @endfor
-                                    </p>
-                                    <p>{{ $result->reason }}</p>
+                                        <!-- Display Rating as Stars -->
+                                        <p><strong>Rating:</strong>
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                @if ($i <= $result->rating)
+                                                    <span class="fa fa-star checked"></span>
+                                                @else
+                                                    <span class="fa fa-star"></span>
+                                                @endif
+                                            @endfor
+                                        </p>
+                                        <p>{{ $result->reason }}</p>
 
-                                    <!-- Display Green Tick for Completed Task -->
-                                    <p><i class="fa fa-check-circle text-success"></i> Completed</p>
-                                </div>
-                                <div class="card-footer d-flex justify-content-between align-items-center">
-                                    <p class="price mb-0"><strong>Price:</strong> ${{ number_format($result->price, 2) }}</p>
-                                    <a href="{{ url('/service/' . $result->gig_id) }}"
-                                        class="btn btn-outline-primary btn-sm">View Details</a>
+                                        <!-- Display Green Tick for Completed Task -->
+                                        <p><i class="fa fa-check-circle text-success"></i> Completed</p>
+                                    </div>
+                                    <div class="card-footer d-flex justify-content-between align-items-center">
+                                        <p class="price mb-0"><strong>Price:</strong> RM {{ number_format($result->price, 2) }}</p>
+                                        <!-- <a href="{{ url('/service/' . $result->gig_id) }}"
+                                                                                                                                        class="btn btn-outline-primary btn-sm">View Details</a> -->
+                                    </div>
                                 </div>
                             </div>
+                        @endforeach
+                    @else
+                        <div class="no-history bg-light rounded-lg p-5 mb-5 text-center shadow"
+                            style="max-width: 600px; margin: 0 auto;">
+                            <p class="display-4 font-weight-bold mb-4">No History Yet</p>
+                            <p class="lead">You haven't completed any services yet. Start browsing and complete your first
+                                service today!</p>
+                            <a href="{{ url('/searchresult') }}" class="btn btn-primary mt-3">Browse Services</a>
                         </div>
-                    @endforeach
-                @else
-                    <div class="no-history bg-light rounded-lg p-5 mb-5 text-center shadow"
-                        style="max-width: 600px; margin: 0 auto;">
-                        <p class="display-4 font-weight-bold mb-4">No History Yet</p>
-                        <p class="lead">You haven't completed any services yet. Start browsing and complete your first
-                            service today!</p>
-                        <a href="{{ url('/searchresult') }}" class="btn btn-primary mt-3">Browse Services</a>
-                    </div>
-                @endif
-            </div>
-            <!-- End History List -->
+                    @endif
+                </div>
+            @endcan
+            <!-- End User History List -->
+            <!--Freelancer History List -->
+            @can('isFreelancer')
+                <div class="row">
+                    @if($freelancerresult->isNotEmpty())
+                        @foreach($freelancerresult as $result)
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="service-card card shadow-lg border-0 rounded">
+                                    @if($result->image_path)
+                                        <div class="position-relative">
+                                            <img src="{{ asset('storage/' . $result->image_path) }}" alt="Service Image"
+                                                class="card-img-top"
+                                                style="object-fit: cover; height: 180px; border-bottom: 1px solid #e0e0e0;">
+                                        </div>
+                                    @endif
+                                    <div class="card-body">
+                                        @if($result->userimage)
+                                            <div class="d-flex align-items-center mb-3">
+                                                <img src="{{ asset('storage/' . $result->userimage) }}" alt="User Image"
+                                                    class="rounded-circle"
+                                                    style="width: 60px; height: 60px; border: 2px solid #007bff;">
+                                                <h5 class="card-title ml-3">{{ $result->username }}</h5>
+                                            </div>
+                                        @endif
+
+                                        <p><strong>Gig ID:</strong> {{ $result->gig_id }}</p>
+
+                                        <!-- Display Rating as Stars -->
+                                        <p><strong>Rating:</strong>
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                @if ($i <= $result->rating)
+                                                    <span class="fa fa-star checked"></span>
+                                                @else
+                                                    <span class="fa fa-star"></span>
+                                                @endif
+                                            @endfor
+                                        </p>
+                                        <p>{{ $result->reason }}</p>
+
+                                        <!-- Display Green Tick for Completed Task -->
+                                        <p><i class="fa fa-check-circle text-success"></i> Completed</p>
+                                    </div>
+                                    <div class="card-footer d-flex justify-content-between align-items-center">
+                                        <p class="price mb-0"><strong>Price:</strong> RM {{ number_format($result->price, 2) }}</p>
+                                        <!-- <a href="{{ url('/service/' . $result->gig_id) }}"
+                                                                                                                                                                class="btn btn-outline-primary btn-sm">View Details</a> -->
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @else
+                        <div class="no-history bg-light rounded-lg p-5 mb-5 text-center shadow"
+                            style="max-width: 600px; margin: 0 auto;">
+                            <p class="display-4 font-weight-bold mb-4">No History Yet</p>
+                            <p class="lead">You haven't completed any services yet. Start browsing and complete your first
+                                service today!</p>
+                            <a href="{{ url('/searchresult') }}" class="btn btn-primary mt-3">Browse Services</a>
+                        </div>
+                    @endif
+                </div>
+            @endcan
         </div>
+        <!-- end freelancer history -->
     </div>
 </div>
 

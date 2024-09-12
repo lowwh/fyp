@@ -14,15 +14,22 @@ class ProfileController extends Controller
 
     public function upbalance(Request $req)
     {
+        // Retrieve the authenticated user's ID
         $userid = Auth::user()->id;
 
-        $balance = User::findOrFail($userid);
-        $balance->balance = $req->amount;
-        $balance->save();
+        // Find the user record
+        $user = User::findOrFail($userid);
 
+        // Add the requested amount to the existing balance
+        $user->balance += $req->amount;
+
+        // Save the updated balance
+        $user->save();
+
+        // Redirect to the manage profile page
         return redirect('/manageprofile');
-
     }
+
 
 
     public function index()
@@ -31,11 +38,18 @@ class ProfileController extends Controller
         $userId = Auth::id();
 
 
-        $spend = DB::table('invoices')
-            ->join('services', 'services.id', '=', 'invoices.service_id')
-            ->join('users', 'users.id', '=', 'invoices.user_id')
-            ->select('invoices.amount as amountSpend')
-            ->where('invoices.user_id', $userId)
+        $spend = service::join('ratings', 'ratings.gig_id', '=', 'services.id', )
+            ->join('users', 'users.id', '=', 'ratings.user_id')
+            ->join('results', 'results.gig_id', '=', 'services.id')
+
+
+
+            ->select('services.price', 'services.image_path', 'ratings.expectation', 'ratings.suggestion', 'ratings.rating', 'ratings.reason', 'ratings.gig_id', 'users.image_path as userimage', 'results.progress')
+            ->where('results.progress', 100)
+            ->where('users.id', $userId)
+            ->where('results.bidder_id', $userId)
+            ->distinct()
+
             ->get();
 
 
@@ -53,7 +67,7 @@ class ProfileController extends Controller
             ->where('users.id', $userId)
             ->get();
 
-        $totalSpend = $spend->sum('amountSpend');
+        $totalSpend = $spend->sum('price');
         $totalEarn = $earn->sum('amountEarn');
 
         $pastTransactions = Invoice::where('user_id', Auth::id())->get();
@@ -73,44 +87,42 @@ class ProfileController extends Controller
 
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         // Define validation rules
-        $validate = [
+        $request->validate([
             'name' => 'required|string|max:255',
             'age' => 'required|integer|min:1',
-            'email' => 'required|email|unique:users,email,',
-            'gender' => 'required|string|in:male,female,other',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'gender' => 'required|string|in:male,female,other', // Example gender options
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'serviceType' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:2048', // Optional image validation
-        ];
-
-        // Validate the request data
-        $validatedData = $request->validate($validate);
+        ]);
 
         // Find the user by ID
-        $user = User::findOrFail($request->id);
+        $user = User::find($id);
 
-        // Update user details
-        $user->name = $validatedData['name'];
-        $user->age = $validatedData['age'];
-        $user->email = $validatedData['email'];
-        $user->gender = $validatedData['gender'];
-        $user->serviceType = $validatedData['serviceType'];
-
-        // Check if the request has an image file
-        if ($request->hasFile('image')) {
-            // Store the new image and get its path
-            $imagepath = $request->file('image')->store('images', 'public');
-
-            // Update the user's image_path
-            $user->image_path = $imagepath;
+        if (!$user) {
+            return redirect()->back()->with('error', 'User not found.');
         }
 
-        // Save the changes to the user
+        // Update user details
+        $user->name = $request->input('name');
+        $user->age = $request->input('age');
+        $user->email = $request->input('email');
+        $user->gender = $request->input('gender');
+        $user->serviceType = $request->input('serviceType');
+
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('profile_images', 'public');
+            $user->image_path = $imagePath;
+        }
+
+        // Save changes
         $user->save();
 
-        return redirect('/manageprofile')->with('success', 'Profile updated successfully!');
+        return redirect()->back()->with('success', 'Profile updated successfully.');
     }
 
 

@@ -55,6 +55,7 @@ Route::get('/', [NoticeController::class, 'welcome'])->name('welcome');
 
 
 Route::middleware('auth')->group(function () {
+    Route::get('/project-summary', [GraphController::class, 'showProjectSummary'])->name('project-summary');
 
 
 

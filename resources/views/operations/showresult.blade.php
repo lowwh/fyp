@@ -19,198 +19,266 @@
 
         .container {
             margin-top: 50px;
+            max-width: 2000px;
+            /* Adjust as needed */
         }
 
-        .card {
-            margin-top: 20px;
+        .input-group {
+            margin-bottom: 20px;
+
         }
 
-        .error {
-            color: red;
-            font-weight: bold;
+        .sort-buttons {
+            background-color: white;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
         }
 
-        .result-container {
-            background-color: #E5E5E5;
-            padding: 10px;
-            margin-top: 20px;
+        .sort-buttons button {
+            flex: 1;
+            position: relative;
         }
 
-        .service-image {
+        .sort-buttons .loading-icon {
+            display: none;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .main-content {
+            display: flex;
+            gap: 20px;
+            max-width: 1600px;
+
+        }
+
+        .results-container {
+            flex: 1;
+            max-width: 1000px;
+            /* Ensures results container takes remaining space */
+        }
+
+        .result-item {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        .result-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .result-item .profile-image img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .result-item h5 {
+            margin-top: 0;
             margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .result-item p {
+            margin: 5px 0;
+        }
+
+        .no-results-found img {
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .print-button {
+            margin-top: 20px;
+        }
+
+        .chatgpt-wrapper {
+            position: sticky;
+            right: 0;
+            top: 0;
+            width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 15px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+            border-radius: 8px;
+            font-family: 'Arial', sans-serif;
+            /* Choose a clean, readable font */
+            font-size: 16px;
+            /* Set a readable font size */
+            font-weight: 400;
+            /* Use a normal font weight */
+            line-height: 1.5;
+            /* Improve line spacing */
+            color: #333;
+
+            margin-left: 100px
         }
 
         .profile-image {
-            position: absolute;
-            top: 50%;
-            /* Adjust as needed to center vertically */
-            right: 10px;
-            /* Adjust to overlap on the right */
-            transform: translate(0, -250%);
-            /* Center vertically */
-            z-index: 10;
-            /* Ensure user image appears above service image */
-            width: 50px;
-            /* Adjust width as needed */
-            margin-top: 10px;
-            /* Adjust top margin to control overlap */
-            margin-left: 0;
-            /* Adjust left margin as needed */
-
+            margin-left: 100px;
         }
 
-        @media print {
+        .form-control:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-            .container form,
-            .container button,
-            .text-center {
-                display: none;
+        @media screen and (max-width: 1200px) {
+            .chatgpt-wrapper {
+                position: relative;
+                width: 100%;
             }
         }
 
-        /* Example CSS for stars */
-        .fa {
-            color: gold;
-            /* Adjust color as needed */
-            font-size: 18px;
-            /* Adjust size as needed */
+        button.btn:hover .sendQuestionButton {
+            background-color: #0056b3;
+            transition: background-color 0.3s ease;
+        }
+
+        .service-image img {
+            border-radius: .5rem;
+            height: 200px;
+            object-fit: cover;
+            width: 100%;
         }
     </style>
-
 </head>
 
 <body>
-
-    <!-- Content section -->
     <div class="container">
-        <h2 class="text-center">Search for Freelancer Results</h2>
+        <form method="post" action="{{ route('search.result') }}">
+            @csrf
+            <div class="input-group" style="max-width: 800px; margin: auto; margin-bottom:20px">
+                <input type="text" id="servicetype" name="servicetype" class="form-control"
+                    placeholder="Enter Service Type" aria-label="Enter Service Type" aria-describedby="searchButton"
+                    style="padding: 16px; font-size: 18px; height: 60px; border-radius: 8px; box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);">
+                <button class="btn btn-primary" type="submit" id="searchButton"
+                    style="padding: 16px 30px; font-size: 18px; height: 60px; border-radius: 8px;">
+                    Search
+                </button>
+            </div>
+        </form>
 
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <form method="post" action="{{ route('search.result') }}">
-                    @csrf
-                    <div class="input-group mb-3">
-                        <input type="text" id="servicetype" name="servicetype" class="form-control"
-                            placeholder="Enter Service Type" aria-label="Enter Service Type"
-                            aria-describedby="searchButton">
-                        <button class="btn btn-primary" type="submit" id="searchButton">Search</button>
-                    </div>
-                </form>
 
+        <div class="sort-buttons">
+            <button id="sortByDateButton" class="btn btn-primary" onclick="sortResultsByDate()">
+                Sort by Date
+                <i id="sortByDateIcon" class="fas fa-spinner fa-spin" style="display: none;"></i>
+            </button>
+            <button id="sortButton" class="btn btn-primary" onclick="sortResultsByState()">
+                Sort by State
+                <i id="sortIcon" class="fas fa-spinner fa-spin" style="display: none;"></i>
+            </button>
+            <button id="sortByRatingButton" class="btn btn-primary" onclick="sortResultsByRating()">
+                Sort by Rating
+                <i id="sortByRatingIcon" class="fas fa-spinner fa-spin" style="display: none;"></i>
+            </button>
+            <button id="sortByPriceButton" class="btn btn-primary" onclick="sortResultsByPrice()">
+                Sort by Price
+                <i id="sortByPriceIcon" class="fas fa-spinner fa-spin" style="display: none;"></i>
+            </button>
+        </div>
 
-                @if(isset($results))
-                    <div id="chatgpt" data-results="{{ json_encode($results) }}"></div>
-                @endif
-
-                <div style="background-color: white;">
-                    <div style="display: inline-block; margin: 10px;">
-                        <button id="sortByDateButton" class="btn btn-primary" onclick="sortResultsByDate()">
-                            Sort by Date
-                            <i id="sortByDateIcon" class="fas fa-spinner fa-spin" style="display: none;"></i>
-                        </button>
-                    </div>
-
-                    <div style="display: inline-block; margin: 10px;">
-                        <button id="sortButton" class="btn btn-primary" onclick="sortResultsByState()">
-                            Sort by State
-                            <i id="sortIcon" class="fas fa-spinner fa-spin" style="display: none;"></i>
-                        </button>
-                    </div>
-
-                    <div style="display: inline-block; margin: 10px;">
-                        <button id="sortByRatingButton" class="btn btn-primary" onclick="sortResultsByRating()">
-                            Sort by Rating
-                            <i id="sortByRatingIcon" class="fas fa-spinner fa-spin" style="display: none;"></i>
-                        </button>
-                    </div>
-
-                    <div style="display: inline-block; margin: 10px;">
-                        <button id="sortByPriceButton" class="btn btn-primary" onclick="sortResultsByPrice()">
-                            Sort by Price
-                            <i id="sortByPriceIcon" class="fas fa-spinner fa-spin" style="display: none;"></i>
-                        </button>
-                    </div>
-                </div>
-
+        <div class="main-content">
+            <div class="results-container">
                 @if(isset($results) && !$results->isEmpty())
-                    <div class="card">
-                        <div class="card-header text-black" style="background-color: #E5E5E5;">
-                            Freelancer Result
-                        </div>
-                        <div id="notification" class="alert alert-success" style="display: none;"></div>
-                        <div class="card-body">
-                            @foreach($results as $result)
-                                <div class="result-container">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            @if($result->serviceimage)
-                                                <div class="service-image">
-                                                    <img src="{{ asset('storage/' . $result->serviceimage) }}" alt="Service Image"
-                                                        class="img-fluid rounded">
-                                                </div>
-                                            @else
-                                                <div class="service-image">
-                                                    <img src="{{ asset('images/noimage.jfif') }}" alt="Painting Service Back"
-                                                        class="card-img">
-                                                </div>
-                                            @endif
-                                        </div>
+                    @foreach($results as $result)
+                        <div class="result-item">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    @if($result->serviceimage)
+                                        <div class="service-image"><img src="{{ asset('storage/' . $result->serviceimage) }}"
+                                                alt="Service Image"></div>
 
-                                        <div class="col-md-2">
-                                            @if($result->image_path)
-                                                <div class="profile-image">
-                                                    <img src="{{ asset('storage/' . $result->image_path) }}" alt="Profile Image"
-                                                        class="img-fluid rounded-circle">
-                                                </div>
-                                            @else
-                                                <div class="profile-image">
-                                                    <img src="{{ asset('images/default_profile_image.png') }}"
-                                                        alt="Default Profile Image" class="img-fluid rounded-circle">
-                                                </div>
-                                            @endif
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <p><strong>Service Title:</strong> {{ $result->title }}</p>
-
-                                            <p class="service-state"><strong>Service State:</strong> {{ $result->state }}</p>
-                                            <p class="service-price"><strong>Service Price:</strong> {{ $result->price }}
-                                            </p>
-                                            @if($result->gigs_count > 0)
-                                                <p class="rating-state"><strong>Total Rating:</strong> {{ $result->gigs_count }}</p>
-                                            @else
-                                                <p class="rating-state"><strong>Total Rating:</strong> 0</p>
-                                            @endif
-
-                                            <p class="service-date"><strong>Posted On:</strong>
-                                                {{ $result->service_created_date }}</p>
-                                            <a href="/viewservice/{{ $result->userid }}/{{ $result->serviceid }}"
-                                                class="btn btn-secondary mt-auto">View</a>
-                                            <a href="/viewprofile/{{ $result->userid }}"
-                                                class="btn btn-primary view-profile-button">View Profile</a>
-                                            <a href="{{ route('messages.create', $result->userid) }}"
-                                                class="btn btn-success">Send Message</a>
-
-                                        </div>
-                                    </div>
+                                    @else
+                                        <img src="{{ asset('images/noimage.jfif') }}" alt="No Service Image">
+                                    @endif
                                 </div>
-                            @endforeach
-
-                            <!-- Print button -->
-                            <div class="text-center mt-3">
-                                <button class="btn btn-primary" onclick="window.print()">Print</button>
+                                <div class="col-md-2">
+                                    @if($result->image_path)
+                                        <div class="profile-image">
+                                            <img src="{{ asset('storage/' . $result->image_path) }}" alt="Profile Image">
+                                        </div>
+                                    @else
+                                        <div class="profile-image">
+                                            <img src="{{ asset('images/default_profile_image.png') }}" alt="Default Profile Image">
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="col-md-6">
+                                    <h5>{{ $result->title }}</h5>
+                                    <p><strong>Service State:</strong> <span class="service-state">{{ $result->state }}</span>
+                                    </p>
+                                    <p><strong>Service Price:</strong> <span class="service-price">{{ $result->price }}</span>
+                                    </p>
+                                    <p><strong>Total Rating:</strong> <span
+                                            class="rating-state">{{ $result->gigs_count > 0 ? $result->gigs_count : '0' }}</span>
+                                    </p>
+                                    <p><strong>Posted On:</strong> <span
+                                            class="service-date">{{ $result->service_created_date }}</span></p>
+                                    <a href="/viewservice/{{ $result->userid }}/{{ $result->serviceid }}"
+                                        class="btn btn-secondary">View</a>
+                                    <a href="/viewprofile/{{ $result->userid }}" class="btn btn-primary">View Profile</a>
+                                    <a href="{{ route('messages.create', $result->userid) }}" class="btn btn-success">Send
+                                        Message</a>
+                                </div>
                             </div>
                         </div>
+
+                    @endforeach
+                    <div class="text-center print-button">
+                        <button class="btn btn-primary" onclick="window.print()">Print</button>
                     </div>
+
+
                 @elseif(isset($error))
-                    <div class="alert alert-danger mt-3" role="alert" style="height: 500px;">
-                        {{ $error }}
-                        <div class="py-5 bg-image-full"
-                            style="background-image: url('images/no_result.gif'); background-size: cover; height: 100vh;">
-                        </div>
+                    <div class="no-results-found text-center">
+                        <img src="{{ asset('images/noresult.png') }}" alt="No Results Found">
                     </div>
                 @endif
             </div>
+
+            <div class="chatgpt-wrapper"
+                style="  position: sticky;padding: 30px; background-color: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); max-width: 2500px;">
+                @if(isset($results))
+                    <h2 style="font-size: 28px; font-weight: 600; color: #333; margin-bottom: 25px;">
+                        Analysis
+                        <i id="analysisLoadingIcon" class="fas fa-spinner fa-spin"
+                            style="display: none; margin-left: 10px; color: #007bff; font-size: 18px;"></i>
+                    </h2>
+
+                    <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                        <input id="questionInput" type="text" placeholder="Enter your question" name="question"
+                            style="flex-grow: 1; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 16px; box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05); margin-right: 15px; transition: border-color 0.3s;">
+                        <button id="sendQuestionButton" type="button" class="btn btn-primary"
+                            style="padding: 12px 30px; border: none; background-color: #007bff; color: #fff; border-radius: 6px; cursor: pointer; font-size: 16px; transition: background-color 0.3s, box-shadow 0.3s;">
+                            Submit
+                        </button>
+                    </div>
+
+                    <div id="chatgpt" data-results="{{ json_encode($results) }}"></div>
+                    <div id="react-root"></div> <!-- Placeholder for React component -->
+                @endif
+            </div>
+
+
         </div>
     </div>
 
@@ -218,7 +286,7 @@
         var isAscending = true; // Flag to track sorting order
         var isAscendingDate = true; // Flag to track date sorting order
         var isAscendingRating = true; // Flag to track rating sorting order
-        var isAscendingPrice = true;
+        var isAscendingPrice = true; // Flag to track price sorting order
 
         function showNotification(message) {
             var notification = document.getElementById('notification');
@@ -237,7 +305,7 @@
             sortIcon.style.display = 'inline-block';
             sortButton.disabled = true;
 
-            var resultContainers = document.querySelectorAll('.result-container');
+            var resultContainers = document.querySelectorAll('.result-item');
             var resultArray = Array.from(resultContainers);
 
             setTimeout(function () {
@@ -249,22 +317,14 @@
 
                 isAscending = !isAscending;
 
-                var parentContainer = document.querySelector('.card-body');
-                while (parentContainer.firstChild) {
-                    parentContainer.removeChild(parentContainer.firstChild);
-                }
-
-                resultArray.forEach(function (item, index) {
+                var parentContainer = document.querySelector('.results-container');
+                resultArray.forEach(function (item) {
                     parentContainer.appendChild(item);
-                    if (index < resultArray.length - 1) {
-                        var whitespace = document.createElement('div');
-                        whitespace.style.height = '20px';
-                        parentContainer.appendChild(whitespace);
-                    }
                 });
 
                 sortIcon.style.display = 'none';
                 sortButton.disabled = false;
+
                 showNotification('Results sorted by state');
             }, 500);
         }
@@ -275,7 +335,7 @@
             sortByDateIcon.style.display = 'inline-block';
             sortByDateButton.disabled = true;
 
-            var resultContainers = document.querySelectorAll('.result-container');
+            var resultContainers = document.querySelectorAll('.result-item');
             var resultArray = Array.from(resultContainers);
 
             setTimeout(function () {
@@ -287,18 +347,9 @@
 
                 isAscendingDate = !isAscendingDate;
 
-                var parentContainer = document.querySelector('.card-body');
-                while (parentContainer.firstChild) {
-                    parentContainer.removeChild(parentContainer.firstChild);
-                }
-
-                resultArray.forEach(function (item, index) {
+                var parentContainer = document.querySelector('.results-container');
+                resultArray.forEach(function (item) {
                     parentContainer.appendChild(item);
-                    if (index < resultArray.length - 1) {
-                        var whitespace = document.createElement('div');
-                        whitespace.style.height = '20px';
-                        parentContainer.appendChild(whitespace);
-                    }
                 });
 
                 sortByDateIcon.style.display = 'none';
@@ -310,55 +361,42 @@
         function sortResultsByRating() {
             var sortByRatingButton = document.getElementById('sortByRatingButton');
             var sortByRatingIcon = document.getElementById('sortByRatingIcon');
+
+            // Show the loading icon and disable the button
             sortByRatingIcon.style.display = 'inline-block';
             sortByRatingButton.disabled = true;
 
-            var resultContainers = document.querySelectorAll('.result-container');
-            var resultArray = Array.from(resultContainers);
+            // Get all result items
+            var resultContainers = Array.from(document.getElementsByClassName('result-item'));
 
+            // Sort the items by rating
+            resultContainers.sort(function (a, b) {
+                var ratingA = parseFloat(a.querySelector('.rating-state').textContent.trim()) || 0;
+                var ratingB = parseFloat(b.querySelector('.rating-state').textContent.trim()) || 0;
+                return isAscendingRating ? ratingA - ratingB : ratingB - ratingA;
+            });
+
+            // Append sorted items back to the container
+            var parentContainer = document.querySelector('.results-container');
+            resultContainers.forEach(function (container) {
+                parentContainer.appendChild(container);
+            });
+
+            // Toggle sorting order
+            isAscendingRating = !isAscendingRating;
+
+            // Hide the loading icon and enable the button
             setTimeout(function () {
-                resultArray.sort(function (a, b) {
-                    var ratingStateA = a.querySelector('.rating-state');
-                    var ratingStateB = b.querySelector('.rating-state');
-
-                    // Extract ratings
-                    var ratingA = extractRatingValue(ratingStateA);
-                    var ratingB = extractRatingValue(ratingStateB);
-
-                    return isAscendingRating ? ratingA - ratingB : ratingB - ratingA;
-                });
-
-                isAscendingRating = !isAscendingRating;
-
-                var parentContainer = document.querySelector('.card-body');
-                while (parentContainer.firstChild) {
-                    parentContainer.removeChild(parentContainer.firstChild);
-                }
-
-                resultArray.forEach(function (item, index) {
-                    parentContainer.appendChild(item);
-                    if (index < resultArray.length - 1) {
-                        var whitespace = document.createElement('div');
-                        whitespace.style.height = '20px';
-                        parentContainer.appendChild(whitespace);
-                    }
-                });
-
                 sortByRatingIcon.style.display = 'none';
                 sortByRatingButton.disabled = false;
-                showNotification('Results sorted by rating');
-            }, 500);
+            }, 300); // You can adjust the delay as needed
+
+            // Show notification for the sorting action
+            showNotification("Results sorted by rating.");
         }
 
-        // Helper function to extract and parse rating value
-        function extractRatingValue(ratingStateElement) {
-            if (ratingStateElement) {
-                var ratingText = ratingStateElement.textContent.trim().split(':')[1].trim();
-                var ratingValue = parseInt(ratingText);
-                return isNaN(ratingValue) ? 0 : ratingValue; // Default to 0 if parsing fails
-            }
-            return 0; // Default to 0 if element not found
-        }
+
+
 
         function sortResultsByPrice() {
             var sortByPriceButton = document.getElementById('sortByPriceButton');
@@ -366,7 +404,7 @@
             sortByPriceIcon.style.display = 'inline-block';
             sortByPriceButton.disabled = true;
 
-            var resultContainers = document.querySelectorAll('.result-container');
+            var resultContainers = document.querySelectorAll('.result-item');
             var resultArray = Array.from(resultContainers);
 
             setTimeout(function () {
@@ -378,18 +416,9 @@
 
                 isAscendingPrice = !isAscendingPrice;
 
-                var parentContainer = document.querySelector('.card-body');
-                while (parentContainer.firstChild) {
-                    parentContainer.removeChild(parentContainer.firstChild);
-                }
-
-                resultArray.forEach(function (item, index) {
+                var parentContainer = document.querySelector('.results-container');
+                resultArray.forEach(function (item) {
                     parentContainer.appendChild(item);
-                    if (index < resultArray.length - 1) {
-                        var whitespace = document.createElement('div');
-                        whitespace.style.height = '20px';
-                        parentContainer.appendChild(whitespace);
-                    }
                 });
 
                 sortByPriceIcon.style.display = 'none';
@@ -397,6 +426,10 @@
                 showNotification('Results sorted by price');
             }, 500);
         }
+
+
+
+
     </script>
 
 </body>

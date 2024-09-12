@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
 <div class="content-wrapper">
     <div class="container-fluid">
         <div class="container">
@@ -17,8 +16,6 @@
                     @endif
                 </div>
             </div>
-
-            <!-- <h1 class="display-4 text-center title-text">Freelancers List</h1> -->
 
             <!-- Sort Dropdown -->
             <div class="row mb-4">
@@ -37,80 +34,112 @@
                     </form>
                 </div>
             </div>
-            
 
             <div class="row">
-                @foreach($freelancers as $freelancer)
-                        <div class="col-md-4 mb-4">
-                            <div class="card freelancer-card">
-                                <div class="card-body d-flex flex-column">
-                                     <div class="text-center mb-3">
-                                         @if($freelancer->serviceimage)
-                                             <div class="service-image">
-                                                <img src="{{ asset('storage/' . $freelancer->serviceimage) }}" alt="Service Image" class="img-fluid rounded">
-                                            </div>
-                                         @else
-                                            <div class="service-image">
-                                                 <img src="{{ asset('images/noimage.jfif') }}" alt="Painting Service Back" class="card-img">
-                                            </div>
+                <!-- Column for Most Popular Freelancers -->
+                <div class="col-md-3 mb-4">
+                    <div class="card popular-freelancers-card">
+                        <div class="card-body">
+                            <h4 class="card-title text-center">Most Popular Freelancers</h4>
+                            @foreach($userCount as $popularFreelancer)
+                                <div class="popular-freelancer-item mb-3" data-toggle="tooltip" data-placement="top"
+                                    title="Name: {{ $popularFreelancer->name }}">
+                                    <div class="text-center">
+                                        @if($popularFreelancer->image_path)
+                                            <img src="{{ asset('storage/' . $popularFreelancer->image_path) }}"
+                                                alt="Freelancer Image" class="img-fluid rounded-circle"
+                                                style="width: 60px; height: 60px;">
+                                        @else
+                                            <img src="{{ asset('images/noimage.jfif') }}" alt="No Image"
+                                                class="img-fluid rounded-circle" style="width: 60px; height: 60px;">
                                         @endif
-                                            <br>
-                                             @if($freelancer->image_path)
-                                            <div class="freelancer-image mx-auto">
-                                                <img src="{{ asset('storage/' . $freelancer->image_path) }}" alt="Freelancer Image" class="rounded-circle">
-                                            </div>
+                                    </div>
+                                    <div class="text-center mt-2">
+                                        <p class="mb-1"><strong>{{ $popularFreelancer->title }}</strong></p>
+                                        <div class="total-order">
+                                            <p class="mb-1">Total Order: {{ $popularFreelancer->bids->count() }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
 
+                <!-- Column for Main Freelancers List -->
+                <div class="col-md-9 mb-4">
+                    <div class="row">
+                        @foreach($freelancers as $freelancer)
+                                                                        <div class="col-md-4 mb-4">
+                                                                            <div class="card freelancer-card">
+                                                                                <div class="card-body d-flex flex-column">
+                                                                                    <div class="service-image-container">
+                                                                                        @if($freelancer->serviceimage)
+                                                                                            <div class="service-image">
+                                                                                                <img src="{{ asset('storage/' . $freelancer->serviceimage) }}"
+                                                                                                    alt="Service Image" class="img-fluid rounded">
+                                                                                            </div>
+                                                                                        @else
+                                                                                            <div class="service-image">
+                                                                                                <img src="{{ asset('images/noimage.jfif') }}" alt="Painting Service Back"
+                                                                                                    class="card-img">
+                                                                                            </div>
+                                                                                        @endif
+                                                                                        @if($freelancer->image_path)
+                                                                                            <div class="freelancer-image">
+                                                                                                <img src="{{ asset('storage/' . $freelancer->image_path) }}"
+                                                                                                    alt="Freelancer Image" class="rounded-circle">
+                                                                                            </div>
+                                                                                        @endif
+                                                                                    </div>
+                                                                                    <div class="gig-info text-center">
+                                                                                        <div class="gig-detail">
+                                                                                            <h5 class="card-title mb-0">Service Title:</h5>
+                                                                                        <div class="service-title">
+                                                                                            <p>{{ $freelancer->title }}</p>
+                                                                                        </div>
 
-
-                                         @endif
-                                            </div>
-                                                 <div class="gig-info text-center">
-                                                    <div class="gig-detail">
-                                                        <h5 class="card-title mb-0">Gig ID:</h5>
-                                                        <p>{{ $freelancer->serviceid }}</p>
-                                                    </div>
-                                                    <div class="gig-detail">
-                                                        <h5 class="card-title mb-0">Gig Title:</h5>
-                                                        <p>{{ $freelancer->title }}</p>
-                                                    </div>
-                                                    <div class="gig-detail">
-                                                        <h5 class="card-title mb-0">State:</h5>
-                                                        <p>{{ $freelancer->state }}</p>
-                                                    </div>
-                                                     <div class="gig-detail">
-                                                        <h5 class="card-title mb-0">Posted On:</h5>
-                                                        <p>{{ $freelancer->service_created_date }}</p>
-                                                     </div>
-
-                                              </div>
-
-                                            <div class="rating text-center mt-3">
-                                            @php
+                                                                                        </div>
+                                                                                        <div class="gig-detail">
+                                                                                            <h5 class="card-title mb-0">State:</h5>
+                                                                                            <p>{{ $freelancer->state }}</p>
+                                                                                        </div>
+                                                                                        <div class="gig-detail">
+                                                                                            <h5 class="card-title mb-0">Posted On:</h5>
+                                                                                            <p>{{ $freelancer->service_created_date }}</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="rating text-center mt-3">
+                                                                                        @php
     $serviceRatings = $ratings->where('gig_id', $freelancer->serviceid);
     $ratingCount = $serviceRatings->count();
-                                            @endphp
-                                                <span class="fa fa-star checked"></span>
-                                                <span class="fa fa-star checked"></span>
-                                                <span class="fa fa-star checked"></span>
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                                <span>{{ $ratingCount }} reviews</span>
-                                            </div>
-
-
-                                            <div class="price-info text-center mt-3">
-                                                <h5 class="card-title">From: RM{{ $freelancer->price }}</h5>
-                                            </div>
-                                            <div class="mt-auto d-flex justify-content-around">
-                                                <a href="/viewprofile/{{ $freelancer->main_id }}" class="btn btn-primary view-profile-button">View Profile</a>
-                                                <a href="/viewservice/{{ $freelancer->main_id }}/{{ $freelancer->serviceid }}" class="btn btn-secondary view-service-button">View Service</a>
-                                                <a href="{{ route('messages.create', $freelancer->main_id, $freelancer->image_path) }}" class="btn btn-success">Send Message</a>
-                                            </div>
-                                </div>
-                            </div>
-                        </div>
-                @endforeach
+                                                                                        @endphp
+                                                                                        <span class="fa fa-star {{ $ratingCount >= 1 ? 'checked' : '' }}"></span>
+                                                                                        <span class="fa fa-star {{ $ratingCount >= 2 ? 'checked' : '' }}"></span>
+                                                                                        <span class="fa fa-star {{ $ratingCount >= 3 ? 'checked' : '' }}"></span>
+                                                                                        <span class="fa fa-star {{ $ratingCount >= 4 ? 'checked' : '' }}"></span>
+                                                                                        <span class="fa fa-star {{ $ratingCount >= 5 ? 'checked' : '' }}"></span>
+                                                                                        <span>{{ $ratingCount }} reviews</span>
+                                                                                    </div>
+                                                                                    <div class="price-info text-center mt-3">
+                                                                                        <h5 class="card-title">From: RM{{ $freelancer->price }}</h5>
+                                                                                    </div>
+                                                                                    <div class="mt-auto d-flex justify-content-around button-class" >
+                                                                                        <a href="/viewprofile/{{ $freelancer->main_id }}"
+                                                                                            class="btn btn-primary view-profile-button">View Profile</a>
+                                                                                        <a href="/viewservice/{{ $freelancer->main_id }}/{{ $freelancer->serviceid }}"
+                                                                                            class="btn btn-secondary view-service-button">View Service</a>
+                                                                                        <a href="{{ route('messages.create', $freelancer->main_id, $freelancer->image_path) }}"
+                                                                                            class="btn btn-success">Send Message</a>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                        @endforeach
+                    </div>
+                </div>
             </div>
+
             <div class="d-flex justify-content-center">
                 {{ $freelancers->links() }}
             </div>
@@ -118,15 +147,66 @@
     </div>
 </div>
 
-<script src="{{ mix('/js/app.js') }}"></script>
+<script src="{{ asset('js/app.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
 
 <style>
-    .title-text{
-        font-weight: 700;
+    .service-title {
+    max-height: 60px;  /* Adjust based on the number of lines (3 lines in this case) */
+    line-height: 20px; /* Set the line height to control the space between lines */
+    overflow: hidden;  /* Hide any extra content beyond the set height */
+    text-align: center;  /* Center the text horizontally */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;  /* Limits the text to 3 lines */
+    display: flex;
+    align-items: center;  /* Vertically align the text within the container */
+    justify-content: center;
+}
+
+
+    .gig-detail {
+    margin-top:20px  /* Optional: Centers the text */
+}
+
+    
+    .total-order {
+        font-weight: 100;
     }
+
+    .button-class {
+    display: grid;
+    grid-auto-flow: column;
+    grid-gap: 10px; /* Allows buttons to wrap on smaller screens */
+    margin-left: -10px; /* Adjust this value to shift the buttons left */
+}
+ 
+
+    .title-text {
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    .card-title {
+        margin-bottom: 20px;
+    }
+
     .breadcrumb {
         background-color: #f8f9fa;
         border-radius: .25rem;
+    }
+
+    .card-body{
+        max-width: 2000px;
     }
 
     .card {
@@ -140,96 +220,68 @@
         transform: translateY(-5px);
     }
 
-    .freelancer-card {
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: box-shadow 0.3s ease-in-out;
-    }
-
-    .freelancer-card:hover {
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    }
-
-    .service-image img {
-        width: 100%;
-        height: 300px;
-        border-radius: 10px;
-    }
-    
-
-    .freelancer-image img {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        margin-top: -40px;
-        border: 3px solid white;
-    }
-
-    .gig-info .gig-detail {
-        margin-bottom: 10px;
-    }
-
-    .gig-info h5 {
-        display: inline;
-        font-weight: bold;
-        font-size: 1rem;
-        color: #333;
-    }
-
-    .gig-info p {
-        display: inline;
-        margin-left: 5px;
-        font-size: 1rem;
-        color: #666;
+    .card-img {
+        border-radius: .5rem;
     }
 
     .rating .fa-star {
+        color: #ddd;
+        font-size: 1.2em;
+    }
+
+    .rating .fa-star.checked {
         color: #ffd700;
     }
 
-    .rating span {
-        font-size: 0.9rem;
-        color: #666;
+    .freelancer-card {
+        border: 1px solid #ddd;
+        border-radius: .5rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: visible;
+        max-width: 2000px;
+       
     }
 
-    .price-info {
-        font-size: 1.2rem;
-        color: #333;
-        font-weight: bold;
-        margin-top: 10px;
-        background-color: #f0f8ff;
-        padding: 10px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    .service-image-container {
+        position: relative;
+        margin-bottom: 30px;
     }
 
-    .btn-primary,
-    .btn-secondary,
-    .btn-success {
-        margin: 6px;
+    .service-image img {
+        border-radius: .5rem;
+        height: 150px;
+        object-fit: cover;
         width: 100%;
-        transition: opacity 0.3s;
     }
 
-    .btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
+    .freelancer-image {
+        position: absolute;
+        bottom: -30px;
+        left: 50%;
+        transform: translateX(-50%);
     }
 
-    .btn-secondary {
-        background-color: #6c757d;
-        border-color: #6c757d;
+    .freelancer-image img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 4px solid rgba(255, 255, 255, 0.7);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    .btn-success {
-        background-color: #28a745;
-        border-color: #28a745;
+    .popular-freelancers-card {
+        border: 1px solid #ddd;
+        border-radius: .5rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
+    .button-class {
+display: grid;
+  grid-auto-flow: column;
+  grid-gap: 10px; /* Allows buttons to wrap on smaller screens */
+}
 
-    .btn:hover {
-        opacity: 0.8;
-    }
+
 </style>
+
 @endsection

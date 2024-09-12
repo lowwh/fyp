@@ -53,11 +53,17 @@ class StudentController extends Controller
         // Fetch ratings for the fetched services
         $ratings = Rating::whereIn('gig_id', $serviceIds)->get();
 
+        $userCount = User::withCount('bids')
+
+            ->orderBy('bids_count', 'desc')
+            ->limit(5) // Limit to top 3 freelancers
+            ->get();
+
 
 
 
         // Return the view with freelancers and states data
-        return view('home', ['freelancers' => $freelancers, 'states' => $states, 'ratings' => $ratings]);
+        return view('home', ['freelancers' => $freelancers, 'states' => $states, 'ratings' => $ratings, 'userCount' => $userCount]);
     }
 
 

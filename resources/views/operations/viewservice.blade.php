@@ -1,284 +1,170 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container" style="background-color:#f8f9fa;">
+<div class="container" style="background-color: #f8f9fa;">
     <div class="row">
+        <!-- Main Content -->
         <div class="col-md-8">
             @if (session('status'))
                 <div class="alert alert-info" id="statusAlert">
                     {{ session('status') }}
                 </div>
             @endif
+
             @if (session('bid'))
                 <div class="alert alert-info" id="bidAlert">
                     {{ session('bid') }}
                 </div>
             @endif
+
             @foreach($users as $user)
-                <div class="rounded-lg bg-gray-200 p-3 mb-3">
-                    <div class="bg-gray-300 rounded-lg p-3 mb-3" style="background-color: whitesmoke; text-align: center;">
-                        <p class="text-xl font-bold">{{ $user->title }}</p>
+                <div class="rounded-lg bg-white shadow-sm p-4 mb-4">
+                    <div class="bg-info rounded-lg p-3 mb-3 text-center">
+                        <h3 class="text-2xl font-semibold">{{ $user->title }}</h3>
                     </div>
                     @if($user->userimage)
-                        <div class="user-info mb-3">
+                        <div class="d-flex align-items-center mb-4">
                             <img src="{{ asset('storage/' . $user->userimage) }}" alt="User Image" class="rounded-circle"
-                                style="width: 50px; height: 50px; margin-right: 20px">
-                            <h1 class="text-xl font-bold">{{ $user->name }}</h1>
-                            <!-- send email button -->
-                            <form action="{{ route('send.email', $user->id) }}" method="POST" id="sendEmailForm">
-                                @csrf
-                                <button type="submit" class="btn btn-info" id="sendEmailButton">
-                                    Send Email <span id="spinner" style="display: none;"></span>
+                                style="width: 60px; height: 60px; margin-right: 15px;">
+                            <div>
+                                <h4 class="text-xl font-bold">{{ $user->name }}</h4>
+                                <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#sendEmailModal">
+                                    Send Email
                                 </button>
-                            </form>
-                            <!-- Bid Button -->
-                            <!-- <form
-                                                                                                                                                                                                                action="{{ route('bid', ['userid' => $user->id, 'serviceid' => $user->serviceid, 'freelancerid' => $user->freelancer_id, 'serviceprice' => $user->price]) }}"
-                                                                                                                                                                                                                method="POST" id="bidForm">
-                                                                                                                                                                                                                @csrf
-                                                                                                                                                                                                                <button type="submit" class="btn btn-info bid-button" data-user="{{$user->name}}">Bid</button>
-                                                                                                                                                                                                            </form> -->
+                            </div>
                         </div>
                     @endif
 
-
-
-
-
-                    <!-- Displaying the number of bids -->
+                    <!-- Email Modal -->
+                    <div class="modal fade" id="sendEmailModal" tabindex="-1" aria-labelledby="sendEmailModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="sendEmailModalLabel">Send Email to {{ $user->name }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ route('send.email', $user->id) }}" method="POST" id="sendEmailForm">
+                                        @csrf
+                                        <div class="mb-3">
+                                            <label for="emailContent" class="form-label">Email Content:</label>
+                                            <textarea name="emailContent" id="emailContent" rows="4" class="form-control"
+                                                required></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary" id="sendEmailButton">Send Email
+                                            <span id="spinner" class="spinner-border spinner-border-sm"
+                                                style="display: none;"></span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <p style="font-size: 30px">Total Bids: {{ $user->bids->count() }}</p>
                     @if($user->serviceimage)
-                        <div>
+                        <div class="text-center mt-4">
                             <img src="{{ asset('storage/' . $user->serviceimage) }}" alt="Service Image"
-                                style="width: 500px; height: 500px; ; margin-top: 50px">
+                                style="max-width: 100%; height: auto;">
                         </div>
                     @endif
                 </div>
             @endforeach
         </div>
 
-        <!-- About the gig -->
-        <div class="col-md-4" style="margin-top: 10px; ">
-            <div class="row justify-content-center">
-                <div class="col-md-11"
-                    style="box-shadow: 4px 4px 6px rgba(0.2, 0.2, 0.2, 0.2); background-color: white">
-                    <div class="card mb-3" style="margin-top:20px">
-                        <div class="card-header bg-light shadow-sm"
-                            style="background-color:white; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); ">
-                            About this gig
+        <!-- Sidebar: About the Gig -->
+        <div class="col-md-4 mt-3">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info">
+                    About this Gig
+                </div>
+                <div class="card-body">
+                    <ul class="nav nav-tabs" id="profileTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="bio-tab" data-bs-toggle="tab" href="#bio" role="tab"
+                                aria-controls="bio" aria-selected="true">Description</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="about-tab" data-bs-toggle="tab" href="#about" role="tab"
+                                aria-controls="about" aria-selected="false">About</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content mt-3" id="profileTabContent">
+                        <div class="tab-pane fade show active" id="bio" role="tabpanel" aria-labelledby="bio-tab">
+                            <p>{{ $user->description }}</p>
+                            <form
+                                action="{{ route('payment', ['serviceOwnerId' => $user->userid, 'userid' => $user->id, 'serviceid' => $user->serviceid, 'freelancerid' => $user->freelancer_id, 'price' => $user->price]) }}"
+                                method="get">
+                                <button class="btn btn-success">Order</button>
+                            </form>
                         </div>
-                        <div class="card-body bg-light shadow-sm"
-                            style="background-color:white; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);">
-                            <!-- Tabs for BIO -->
-                            <ul class="nav nav-tabs" id="profileTab" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <a class="nav-link active" id="bio-tab" data-bs-toggle="tab" href="#bio" role="tab"
-                                        aria-controls="bio" aria-selected="true"
-                                        style="background-color:white">Description</a>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="about-tab" data-bs-toggle="tab" href="#about" role="tab"
-                                        aria-controls="about" aria-selected="false"
-                                        style="background-color:white">About</a>
-                                </li>
-
-                            </ul>
-
-                            <!-- Tab content -->
-
-                            <div class="tab-content mt-3" id="profileTabContent">
-                                <!-- BIO Tab -->
-
-                                <div class="tab-pane fade show active" id="bio" role="tabpanel"
-                                    aria-labelledby="bio-tab">
-                                    <div class="row mb-3">
-                                        <div class="col-md-6">
-                                            <p id="name">{{ $user['description'] }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="continue-button">
-                                                <form
-                                                    action="{{ route('payment', ['serviceOwnerId' => $user->userid, 'userid' => $user->id, 'serviceid' => $user->serviceid, 'freelancerid' => $user->freelancer_id, 'price' => $user->price]) }}"
-                                                    method="get">
-                                                    <button class="btn btn-primary">Continue</button>
-
-                                                </form>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <!-- end of bio tab -->
-
-                                <!-- about tab  -->
-                                <div class="tab-pane fade" id="about" role="tabpanel" aria-labelledby="about-tab">
-                                    <div class="row mb-3">
-                                        <div class="col-md-12">
-                                            @foreach($users as $user)
-                                                <div class="bg-gray-300 rounded-lg p-3 mb-3"
-                                                    style="background-color: white; text-align: left; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                                                    <div
-                                                        style="display: flex; justify-content: space-between; align-items: center;">
-                                                        <p style="margin: 0;">
-                                                            From: <br><strong>{{$user['state']}}</strong>
-                                                        </p>
-                                                        <p style="margin: 0;">
-                                                            Join Since: <br>
-                                                            <strong>{{$user['user_created_date']}}</strong>
-                                                        </p>
-                                                    </div>
-                                                    <br><br>
-                                                    <!-- second line -->
-                                                    <div>
-                                                        <p style="margin: 0;">
-                                                            Language: <br>
-                                                            <strong>{{$user['language']}}</strong>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- end of about tab -->
-
-
-
-
-
-
-                            </div>
-                            <!-- end of  tab content-->
-
-
+                        <div class="tab-pane fade" id="about" role="tabpanel" aria-labelledby="about-tab">
+                            <p><strong>From:</strong> {{ $user->state }}</p>
+                            <p><strong>Join Since:</strong> {{ $user->user_created_date }}</p>
+                            <p><strong>Language:</strong> {{ $user->language }}</p>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
-
-
     </div>
-    <br><br><br><br><br><br>
 
-    <!-- Displaying Ratings Summary -->
-    <div class="bg-gray-300 rounded-lg p-3 mb-3"
-        style="background-color: #f0f0f0; text-align: center; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-top: 20px;">
-        <p class="text-xl font-bold">Service Ratings Summary</p>
+    <!-- Ratings Summary -->
+    <div class="bg-white rounded-lg shadow-sm p-4 mt-4">
+        <h4 class="text-2xl font-semibold text-center">Service Ratings Summary</h4>
         @if($comments->isNotEmpty())
                 @php
-                    // Calculate star ratings count
                     $totalRatings = count($comments);
-                    $fiveStarCount = $comments->where('rating', 5)->count();
-                    $fourStarCount = $comments->where('rating', 4)->count();
-                    $threeStarCount = $comments->where('rating', 3)->count();
-                    $twoStarCount = $comments->where('rating', 2)->count();
-                    $oneStarCount = $comments->where('rating', 1)->count();
+                    $ratingsCount = [
+                        5 => $comments->where('rating', 5)->count(),
+                        4 => $comments->where('rating', 4)->count(),
+                        3 => $comments->where('rating', 3)->count(),
+                        2 => $comments->where('rating', 2)->count(),
+                        1 => $comments->where('rating', 1)->count(),
+                    ];
                 @endphp
-
-                <div class="bg-gray-300 rounded-lg p-3 mb-3"
-                    style="background-color: white; text-align: left; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                    <p><strong>{{ $totalRatings }} reviews for this Gig </strong></p>
-                    <p><strong>5-Star Ratings: {{ $fiveStarCount }}</strong></p>
-                    <div class="rating-bar">
-                        <div class="bar"
-                            style="width: {{ ($totalRatings > 0) ? ($fiveStarCount / $totalRatings) * 100 : 0 }}%;">
+                @foreach([5, 4, 3, 2, 1] as $rating)
+                    <div class="mb-2">
+                        <p><strong>{{ $rating }}-Star Ratings: {{ $ratingsCount[$rating] }}</strong></p>
+                        <div class="rating-bar">
+                            <div class="bar"
+                                style="width: {{ ($totalRatings > 0) ? ($ratingsCount[$rating] / $totalRatings) * 100 : 0 }}%;">
+                            </div>
                         </div>
                     </div>
-                    <p><strong>4-Star Ratings: {{ $fourStarCount }}</strong> </p>
-                    <div class="rating-bar">
-                        <div class="bar"
-                            style="width: {{ ($totalRatings > 0) ? ($fourStarCount / $totalRatings) * 100 : 0 }}%;">
-                        </div>
-                    </div>
-                    <p><strong>3-Star Ratings: {{ $threeStarCount }}</strong></p>
-                    <div class="rating-bar">
-                        <div class="bar"
-                            style="width: {{ ($totalRatings > 0) ? ($threeStarCount / $totalRatings) * 100 : 0 }}%;">
-                        </div>
-                    </div>
-                    <p><strong>2-Star Ratings: {{ $twoStarCount }}</strong></p>
-                    <div class="rating-bar">
-                        <div class="bar" style="width: {{ ($totalRatings > 0) ? ($twoStarCount / $totalRatings) * 100 : 0 }}%;">
-                        </div>
-                    </div>
-                    <p><strong>1-Star Ratings: {{ $oneStarCount }}</strong></p>
-                    <div class="rating-bar">
-                        <div class="bar" style="width: {{ ($totalRatings > 0) ? ($oneStarCount / $totalRatings) * 100 : 0 }}%;">
-                        </div>
-                    </div>
-                </div>
+                @endforeach
         @else
-            <div class="bg-gray-300 rounded-lg p-3 mb-3"
-                style="background-color: white; text-align: left; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                <p><strong>0 reviews for this Gig </strong></p>
-                <p><strong>5-Star Ratings:</strong> 0</p>
-                <div class="rating-bar">
-                    <div class="bar" style="width: 0%;"></div>
-                </div>
-                <p><strong>4-Star Ratings:</strong> 0</p>
-                <div class="rating-bar">
-                    <div class="bar" style="width: 0%;"></div>
-                </div>
-                <p><strong>3-Star Ratings:</strong> 0</p>
-                <div class="rating-bar">
-                    <div class="bar" style="width: 0%;"></div>
-                </div>
-                <p><strong>2-Star Ratings:</strong> 0</p>
-                <div class="rating-bar">
-                    <div class="bar" style="width: 0%;"></div>
-                </div>
-                <p><strong>1-Star Ratings:</strong> 0</p>
-                <div class="rating-bar">
-                    <div class="bar" style="width: 0%;"></div>
-                </div>
-            </div>
+            <p class="text-center">No reviews yet</p>
         @endif
     </div>
-    <!-- Displaying Service Review -->
-    <div class="bg-gray-300 rounded-lg p-3 mb-3"
-        style="background-color: #f0f0f0; text-align: center; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-top: 150px;">
-        <p class="text-xl font-bold">Service Reviews</p>
+
+    <!-- Service Reviews -->
+    <div class="bg-white rounded-lg shadow-sm p-4 mt-4">
+        <h4 class="text-2xl font-semibold text-center">Service Reviews</h4>
         @if($comments->isNotEmpty())
             @foreach($comments as $comment)
-
-                <div class="bg-gray-300 rounded-lg p-3 mb-3"
-                    style="background-color: white; text-align: center; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                <div class="border-bottom mb-3 pb-3">
                     @if($comment->image_path)
-                        <div class="user-info mb-3 d-flex align-items-center">
+                        <div class="d-flex align-items-center mb-2">
                             <img src="{{ asset('storage/' . $comment->image_path) }}" alt="User Image" class="rounded-circle"
-                                style="width: 50px; height: 50px; margin-right: 20px; ">
+                                style="width: 50px; height: 50px; margin-right: 15px;">
                             <div>
                                 @for ($i = 1; $i <= 5; $i++)
-                                    @if ($i <= $comment->rating)
-                                        <span class="fa fa-star checked"></span>
-                                    @else
-                                        <span class="fa fa-star"></span>
-                                    @endif
+                                    <span class="fa fa-star {{ $i <= $comment->rating ? 'checked' : '' }}"></span>
                                 @endfor
                             </div>
                         </div>
                     @endif
-                    <div style="text-align: left; margin-left: 10px;">
-                        <p>{{$comment['reason']}}</p>
-                    </div>
+                    <p>{{ $comment->reason }}</p>
                 </div>
-
-
             @endforeach
         @else
-            <div class="bg-gray-300 rounded-lg p-3 mb-3"
-                style=" background-color: white; text-align: center; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                <p>No reviews yet</p>
-            </div>
+            <p class="text-center">No reviews yet</p>
         @endif
     </div>
-
 </div>
 
 <style>
@@ -288,104 +174,52 @@
     }
 
     .user-info button {
-        margin-left: 20px;
-        /* Adjust the margin value as needed */
+        margin-left: 15px;
     }
 
     .fa-star {
         color: #ccc;
-        /* Default star color */
     }
 
     .checked {
-        color: orange;
-        /* Color for filled stars */
+        color: #f39c12;
     }
 
     .rating-bar {
-        height: 10px;
+        height: 8px;
         background-color: #ddd;
-        margin-bottom: 5px;
+        margin-bottom: 4px;
     }
 
     .bar {
         height: 100%;
-        background-color: green;
-        /* Adjust color as per your design */
+        background-color: #28a745;
     }
 
-    #spinner {
-        display: inline-block;
-        width: 1em;
-        height: 1em;
-        vertical-align: text-bottom;
-        border: .25em solid currentColor;
-        border-right-color: transparent;
-        border-radius: 50%;
-        animation: spin .75s linear infinite;
-    }
-
-    .alert-yellow {
-        background-color: #ffc107;
-        /* Yellow background color */
-        color: #000000;
-        /* Text color */
-        padding: 15px;
-        margin-bottom: 20px;
-        border: 1px solid transparent;
-        border-radius: .25rem;
-    }
-
-    /* Keyframes for the spinner animation */
-    @keyframes spin {
-        to {
-            transform: rotate(360deg);
-        }
+    .spinner-border {
+        margin-left: 10px;
     }
 </style>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        document.getElementById('sendEmailForm').addEventListener('submit', function () {
-            var spinner = document.getElementById('spinner');
-            spinner.style.display = 'inline-block'; // Show the spinner
-
-            // Optional: Disable the button to prevent multiple submissions
-            document.getElementById('sendEmailButton').setAttribute('disabled', true);
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
-        var bidForms = document.querySelectorAll('.bid-button');
-        bidForms.forEach(function (form) {
-            form.addEventListener('click', function (event) {
-                event.preventDefault();
-                var userName = this.getAttribute('data-user');
-                var confirmBid = confirm('Are you sure you want to bid on ' + userName + '\'s service?');
-                if (confirmBid) {
-                    document.getElementById('bidForm').submit();
-                }
-            });
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
-        var statusAlert = document.getElementById('statusAlert');
+        const statusAlert = document.getElementById('statusAlert');
         if (statusAlert) {
-
-            setTimeout(function () {
-                statusAlert.style.display = 'none';
-            }, 5000);
+            setTimeout(() => { statusAlert.style.display = 'none'; }, 3000);
         }
 
-        var bidAlert = document.getElementById('bidAlert');
+        const bidAlert = document.getElementById('bidAlert');
         if (bidAlert) {
+            setTimeout(() => { bidAlert.style.display = 'none'; }, 3000);
+        }
 
-            setTimeout(function () {
-                bidAlert.style.display = 'none';
-            }, 5000);
+        const sendEmailForm = document.getElementById('sendEmailForm');
+        if (sendEmailForm) {
+            sendEmailForm.addEventListener('submit', function () {
+                document.getElementById('spinner').style.display = 'inline-block';
+                document.getElementById('sendEmailButton').setAttribute('disabled', true);
+            });
         }
     });
 </script>
-
 @endsection

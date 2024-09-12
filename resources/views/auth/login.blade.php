@@ -7,9 +7,15 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.2/css/all.css">
+
     <style>
         /* Custom CSS */
         body {
+            background-image: url('/images/login-bg.jpg');
+            background-size: cover;
+            background-position: center;
             background-color: #f8f9fa;
             font-family: 'Arial', sans-serif;
         }
@@ -22,6 +28,7 @@
         .card {
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
+            background-color: #fff;
         }
 
         .card-header {
@@ -34,6 +41,7 @@
             background-color: #007bff;
             border-color: #007bff;
             transition: background-color 0.3s, border-color 0.3s;
+            width: 100%;
         }
 
         .btn-primary:hover {
@@ -53,6 +61,31 @@
             position: fixed;
             bottom: 0;
             width: 100%;
+        }
+
+        .input-group-text {
+            background-color: #fff;
+            border: 1px solid #ced4da;
+            cursor: pointer;
+        }
+
+        .social-login-btn {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #6c757d;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .logo-img {
+            filter: brightness(0.85) contrast(1.2);
+            /* Adjust brightness and contrast */
         }
     </style>
 </head>
@@ -89,18 +122,32 @@
         <div class="container my-5">
             <div class="row justify-content-center">
                 <div class="col-lg-6">
+                    <div class="text-center mb-4">
+                        <img src="{{ asset('images/logo.png') }}" alt="Platform Logo" width="150" class="logo-img">
+
+                    </div>
+                    <h2 class="text-center mb-4">Welcome Back!</h2>
+                    <p class="text-center">Please enter your login details below.</p>
+
                     <div class="card">
                         <div class="card-header">{{ __('Login') }}</div>
                         <div class="card-body">
+
+
+
+                            <!-- Login Form -->
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf
                                 <div class="row mb-3">
                                     <label for="email"
                                         class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
                                     <div class="col-md-6">
-                                        <input id="email" type="email"
-                                            class="form-control @error('email') is-invalid @enderror" name="email"
-                                            value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                            <input id="email" type="email"
+                                                class="form-control @error('email') is-invalid @enderror" name="email"
+                                                value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                        </div>
                                         @error('email')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -108,13 +155,20 @@
                                         @enderror
                                     </div>
                                 </div>
+
                                 <div class="row mb-3">
                                     <label for="password"
                                         class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
                                     <div class="col-md-6">
-                                        <input id="password" type="password"
-                                            class="form-control @error('password') is-invalid @enderror" name="password"
-                                            required autocomplete="current-password">
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                            <input id="password" type="password"
+                                                class="form-control @error('password') is-invalid @enderror"
+                                                name="password" required autocomplete="current-password">
+                                            <span class="input-group-text" id="togglePassword">
+                                                <i class="fas fa-eye"></i>
+                                            </span>
+                                        </div>
                                         @error('password')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -122,21 +176,23 @@
                                         @enderror
                                     </div>
                                 </div>
+
                                 <div class="row mb-3">
                                     <div class="col-md-6 offset-md-4">
-                                        <div class="form-check">
+                                        <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" name="remember"
-                                                id="remember" {{ old('remember') ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="remember">
+                                                id="rememberMe" {{ old('remember') ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="rememberMe">
                                                 {{ __('Remember Me') }}
                                             </label>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="row mb-0">
-                                    <div class="col-md-8 offset-md-4">
+                                    <div class="col-md-12 text-center">
                                         <button type="submit" class="btn btn-primary">
-                                            {{ __('Login') }}
+                                            <i class="fas fa-sign-in-alt"></i> {{ __('Login') }}
                                         </button>
                                         @if (Route::has('password.request'))
                                             <a class="btn btn-link" href="{{ route('password.request') }}">
@@ -145,8 +201,16 @@
                                         @endif
                                     </div>
                                 </div>
+
                             </form>
                         </div>
+                    </div>
+
+
+
+                    <!-- Footer Links -->
+                    <div class="footer-links text-center">
+                        <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
                     </div>
                 </div>
             </div>
@@ -162,19 +226,21 @@
         document.addEventListener('DOMContentLoaded', function () {
             const navbarToggler = document.querySelector('.navbar-toggler');
             const navbarCollapse = document.querySelector('#navbarSupportedContent');
+            const togglePassword = document.querySelector('#togglePassword');
+            const passwordInput = document.querySelector('#password');
 
             navbarToggler.addEventListener('click', function () {
                 navbarCollapse.classList.toggle('show');
             });
 
-            const form = document.querySelector('form');
-            form.addEventListener('submit', function (e) {
-                const email = document.querySelector('#email').value;
-                const password = document.querySelector('#password').value;
-                if (!email || !password) {
-                    e.preventDefault();
-                    alert('Please fill in both email and password fields.');
-                }
+            // Toggle password visibility
+            togglePassword.addEventListener('click', function () {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+
+                // Toggle the eye icon
+                this.querySelector('i').classList.toggle('fa-eye');
+                this.querySelector('i').classList.toggle('fa-eye-slash');
             });
         });
     </script>

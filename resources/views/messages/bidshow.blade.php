@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="container">
-    <!-- Custom CSS for this section -->
     <style>
         .custom-style {
             padding: 20px;
@@ -12,109 +11,180 @@
             margin-bottom: 20px;
         }
 
-        .custom-style .gig-id,
-        .custom-style .requester-name {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .custom-style .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-
         .progress-container {
             margin-bottom: 20px;
+            position: relative;
+            padding-top: 30px;
+        }
+
+        .progress-bar {
+            position: absolute;
+            top: 25px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #ccc;
+            z-index: 1;
+        }
+
+        .progress-bar-fill {
+            position: absolute;
+            top: 25px;
+            left: 0;
+            width: 16.67%;
+            height: 2px;
+            background-color: #007bff;
+            z-index: 2;
+            transition: width 0.5s ease;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            z-index: 3;
         }
 
         .progress-step {
             width: 33.33%;
             text-align: center;
+            font-size: 14px;
             font-weight: bold;
-            color: #007bff;
-            /* Default color */
+            color: #6c757d;
+            transition: color 0.5s ease;
+        }
+
+        .progress-step::before {
+            content: '';
+            display: block;
+            width: 12px;
+            height: 12px;
+            background-color: #fff;
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            margin: 0 auto 8px;
+            transition: background-color 0.5s ease, border-color 0.5s ease;
         }
 
         .progress-step.completed {
-            color: green;
-            /* Completed status color */
+            color: #007bff;
+        }
+
+        .progress-step.completed::before {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .progress-step.current {
+            color: #007bff;
+        }
+
+        .progress-step.current::before {
+            background-color: #fff;
+            border-color: #007bff;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .button-container .btn {
+            margin-right: 10px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            color: #fff;
         }
     </style>
 
     <div class="custom-style">
         <div class="gig-id">Gig ID: {{ $service_id }}</div>
         <div class="requester-name">Requester Name: {{ $biddername }}</div>
-        <!-- Progress Indicator -->
+
         <div class="progress-container">
-            <div class="d-flex">
+            <div class="progress-bar"></div>
+            <div class="progress-bar-fill" id="progressBarFill"></div>
+            <div class="progress-steps">
                 <div class="progress-step completed">Step 1: Bid Placed</div>
-                <div class="progress-step {{ $status === 'completed' ? 'completed' : '' }}" id="step-under-review">Step
-                    2:
-                    Under Review</div>
-                <div class="progress-step {{ $status === 'completed' ? 'completed' : '' }}" id="step-confirmation">Step
-                    3: Confirmation</div>
+                <div class="progress-step" id="step-under-review">Step 2: Under Review</div>
+                <div class="progress-step" id="step-confirmation">Step 3: Confirmation</div>
             </div>
         </div>
-        <!-- Trigger button for the modal -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#biddingModal"
-            id="viewRequestButton">
-            View Bidding Request
-        </button>
-        <br><br>
-        <form method="post"
-            action="/get/progression/{{$service_id}}/{{$freelancer_id}}/{{$bidder_id}}/{{$notification_id}}/{{$user_id}}">
-            @csrf
-            <button class="btn btn-primary" type="submit" id="confirmButton" disabled>Confirm</button>
-        </form>
-    </div>
-</div>
 
-<!-- Modal -->
-<div class="modal fade" id="biddingModal" tabindex="-1" aria-labelledby="biddingModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="biddingModalLabel">Bidding Request from {{ $biddername }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+        <div style="border-top: 1px solid #ddd;"></div>
+
+        <div class="button-container">
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="viewRequestDropdown"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    View Bidding Request
                 </button>
-            </div>
-            <div class="modal-body">
-                <!-- Modal body content -->
-                <div class="card">
-                    <div class="card-body">
-                        <!-- Bidding Request Details -->
-                        <div class="info-item">
-                            <i class="fas fa-user icon"></i>
-                            <span>Bidder Name: {{ $biddername }}</span>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-id-badge icon"></i>
-                            <span>Service ID: {{ $service_id }}</span>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-calendar icon"></i>
-                            <span>Requested On: {{ now()->format('Y-m-d') }}</span>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-info-circle icon"></i>
-                            <span>Additional Info: [Your additional info here]</span>
-                        </div>
-                    </div>
+                <div class="dropdown-menu" aria-labelledby="viewRequestDropdown">
+                    <div>Bidder Name: {{ $biddername }}</div>
+                    <div>Service ID: {{ $service_id }}</div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button id="close" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
+
+            <form id="confirmForm" method="post"
+                action="/get/progression/{{$service_id}}/{{$freelancer_id}}/{{$bidder_id}}/{{$notification_id}}/{{$user_id}}">
+                @csrf
+                <button class="btn btn-secondary" type="button" id="confirmButton" disabled>Confirm</button>
+            </form>
         </div>
     </div>
 </div>
 
 <script>
-    document.getElementById('viewRequestButton').addEventListener('click', function () {
-        document.getElementById('step-under-review').classList.add('completed');
-        document.getElementById('confirmButton').disabled = false;
+    document.getElementById('viewRequestDropdown').addEventListener('click', function () {
+        console.log('View Bidding Request button clicked');
+
+        var stepUnderReview = document.getElementById('step-under-review');
+        console.log('stepUnderReview before:', stepUnderReview.classList);
+
+        // Add classes to update the second step
+        stepUnderReview.classList.add('completed', 'current');
+        console.log('stepUnderReview after:', stepUnderReview.classList);
+
+        // Update progress bar width to 50%
+        var progressBarFill = document.getElementById('progressBarFill');
+        progressBarFill.style.width = '50%';
+        console.log('Progress bar width updated to 50%');
+
+        // Enable the confirm button
+        var confirmButton = document.getElementById('confirmButton');
+        confirmButton.disabled = false;
+        confirmButton.classList.remove('btn-secondary');
+        confirmButton.classList.add('btn-primary');
+        console.log('Confirm button enabled');
+    });
+
+    document.getElementById('confirmButton').addEventListener('click', function (e) {
+        e.preventDefault();
+        console.log('Confirm button clicked');
+
+        this.disabled = true;
+
+        var progressBarFill = document.getElementById('progressBarFill');
+        progressBarFill.style.width = '100%';
+        console.log('Progress bar width updated to 100%');
+
+        var stepUnderReview = document.getElementById('step-under-review');
+        stepUnderReview.classList.remove('current');
+
+        var stepConfirmation = document.getElementById('step-confirmation');
+        stepConfirmation.classList.add('completed');
+        console.log('Step confirmation marked as completed');
+
+        setTimeout(function () {
+            document.getElementById('confirmForm').submit();
+        }, 600); // Match transition time
     });
 </script>
 @endsection

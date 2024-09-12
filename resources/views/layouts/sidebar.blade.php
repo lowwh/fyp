@@ -50,19 +50,7 @@
 
 
 
-        </li>
-        <li class="nav-item">
-          <a href="/userRegistrationCount" class="nav-link">
-            <i class="fas fa-user nav-icon"></i>
-            <p>
-              User Dashboard
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
 
-
-
-        </li>
         <li class="nav-item">
           <a href="{{ route('receivedmessages') }}" class="nav-link">
             <i class="fas fa-comments nav-icon"></i>
@@ -107,7 +95,7 @@
         <a href="#" class="nav-link">
         <i class="fas fa-upload nav-icon"></i>
         <p>
-          Upload
+          Add
           <i class="right fas fa-angle-left"></i>
         </p>
         </a>
@@ -116,7 +104,7 @@
         <li class="nav-item">
           <a href="/uploadService" class="nav-link">
           <i class="fas fa-folder-plus nav-icon"></i>
-          <p>Upload Service</p>
+          <p>Add Service</p>
           </a>
         </li>
 

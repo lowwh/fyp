@@ -23,7 +23,7 @@ class ResultController extends Controller
             $results = Result::leftJoin('users', 'results.freelancer_id', '=', 'users.freelancer_id')
                 ->leftJoin('services', 'results.gig_id', '=', 'services.id')
                 ->leftJoin('users as bidders', 'results.bidder_id', '=', 'bidders.id')
-                ->select('results.*', 'results.id as resultid', 'results.status', 'users.name', 'services.id as serviceid', 'bidders.name as biddername', 'users.id as userid', 'results.user_id as userid')
+                ->select('results.*', 'results.id as resultid', 'results.status', 'users.name', 'services.id as serviceid', 'services.title as title', 'bidders.name as biddername', 'users.id as userid', 'results.user_id as userid')
                 ->get();
 
             foreach ($results as $result) {
@@ -36,9 +36,46 @@ class ResultController extends Controller
                 })->exists();
             }
 
+            // Fetching summary data
+            $totalUsers = Result::where('bidder_id', $userId)
+                ->orWhere('user_id', $userId)
+                ->count();
+            $usercompletedProjects = Result::where('status', 'Completed')
+                ->where('bidder_id', $userId)
+
+                ->count();
+            $userpendingProjects = Result::where('status', 'Pending')
+                ->where('bidder_id', $userId)
+
+                ->count();
+            $userrejectedProjects = Result::where('status', 'Rejected')
+                ->where('bidder_id', $userId)
+                ->count();
+
+            $freelancercompletedProjects = Result::where('status', 'Completed')
+                ->where('user_id', $userId)
+
+                ->count();
+            $freelancerpendingProjects = Result::where('status', 'Pending')
+                ->where('user_id', $userId)
+
+                ->count();
+            $freelancerrejectedProjects = Result::where('status', 'Rejected')
+                ->where('user_id', $userId)
+                ->count();
+
 
             //return $result;
-            return view("operations.manageresult", compact('results'));
+            return view("operations.manageresult", compact(
+                'results',
+                'usercompletedProjects',
+                'userpendingProjects',
+                'userrejectedProjects',
+                'freelancercompletedProjects',
+                'freelancerpendingProjects',
+                'freelancerrejectedProjects',
+                'totalUsers',
+            ));
         } catch (\Exception $e) {
 
             dd($e->getMessage()); // Output the error message for debugging

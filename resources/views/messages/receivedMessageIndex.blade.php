@@ -6,9 +6,9 @@
         <h1 class="display-4">Messages</h1>
     </div>
 
-    <div class="bg-light p-4 my-4 rounded shadow-sm">
+    <!-- <div class="bg-light p-4 my-4 rounded shadow-sm">
         <h2 class="text-center">Received Messages</h2>
-    </div>
+    </div> -->
 
     @php
         // Group messages by sender_id and get the latest message for each sender

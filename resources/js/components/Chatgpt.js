@@ -8,12 +8,32 @@ export default class Chatgpt extends Component {
         this.state = {
             results: [], // Initialize results state
             chatResponse: null, // Initialize chat response state
+            question: "",
         };
     }
 
     async componentDidMount() {
         // Retrieve results from data attribute
+        const analysisLoadingIcon = document.getElementById(
+            "analysisLoadingIcon"
+        );
         const resultsData = document.getElementById("chatgpt").dataset.results;
+        const questionInput = document.getElementById("questionInput");
+        const sendQuestionButton =
+            document.getElementById("sendQuestionButton");
+
+        sendQuestionButton.addEventListener("click", () => {
+            const question = questionInput.value.trim(); // Get and trim the input value
+            if (question === "") {
+                alert("Please enter a question.");
+                return;
+            }
+            analysisLoadingIcon.style.display = "inline-block";
+
+            this.setState({ question: questionInput.value }, () => {
+                this.sendToChatGPT();
+            });
+        });
 
         try {
             // Parse JSON-encoded results and set state
@@ -28,33 +48,47 @@ export default class Chatgpt extends Component {
         }
     }
 
-    async sendToChatGPT(results) {
-        // Prepare the messages for the ChatGPT API
+    async sendToChatGPT() {
+        const { question, results } = this.state;
 
-        const options = {
-            method: "POST",
-            url: "https://chatgpt-gpt4-5.p.rapidapi.com/ask",
-            headers: {
-                "x-rapidapi-key":
-                    "0076122529mshc1bfa1743700bffp1de4a1jsn399f9fef4fb5",
-                "x-rapidapi-host": "chatgpt-gpt4-5.p.rapidapi.com",
-                "Content-Type": "application/json",
-            },
-            data: {
-                query:
-                    JSON.stringify(results) +
-                    " help me do analysis about the search result, select the most recommended service for user",
-            },
+        // Mock response for testing purposes
+        const mockResponse = {
+            response: `Hi, how can I assist you today?: ${JSON.stringify(
+                results
+            )} ${question}`,
         };
 
         try {
-            const response = await axios.request(options);
-            console.log("API response:", response.data);
+            // Simulate an API call delay with setTimeout
+            const simulatedApiCall = new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve(mockResponse);
+                }, 1000); // Simulate 1 second delay
+            });
 
-            // Update state with chat response
-            this.setState({ chatResponse: response.data.response }); // Adjust based on API response structure
+            const response = await simulatedApiCall;
+            console.log("API response:", response);
+
+            // Update state with the mock chat response
+            this.setState({ chatResponse: response.response });
+
+            // Hide the spinner
+            const analysisLoadingIcon = document.getElementById(
+                "analysisLoadingIcon"
+            );
+            if (analysisLoadingIcon) {
+                analysisLoadingIcon.style.display = "none"; // Hide the spinner
+            }
         } catch (error) {
             console.error("Error sending message to ChatGPT:", error);
+
+            // Ensure spinner is hidden in case of error
+            const analysisLoadingIcon = document.getElementById(
+                "analysisLoadingIcon"
+            );
+            if (analysisLoadingIcon) {
+                analysisLoadingIcon.style.display = "none";
+            }
         }
     }
 
@@ -63,26 +97,9 @@ export default class Chatgpt extends Component {
 
         return (
             <div className="container">
-                <h1>ChatGPT Results:</h1>
-                <ul>
-                    {results.map((result, index) => (
-                        <li key={index}>
-                            <div>
-                                <strong>Title:</strong> {result.title}
-                            </div>
-                            <div>
-                                <strong>Price:</strong> {result.price}
-                            </div>
-                            <div>
-                                <strong>Gig Count:</strong> {result.gigs_count}
-                            </div>
-                            {/* Add more fields as needed */}
-                        </li>
-                    ))}
-                </ul>
                 {chatResponse && (
                     <div>
-                        <h2>ChatGPT Response:</h2>
+                        <h2>AI Response:</h2>
                         <p>{chatResponse}</p>
                     </div>
                 )}
