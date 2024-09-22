@@ -27,7 +27,9 @@ class User extends Authenticatable
         'image_path',
         'state',
         'language',
-        'serviceType'
+        'serviceType',
+        'freelancer_id',
+        'total_earn'
     ];
 
     /**
@@ -80,6 +82,12 @@ class User extends Authenticatable
         return $this->notifications()->whereNull('read_at')->where('type', 'App\Notifications\NewMessageNotification');
     }
 
+
+    public function unreadRejectNotifications()
+    {
+
+        return $this->notifications()->whereNull('read_at')->where('type', 'App\Notifications\ServiceRejectedNotification');
+    }
     public function invoices()
     {
         return $this->hasMany(Invoice::class);

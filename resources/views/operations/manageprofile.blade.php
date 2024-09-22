@@ -10,19 +10,7 @@
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <span class="nav-link">{{ $user->name }}</span>
-                    </li>
-                    <li class="nav-item">
-                        <span class="nav-link"><i class="fas fa-check-circle text-success"></i> 100% job complete</span>
-                    </li>
-                    <li class="nav-item">
-                        <span class="nav-link"><i class="fas fa-clock text-success"></i> 100% on time</span>
-                    </li>
-                </ul>
-            </div>
+
         </div>
     </nav>
 
@@ -54,11 +42,16 @@
                         <div class="col-md-9">
                             <h3 class="font-weight-bold mb-2">{{ $user->name }}</h3>
                             <p class="text-muted mb-4">{{ $user->servicetype }}</p>
-                            <p class="text-muted mb-4">
-                                <span class="badge bg-success">100% Job Complete</span>
-                                <span class="badge bg-success">100% On Time</span>
-                            </p>
+                            <div class="d-flex align-items-center mb-4">
+                                <span class="badge bg-success me-3 d-flex align-items-center">
+                                    <i class="fas fa-check-circle me-2"></i> 100% Job Complete
+                                </span>
+                                <span class="badge bg-success d-flex align-items-center">
+                                    <i class="fas fa-clock me-2"></i> 100% On Time
+                                </span>
+                            </div>
                         </div>
+
                     </div>
 
                     <!-- Tabs for BIO, Project, Review, and My Wallet -->

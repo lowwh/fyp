@@ -125,8 +125,7 @@
                                             <div class="card service-card shadow-sm">
                                                 <div class="card-body">
                                                     <h5 class="card-title text-primary">{{ $record->title }}</h5>
-                                                    <p class="card-text"><strong>Service ID:</strong> {{ $record->service_id }}
-                                                    </p>
+                                                    <br>
                                                     <p class="card-text"><strong>Description:</strong>
                                                         {{ $record->description }}</p>
 

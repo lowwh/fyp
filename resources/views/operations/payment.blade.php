@@ -248,7 +248,7 @@
                 </div>
                 <div class="card-body">
                     <form
-                        action="{{ route('payment.process', ['serviceOwnerId' => $serviceOwnerId, 'userid' => $userid, 'serviceid' => $serviceid, 'freelancerid' => $freelancerid, 'serviceprice' => $price]) }}"
+                        action="{{ route('payment.process', ['serviceOwnerId' => $serviceOwnerId, 'userid' => $userid, 'serviceid' => $serviceid, 'freelancerid' => $freelancerid, 'serviceprice' => $price, 'service_title' => $service_title]) }}"
                         method="POST" id="paymentForm">
                         @csrf
 

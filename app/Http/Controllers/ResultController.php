@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Result;
 use App\Models\Bid;
+use App\Models\Reject;
 use App\Models\service;
 use App\Models\rating;
 use Illuminate\Http\Request;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\BiddingSuccessNotification;
+use App\Notifications\ServiceRejectedNotification;
 
 class ResultController extends Controller
 {
@@ -25,6 +27,8 @@ class ResultController extends Controller
                 ->leftJoin('users as bidders', 'results.bidder_id', '=', 'bidders.id')
                 ->select('results.*', 'results.id as resultid', 'results.status', 'users.name', 'services.id as serviceid', 'services.title as title', 'bidders.name as biddername', 'users.id as userid', 'results.user_id as userid')
                 ->get();
+
+
 
             foreach ($results as $result) {
                 $result->exists = Rating::whereExists(function ($query) use ($result) {
@@ -207,6 +211,39 @@ class ResultController extends Controller
             $bid->status = 'completed';
             $bid->save();
         }
+        $userId = Auth::id();
+        $user = User::find($userId);
+
+        if ($user) {
+            // Add the service price to the current total_earn
+            $newTotalEarn = $user->total_earn + $req->service_price;
+
+            // Update the total_earn in the users table
+            $user->update(['total_earn' => $newTotalEarn]);
+
+
+        }
+
+        $client = DB::table('users')
+            ->join('results', 'users.id', '=', 'results.bidder_id')
+            ->select('users.id', 'users.name', 'users.total_earn')
+            ->limit(1)
+            ->first(); // Get the first result as an object
+
+        if ($client) {
+
+
+            // Update the user's total_earn
+            $newTotalEarn = $client->total_earn + $req->service_price;
+
+            // Update the total_earn in the users table
+            DB::table('users')
+                ->where('id', $client->id)
+                ->update(['total_earn' => $newTotalEarn]);
+        }
+
+
+
 
 
         // Find the freelancer or user to notify
@@ -228,16 +265,68 @@ class ResultController extends Controller
 
     public function rejectProgress(Request $req, $resultid, $userid)
     {
+        $userId = Auth::id();
 
         $reject = Result::findOrFail($resultid);
         $reject->status = 'Rejected';
         $reject->progress = 0.00;
         $reject->save();
 
+
+        $freelancerdeduct = DB::table('rejects')
+            ->join('results', 'rejects.result_id', '=', 'results.id')
+            ->join('users', 'users.id', '=', 'results.user_id')
+            ->select('users.*') // Select the entire user object
+            ->limit(1)
+            ->first(); // Get the first result as an object
+
+        if ($freelancerdeduct) {
+            // Deduct 10 from the current total_earn
+            $newTotalEarn = $freelancerdeduct->total_earn - 10;
+
+            // Update the total_earn in the users table
+            DB::table('users')
+                ->where('id', $freelancerdeduct->id)
+                ->update(['total_earn' => $newTotalEarn]);
+        }
+
+        $userdeduct = DB::table('rejects')
+            ->join('results', 'rejects.result_id', '=', 'results.id')
+            ->join('users', 'users.id', '=', 'results.bidder_id')
+            ->select('users.*') // Select the entire user object
+            ->limit(1)
+            ->first(); // Get the first result as an object
+
+        if ($userdeduct) {
+            // Deduct 10 from the current total_earn
+            $newTotalSpend = $userdeduct->total_earn - 10;
+
+            // Update the total_earn in the users table
+            DB::table('users')
+                ->where('id', $userdeduct->id)
+                ->update(['total_earn' => $newTotalSpend]);
+        }
+
+
+
+
+        $bidder = User::findOrFail($reject->bidder_id);
+        $bidderName = $bidder->name;
+
         $setRejected = User::findOrFail($userid);
         $setRejected->has_rejected_service = true;
         $setRejected->save();
-        //return redirect()->route('home')->with('status', 'Service rejected.');
+
+        Reject::create([
+            'result_id' => $resultid,
+            'user_id' => $userid,
+            'reason' => $req->input('reason')
+        ]);
+
+
+        $freelancer = User::findOrFail($reject->user_id); // Assuming freelancer_id is stored in the Result
+        $freelancer->notify(new ServiceRejectedNotification($userid, $resultid, $bidderName));
+
         return redirect('manageresult');
     }
 

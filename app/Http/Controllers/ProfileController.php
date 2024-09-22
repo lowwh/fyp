@@ -67,8 +67,12 @@ class ProfileController extends Controller
             ->where('users.id', $userId)
             ->get();
 
-        $totalSpend = $spend->sum('price');
-        $totalEarn = $earn->sum('amountEarn');
+        // $totalSpend = $spend->sum('price');
+        $totalSpend = $user->total_earn;
+        $totalEarn = $user->total_earn;
+
+
+
 
         $pastTransactions = Invoice::where('user_id', Auth::id())->get();
         return view('operations.manageprofile', ['user' => $user, 'totalSpend' => $totalSpend, 'totalEarn' => $totalEarn, 'pastTransactions' => $pastTransactions, 'service' => $service]);

@@ -14,5 +14,10 @@ class Result extends Model
         return $this->hasMany(Rating::class);
     }
 
-
+    // Relationship to track rejection
+    public function rejects()
+    {
+        return $this->hasOne(Reject::class);
+    }
 }
+

@@ -57,7 +57,7 @@
                                     <div class="text-center mt-2">
                                         <p class="mb-1"><strong>{{ $popularFreelancer->title }}</strong></p>
                                         <div class="total-order">
-                                            <p class="mb-1">Total Order: {{ $popularFreelancer->bids->count() }}</p>
+                                            <p class="mb-1">Total Orders Placed: {{ $popularFreelancer->bids->count() }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -70,71 +70,61 @@
                 <div class="col-md-9 mb-4">
                     <div class="row">
                         @foreach($freelancers as $freelancer)
-                                                                        <div class="col-md-4 mb-4">
-                                                                            <div class="card freelancer-card">
-                                                                                <div class="card-body d-flex flex-column">
-                                                                                    <div class="service-image-container">
-                                                                                        @if($freelancer->serviceimage)
-                                                                                            <div class="service-image">
-                                                                                                <img src="{{ asset('storage/' . $freelancer->serviceimage) }}"
-                                                                                                    alt="Service Image" class="img-fluid rounded">
-                                                                                            </div>
-                                                                                        @else
-                                                                                            <div class="service-image">
-                                                                                                <img src="{{ asset('images/noimage.jfif') }}" alt="Painting Service Back"
-                                                                                                    class="card-img">
-                                                                                            </div>
-                                                                                        @endif
-                                                                                        @if($freelancer->image_path)
-                                                                                            <div class="freelancer-image">
-                                                                                                <img src="{{ asset('storage/' . $freelancer->image_path) }}"
-                                                                                                    alt="Freelancer Image" class="rounded-circle">
-                                                                                            </div>
-                                                                                        @endif
-                                                                                    </div>
-                                                                                    <div class="gig-info text-center">
-                                                                                        <div class="gig-detail">
-                                                                                            <h5 class="card-title mb-0">Service Title:</h5>
-                                                                                        <div class="service-title">
-                                                                                            <p>{{ $freelancer->title }}</p>
-                                                                                        </div>
-
-                                                                                        </div>
-                                                                                        <div class="gig-detail">
-                                                                                            <h5 class="card-title mb-0">State:</h5>
-                                                                                            <p>{{ $freelancer->state }}</p>
-                                                                                        </div>
-                                                                                        <div class="gig-detail">
-                                                                                            <h5 class="card-title mb-0">Posted On:</h5>
-                                                                                            <p>{{ $freelancer->service_created_date }}</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="rating text-center mt-3">
-                                                                                        @php
-    $serviceRatings = $ratings->where('gig_id', $freelancer->serviceid);
-    $ratingCount = $serviceRatings->count();
-                                                                                        @endphp
-                                                                                        <span class="fa fa-star {{ $ratingCount >= 1 ? 'checked' : '' }}"></span>
-                                                                                        <span class="fa fa-star {{ $ratingCount >= 2 ? 'checked' : '' }}"></span>
-                                                                                        <span class="fa fa-star {{ $ratingCount >= 3 ? 'checked' : '' }}"></span>
-                                                                                        <span class="fa fa-star {{ $ratingCount >= 4 ? 'checked' : '' }}"></span>
-                                                                                        <span class="fa fa-star {{ $ratingCount >= 5 ? 'checked' : '' }}"></span>
-                                                                                        <span>{{ $ratingCount }} reviews</span>
-                                                                                    </div>
-                                                                                    <div class="price-info text-center mt-3">
-                                                                                        <h5 class="card-title">From: RM{{ $freelancer->price }}</h5>
-                                                                                    </div>
-                                                                                    <div class="mt-auto d-flex justify-content-around button-class" >
-                                                                                        <a href="/viewprofile/{{ $freelancer->main_id }}"
-                                                                                            class="btn btn-primary view-profile-button">View Profile</a>
-                                                                                        <a href="/viewservice/{{ $freelancer->main_id }}/{{ $freelancer->serviceid }}"
-                                                                                            class="btn btn-secondary view-service-button">View Service</a>
-                                                                                        <a href="{{ route('messages.create', $freelancer->main_id, $freelancer->image_path) }}"
-                                                                                            class="btn btn-success">Send Message</a>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
+                                                <div class="col-md-4 mb-4">
+                                                    <div class="card freelancer-card">
+                                                        <div class="card-body d-flex flex-column">
+                                                            <div class="service-image-container">
+                                                                @if($freelancer->serviceimage)
+                                                                    <div class="service-image">
+                                                                        <img src="{{ asset('storage/' . $freelancer->serviceimage) }}"
+                                                                            alt="Service Image" class="img-fluid rounded">
+                                                                    </div>
+                                                                @else
+                                                                    <div class="service-image">
+                                                                        <img src="{{ asset('images/noimage.jfif') }}" alt="No Image"
+                                                                            class="card-img">
+                                                                    </div>
+                                                                @endif
+                                                                @if($freelancer->image_path)
+                                                                    <div class="freelancer-image">
+                                                                        <img src="{{ asset('storage/' . $freelancer->image_path) }}"
+                                                                            alt="Freelancer Image" class="rounded-circle">
+                                                                    </div>
+                                                                @endif
+                                                            </div>
+                                                            <div class="gig-info text-center mt-3">
+                                                                <h5 class="card-title mb-0">Service Title:</h5>
+                                                                <p class="service-title">{{ $freelancer->title }}</p>
+                                                                <h5 class="card-title mb-0">State:</h5>
+                                                                <p>{{ $freelancer->state }}</p>
+                                                                <h5 class="card-title mb-0">Posted On:</h5>
+                                                                <p>{{ $freelancer->service_created_date }}</p>
+                                                            </div>
+                                                            <div class="rating text-center mt-3">
+                                                                @php
+    $averageRating = $ratings->get($freelancer->serviceid)->average_rating ?? 0;
+    $starCount = round($averageRating);
+                                                                @endphp
+                                                                @for ($i = 1; $i <= 5; $i++)
+                                                                    <span class="fa fa-star {{ $i <= $starCount ? 'checked' : '' }}"></span>
+                                                                @endfor
+                                                                <span>{{ $ratings->get($freelancer->serviceid) ? $ratings->get($freelancer->serviceid)->count() : 0 }}
+                                                                    reviews</span>
+                                                            </div>
+                                                            <div class="price-info text-center mt-3">
+                                                                <h5 class="card-title">From: RM{{ $freelancer->price }}</h5>
+                                                            </div>
+                                                            <div class="mt-auto d-flex justify-content-around button-class">
+                                                                <a href="/viewprofile/{{ $freelancer->main_id }}" class="btn btn-primary">View
+                                                                    Profile</a>
+                                                                <a href="/viewservice/{{ $freelancer->main_id }}/{{ $freelancer->serviceid }}"
+                                                                    class="btn btn-secondary">View Service</a>
+                                                                <a href="{{ route('messages.create', $freelancer->main_id, $freelancer->image_path) }}"
+                                                                    class="btn btn-success">Send Message</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                         @endforeach
                     </div>
                 </div>
@@ -161,35 +151,106 @@
 
 <style>
     .service-title {
-    max-height: 60px;  /* Adjust based on the number of lines (3 lines in this case) */
-    line-height: 20px; /* Set the line height to control the space between lines */
-    overflow: hidden;  /* Hide any extra content beyond the set height */
-    text-align: center;  /* Center the text horizontally */
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;  /* Limits the text to 3 lines */
-    display: flex;
-    align-items: center;  /* Vertically align the text within the container */
-    justify-content: center;
-}
+        max-height: 60px;
+        line-height: 20px;
+        overflow: hidden;
+        text-align: center;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .gig-info {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .button-class {
+        display: grid;
+        grid-auto-flow: column;
+        grid-gap: 10px;
+        margin-left: -10px;
+    }
+
+    .card-title {
+        margin-bottom: 10px;
+        font-weight: bold; 
+    }
+
+    .rating .fa-star {
+        color: #ddd;
+        font-size: 1.2em;
+    }
+
+    .rating .fa-star.checked {
+        color: #ffd700;
+    }
+
+    .freelancer-card {
+        border: 1px solid #ddd;
+        border-radius: .5rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: visible;
+    }
+
+    .service-image-container {
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+    .service-image img {
+        border-radius: .5rem;
+        height: 150px;
+        object-fit: cover;
+        width: 100%;
+    }
+
+    .freelancer-image {
+        position: absolute;
+        bottom: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .freelancer-image img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 4px solid rgba(255, 255, 255, 0.7);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .popular-freelancers-card {
+        border: 1px solid #ddd;
+        border-radius: .5rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+	
+	  .gig-detail {
+        margin-top: 20px
+            /* Optional: Centers the text */
+    }
 
 
-    .gig-detail {
-    margin-top:20px  /* Optional: Centers the text */
-}
-
-    
     .total-order {
         font-weight: 100;
     }
 
     .button-class {
-    display: grid;
-    grid-auto-flow: column;
-    grid-gap: 10px; /* Allows buttons to wrap on smaller screens */
-    margin-left: -10px; /* Adjust this value to shift the buttons left */
-}
- 
+        display: grid;
+        grid-auto-flow: column;
+        grid-gap: 10px;
+        /* Allows buttons to wrap on smaller screens */
+        margin-left: -10px;
+        /* Adjust this value to shift the buttons left */
+    }
+
 
     .title-text {
         font-weight: 700;
@@ -200,12 +261,8 @@
         margin-bottom: 20px;
     }
 
-    .breadcrumb {
-        background-color: #f8f9fa;
-        border-radius: .25rem;
-    }
-
-    .card-body{
+    .card-body
+    .card-body {
         max-width: 2000px;
     }
 
@@ -239,49 +296,8 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         overflow: visible;
         max-width: 2000px;
-       
+
     }
-
-    .service-image-container {
-        position: relative;
-        margin-bottom: 30px;
-    }
-
-    .service-image img {
-        border-radius: .5rem;
-        height: 150px;
-        object-fit: cover;
-        width: 100%;
-    }
-
-    .freelancer-image {
-        position: absolute;
-        bottom: -30px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    .freelancer-image img {
-        width: 60px;
-        height: 60px;
-        object-fit: cover;
-        border-radius: 50%;
-        border: 4px solid rgba(255, 255, 255, 0.7);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .popular-freelancers-card {
-        border: 1px solid #ddd;
-        border-radius: .5rem;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    .button-class {
-display: grid;
-  grid-auto-flow: column;
-  grid-gap: 10px; /* Allows buttons to wrap on smaller screens */
-}
-
-
 </style>
 
 @endsection

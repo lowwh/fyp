@@ -40,6 +40,7 @@ class HistoryController extends Controller
     {
 
         $userId = auth()->id();
+        $user = Auth::user();
         // $userId = auth()->id();
         $results = service::join('ratings', 'ratings.gig_id', '=', 'services.id', )
             ->join('users', 'users.id', '=', 'ratings.user_id')
@@ -78,12 +79,12 @@ class HistoryController extends Controller
             ->where('invoices.serviceOwnerId', $userId)
             ->get();
 
-        $totalEarn = $earn->sum('amountEarn');
+        $totalEarn = $user->total_earn;
 
 
 
 
-        $totalPrice = $results->sum('price');
+        $totalPrice = $user->total_earn;
 
 
         return view('operations.showallhistory', ['results' => $results, 'totalPrice' => $totalPrice, 'earn' => $totalEarn, 'freelancerresult' => $Freelancerresults]);

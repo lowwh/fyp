@@ -50,8 +50,11 @@ class StudentController extends Controller
             $serviceIds[] = $freelancer->serviceid;
         }
 
-        // Fetch ratings for the fetched services
-        $ratings = Rating::whereIn('gig_id', $serviceIds)->get();
+        $ratings = Rating::select('gig_id', DB::raw('AVG(rating) as average_rating'))
+            ->whereIn('gig_id', $serviceIds)
+            ->groupBy('gig_id')
+            ->get()->keyBy('gig_id');
+
 
         $userCount = User::withCount('bids')
 
@@ -91,7 +94,7 @@ class StudentController extends Controller
         $users = User::join('services', 'users.id', '=', 'services.user_id')
 
 
-            ->select('services.price', 'users.id as userid', 'users.freelancer_id', 'services.id as serviceid', 'users.*', 'services.title', 'services.description', 'services.price', 'users.image_path as userimage', 'services.image_path as serviceimage', DB::raw("DATE(users.created_at) as user_created_date"))
+            ->select('services.price', 'users.id as userid', 'users.freelancer_id', 'services.id as serviceid', 'users.*', 'services.title as title', 'services.description', 'services.price', 'users.image_path as userimage', 'services.image_path as serviceimage', DB::raw("DATE(users.created_at) as user_created_date"))
             ->where('services.user_id', $id)
             ->where('services.id', $gig_id)
             ->get();

@@ -129,6 +129,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/showrating/{resultid}/{userid}', [HistoryController::class, 'showrating'])->name('show.rating');
 
     Route::post('/rating/{id}/{userid}', [HistoryController::class, 'rating']);
+
     Route::get('/reject-progress/{resultid}/{userid}', [ResultController::class, 'rejectProgress'])->name('reject-progress');
 
 
@@ -154,11 +155,11 @@ Route::middleware('auth')->group(function () {
 
     // Route::get('messages/{biddername}/{user_id}', [MessageController::class, 'bidshow'])->name('messages.bidshow');
 
-    Route::get('test/messages/{biddername}/{bidder_id}/{service_id}/{freelancer_id}/{user_id}/{notification_id}', [MessageController::class, 'bidshow'])->name('messages.bidshow');
-    Route::post('/get/progression/{service_id}/{freelancer_id}/{bidder_id}/{notification_id}/{user_id}', [ResultController::class, 'addresult'])->middleware('check.service.rejection');
+    Route::get('test/messages/{service_price}/{service_title}/{biddername}/{bidder_id}/{service_id}/{freelancer_id}/{user_id}/{notification_id}', [MessageController::class, 'bidshow'])->name('messages.bidshow');
+    Route::post('/get/progression/{service_id}/{freelancer_id}/{bidder_id}/{notification_id}/{user_id}/{service_price}', [ResultController::class, 'addresult'])->middleware('check.service.rejection');
     Route::post('/bid/{userid}/{serviceid}/{freelancerid}/{serviceprice}', [BidController::class, 'store'])->name('bid');
-    Route::post('/process-payment/{serviceOwnerId}/{userid}/{serviceid}/{freelancerid}/{serviceprice}', [PaymentController::class, 'processPayment'])->name('payment.process');
-    Route::get('/pay/{serviceOwnerId}/{userid}/{serviceid}/{freelancerid}/{price}', [PaymentController::class, 'index'])->name('payment');
+    Route::post('/process-payment/{service_title}/{serviceOwnerId}/{userid}/{serviceid}/{freelancerid}/{serviceprice}', [PaymentController::class, 'processPayment'])->name('payment.process');
+    Route::get('/pay/{service_title}/{serviceOwnerId}/{userid}/{serviceid}/{freelancerid}/{price}', [PaymentController::class, 'index'])->name('payment');
     // web.php
     // routes/web.php
     Route::get('/pay', [PaymentController::class, 'showCheckout'])->name('checkout.show');
@@ -178,6 +179,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/notifications/markAsRead/{id}', [NotificationController::class, 'markBidNotificationAsRead'])->name('bidding.notifications.markAsRead');
 
     Route::get('/notifications/markAsReadUser/{id}', [NotificationController::class, 'markBidNotificationAsReadUser'])->name('bidding.notifications.markAsReadUser');
+
+    Route::get('/notifications/markAsReject/{id}', [NotificationController::class, 'markRejectNotification'])->name('bidding.notifications.markRejectNotification');
 
     //send Message
     Route::get('sendmessages', [MessageController::class, 'sendMessageIndex'])->name('sendmessages');

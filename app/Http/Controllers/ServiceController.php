@@ -22,10 +22,13 @@ class ServiceController extends Controller
 
     public function show()
     {
+
+        $userid = Auth::id();
         //$service = service::all();
         $service = service::leftJoin('users', 'users.id', '=', 'services.user_id')
 
             ->select('services.*', 'users.image_path as userimage')
+            ->where('services.user_id', $userid)
 
             ->get();
 

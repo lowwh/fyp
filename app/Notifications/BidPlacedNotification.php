@@ -42,6 +42,7 @@ class BidPlacedNotification extends Notification
             'service_id' => $this->bid->service_id,
             'freelancer_id' => $this->bid->freelancer_id,
             'service_price' => $this->bid->service_price,
+            'service_title' => $this->bid->service_title,
 
         ];
     }

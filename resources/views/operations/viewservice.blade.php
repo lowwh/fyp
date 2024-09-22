@@ -96,7 +96,7 @@
                         <div class="tab-pane fade show active" id="bio" role="tabpanel" aria-labelledby="bio-tab">
                             <p>{{ $user->description }}</p>
                             <form
-                                action="{{ route('payment', ['serviceOwnerId' => $user->userid, 'userid' => $user->id, 'serviceid' => $user->serviceid, 'freelancerid' => $user->freelancer_id, 'price' => $user->price]) }}"
+                                action="{{ route('payment', ['service_title' => $user->title, 'serviceOwnerId' => $user->userid, 'userid' => $user->id, 'serviceid' => $user->serviceid, 'freelancerid' => $user->freelancer_id, 'price' => $user->price]) }}"
                                 method="get">
                                 <button class="btn btn-success">Order</button>
                             </form>

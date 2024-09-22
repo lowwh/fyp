@@ -73,7 +73,7 @@
                                     <div class="card-footer d-flex justify-content-between align-items-center">
                                         <p class="price mb-0"><strong>Price:</strong> RM {{ number_format($result->price, 2) }}</p>
                                         <!-- <a href="{{ url('/service/' . $result->gig_id) }}"
-                                                                                                                                        class="btn btn-outline-primary btn-sm">View Details</a> -->
+                                                                                                                                                    class="btn btn-outline-primary btn-sm">View Details</a> -->
                                     </div>
                                 </div>
                             </div>
@@ -134,7 +134,7 @@
                                     <div class="card-footer d-flex justify-content-between align-items-center">
                                         <p class="price mb-0"><strong>Price:</strong> RM {{ number_format($result->price, 2) }}</p>
                                         <!-- <a href="{{ url('/service/' . $result->gig_id) }}"
-                                                                                                                                                                class="btn btn-outline-primary btn-sm">View Details</a> -->
+                                                                                                                                                                            class="btn btn-outline-primary btn-sm">View Details</a> -->
                                     </div>
                                 </div>
                             </div>

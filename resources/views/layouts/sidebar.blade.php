@@ -259,3 +259,33 @@
   </div>
   <!-- /.sidebar -->
 </aside>
+
+
+<style>
+  .main-sidebar {
+    background-color: #343a40;
+    color: #fff;
+  }
+
+  .brand-link {
+    padding: 10px;
+  }
+
+  .nav-link {
+    padding: 15px;
+  }
+
+  .nav-icon {
+    margin-right: 10px;
+  }
+
+  .nav-treeview {
+    display: none;
+  }
+
+  .nav-treeview.show {
+    display: block;
+  }
+
+  r
+</style>

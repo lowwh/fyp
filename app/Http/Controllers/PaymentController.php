@@ -19,7 +19,7 @@ use function PHPSTORM_META\elementType;
 class PaymentController extends Controller
 {
 
-    public function index($serviceOwnerId, $userid, $serviceid, $freelancerid, $price)
+    public function index($service_title, $serviceOwnerId, $userid, $serviceid, $freelancerid, $price)
     {
         // Fetch the authenticated user
         $user = User::findOrFail(Auth::user()->id);
@@ -56,7 +56,7 @@ class PaymentController extends Controller
             $availableVouchers = collect([]);
         }
 
-        return view('operations.payment', compact('userid', 'serviceid', 'freelancerid', 'price', 'availableVouchers', 'serviceOwnerId'));
+        return view('operations.payment', compact('userid', 'serviceid', 'freelancerid', 'price', 'availableVouchers', 'serviceOwnerId', 'service_title'));
     }
 
 
@@ -93,7 +93,7 @@ class PaymentController extends Controller
     }
 
 
-    public function processPayment($serviceOwnerId, $userid, $serviceid, $freelancerid, $serviceprice, Request $request)
+    public function processPayment($service_title, $serviceOwnerId, $userid, $serviceid, $freelancerid, $serviceprice, Request $request)
     {
         $user = User::findOrFail($userid);
 
@@ -121,6 +121,7 @@ class PaymentController extends Controller
             $bid->service_id = $serviceid;
             $bid->freelancer_id = $freelancerid;
             $bid->service_price = $serviceprice;
+            $bid->service_title = $service_title;
 
             $bid->save();
 
@@ -154,7 +155,7 @@ class PaymentController extends Controller
 
 
 
-            return back()->with('bid', 'Your bid is pending. Please wait for the freelancer to review and confirm your bid. You will be notified once the freelancer has made a decision');
+            return back()->with('bid', 'Your order is pending. Please wait for the freelancer to review and confirm your order. You will be notified once the freelancer has made a decision');
 
         }
 

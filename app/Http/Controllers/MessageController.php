@@ -126,7 +126,7 @@ class MessageController extends Controller
 
 
 
-    public function bidshow($biddername, $bidder_id, $service_id, $freelancer_id, $user_id, $notification_id)
+    public function bidshow($service_price, $service_title, $biddername, $bidder_id, $service_id, $freelancer_id, $user_id, $notification_id)
     {
         $user = User::findOrFail($user_id);
 
@@ -142,7 +142,7 @@ class MessageController extends Controller
         if ($bid && $bid->status === 'completed') {
             $status = 'completed';
         }
-        return view('messages.bidshow', compact('biddername', 'bidder_id', 'service_id', 'freelancer_id', 'status', 'notification_id', 'user_id'));
+        return view('messages.bidshow', compact('biddername', 'bidder_id', 'service_id', 'freelancer_id', 'status', 'notification_id', 'user_id', 'service_title', 'service_price'));
     }
 
     public function showRatings()

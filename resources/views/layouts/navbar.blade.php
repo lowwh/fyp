@@ -63,24 +63,25 @@
 
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="fas fa-gavel"></i> <!-- Icon for bidding notifications -->
+                        <i class="fas fa-exclamation-triangle"></i> <!-- Icon for bidding notifications -->
 
 
                         <span
-                            class="badge badge-info navbar-badge">{{ Auth::user()->unreadBiddingNotifications()->count() }}</span>
+                            class="badge badge-info navbar-badge">{{ Auth::user()->unreadRejectNotifications()->count() }}</span>
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <span class="dropdown-item dropdown-header">{{ Auth::user()->unreadBiddingNotifications()->count() }}
-                            Bidding Notifications</span>
+                        <span class="dropdown-item dropdown-header">{{ Auth::user()->unreadRejectNotifications()->count() }}
+                            Oder Notifications</span>
                         <div class="dropdown-divider"></div>
-                        @foreach(Auth::user()->unreadBiddingNotifications as $notification)
-                            <a href="{{ route('bidding.notifications.markAsRead', $notification->id) }}" class="dropdown-item">
+                        @foreach(Auth::user()->unreadRejectNotifications as $notification)
+                            <a href="{{ route('bidding.notifications.markRejectNotification', $notification->id) }}"
+                                class="dropdown-item">
                                 <div class="notification-text">
                                     <i class="fas fa-gavel mr-2"></i>
                                     <div class="notification-details">
                                         <div class="notification-main">
-                                            New bid placed by on your gig ID {{ $notification->data['service_id'] ?? 'Unknown' }}
+                                            {{ $notification->data['message'] ?? 'Unknown' }}
                                         </div>
                                     </div>
                                 </div>
@@ -91,7 +92,46 @@
 
 
                         <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item dropdown-footer">See All Bidding Notifications</a>
+                        <a href="#" class="dropdown-item dropdown-footer">See All Order Notifications</a>
+                    </div>
+                </li>
+
+            @endcan
+
+            @can('isFreelancer')
+
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="dropdown" href="#">
+                        <i class="fas fa-gavel"></i> <!-- Icon for bidding notifications -->
+
+
+                        <span
+                            class="badge badge-info navbar-badge">{{ Auth::user()->unreadBiddingNotifications()->count() }}</span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        <span class="dropdown-item dropdown-header">{{ Auth::user()->unreadBiddingNotifications()->count() }}
+                            Oder Notifications</span>
+                        <div class="dropdown-divider"></div>
+                        @foreach(Auth::user()->unreadBiddingNotifications as $notification)
+                            <a href="{{ route('bidding.notifications.markAsRead', $notification->id) }}" class="dropdown-item">
+                                <div class="notification-text">
+                                    <i class="fas fa-gavel mr-2"></i>
+                                    <div class="notification-details">
+                                        <div class="notification-main">
+                                            New order placed by on your service
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="float-right text-muted text-sm">{{ $notification->created_at->diffForHumans() }}</span>
+                            </a>
+                        @endforeach
+
+
+
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item dropdown-footer">See All Order Notifications</a>
                     </div>
                 </li>
 
